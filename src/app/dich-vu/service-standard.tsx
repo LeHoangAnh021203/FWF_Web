@@ -116,7 +116,7 @@ function StandardRow({
       <img
         src={item.icon}
         alt={`${item.title} ${item.subtitle}`.trim()}
-        className="h-auto w-full max-w-[320px] object-contain"
+        className="h-auto w-full max-w-full object-contain lg:max-w-[320px]"
       />
     </article>
   );
@@ -280,51 +280,51 @@ export default function ServiceStandard() {
   return (
     <section
       id="tieu-chuan-dich-vu"
-      className="w-full bg-[#f3f3f3] px-4 py-14 md:px-8 md:py-20"
+      className="w-full overflow-x-hidden bg-[#f3f3f3] px-4 py-10 sm:py-14 md:px-8 md:py-20"
     >
       <div className="mx-auto max-w-[1600px]">
-        <header className="mx-auto mb-10 max-w-[1200px] text-center md:mb-16">
-          <h2 className="text-[clamp(2rem,3.4vw,4rem)] font-extrabold uppercase tracking-tight text-[#121212]">
+        <header className="mx-auto mb-8 max-w-[1200px] text-center md:mb-16">
+          <h2 className="text-[clamp(1.75rem,7vw,4rem)] font-extrabold uppercase tracking-tight text-[#121212]">
             Tiêu Chuẩn Dịch Vụ
           </h2>
-          <p className="mx-auto mt-4 max-w-[1200px] text-[clamp(1rem,1.4vw,1.6rem)] leading-relaxed text-[#6a6a6a]">
+          <p className="mx-auto mt-3 max-w-[42rem] text-[clamp(0.95rem,3.6vw,1.6rem)] leading-relaxed text-[#6a6a6a] md:mt-4">
             Face Wash Fox luôn đặt trải nghiệm của khách hàng lên hàng đầu và
             chúng tôi chỉ tập trung vào một việc duy nhất đó là làm sạch: “Da
             đẹp bắt đầu từ việc rửa mặt”
           </p>
         </header>
 
-        <div className="grid items-center gap-8 lg:grid-cols-[1fr_minmax(420px,620px)_1fr] lg:gap-10">
-          <div className="grid gap-8 lg:gap-12">
+        <div className="grid items-center gap-6 sm:gap-8 lg:grid-cols-[1fr_minmax(280px,620px)_1fr] lg:gap-10">
+          <div className="order-2 grid grid-cols-2 gap-3 sm:gap-5 lg:order-1 lg:grid-cols-1 lg:gap-12">
             {leftStandards.map((item) => (
               <StandardRow key={item.icon} item={item} />
             ))}
           </div>
 
-          <div className="flex items-center justify-center">
+          <div className="order-1 flex items-center justify-center lg:order-2">
             <img
               src={centerImage}
               alt="Tieu chuan dich vu Face Wash Fox"
-              className="h-auto w-full max-w-[620px] object-contain"
+              className="h-auto w-full max-w-[420px] object-contain lg:max-w-[620px]"
             />
           </div>
 
-          <div className="grid gap-8 lg:gap-12">
+          <div className="order-3 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-1 lg:gap-12">
             {rightStandards.map((item) => (
               <StandardRow key={item.icon} item={item} reverse />
             ))}
           </div>
         </div>
 
-        <div className="mx-auto mt-12 w-full max-w-[920px] rounded-[28px] bg-[#f4eef5] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.12)] md:mt-16 md:p-10">
-          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-[#f04b9a] to-[#7c3aed] text-white">
+        <div className="mx-auto mt-10 w-full max-w-[920px] rounded-[22px] bg-[#f4eef5] p-4 shadow-[0_20px_60px_rgba(0,0,0,0.12)] sm:rounded-[28px] sm:p-6 md:mt-16 md:p-10">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#f04b9a] to-[#7c3aed] text-white sm:h-24 sm:w-24">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              className="h-11 w-11"
+              className="h-8 w-8 sm:h-11 sm:w-11"
               aria-hidden="true"
             >
               <rect x="3" y="5" width="18" height="16" rx="2" />
@@ -332,22 +332,22 @@ export default function ServiceStandard() {
             </svg>
           </div>
 
-          <h3 className="mt-6 text-center text-[clamp(2rem,3.4vw,3.3rem)] font-extrabold text-[#0f172a]">
+          <h3 className="mt-5 text-center text-[clamp(1.5rem,6vw,3.3rem)] font-extrabold text-[#0f172a] sm:mt-6">
             Đặt lịch tư vấn miễn phí
           </h3>
-          <p className="mt-2 text-center text-[clamp(1.1rem,1.8vw,1.8rem)] text-[#4b5563]">
+          <p className="mt-2 text-center text-[clamp(0.95rem,3.8vw,1.8rem)] text-[#4b5563]">
             Điền thông tin để nhận tư vấn từ chuyên gia
           </p>
 
           <form
-            className="mt-8 space-y-6 md:mt-10"
+            className="mt-6 space-y-5 sm:mt-8 sm:space-y-6 md:mt-10"
             onSubmit={handleSubmitBooking}
           >
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
               <div>
                 <label
                   htmlFor="booking-name"
-                  className="mb-2 block text-[1.05rem] font-semibold text-[#374151]"
+                  className="mb-2 block text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
                 >
                   Họ và tên *
                 </label>
@@ -358,14 +358,14 @@ export default function ServiceStandard() {
                   onChange={(event) => setFullName(event.target.value)}
                   placeholder="Nhập họ và tên"
                   required
-                  className="h-14 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-5 text-[1.05rem] text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 md:text-[1.15rem]"
+                  className="h-12 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:h-14 sm:px-5 sm:text-[1.05rem] md:text-[1.15rem]"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="booking-phone"
-                  className="mb-2 block text-[1.05rem] font-semibold text-[#374151]"
+                  className="mb-2 block text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
                 >
                   Số điện thoại *
                 </label>
@@ -376,7 +376,7 @@ export default function ServiceStandard() {
                   onChange={(event) => setPhone(event.target.value)}
                   placeholder="Nhập số điện thoại"
                   required
-                  className="h-14 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-5 text-[1.05rem] text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 md:text-[1.15rem]"
+                  className="h-12 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:h-14 sm:px-5 sm:text-[1.05rem] md:text-[1.15rem]"
                 />
               </div>
             </div>
@@ -384,7 +384,7 @@ export default function ServiceStandard() {
             <div>
               <label
                 htmlFor="booking-email"
-                className="mb-2 block text-[1.05rem] font-semibold text-[#374151]"
+                className="mb-2 block text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
               >
                 Email
               </label>
@@ -394,29 +394,29 @@ export default function ServiceStandard() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="Nhập email"
-                className="h-14 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-5 text-[1.05rem] text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 md:text-[1.15rem]"
+                className="h-12 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:h-14 sm:px-5 sm:text-[1.05rem] md:text-[1.15rem]"
               />
             </div>
 
             <div>
-              <div className="mb-2 flex items-center justify-between gap-3">
+              <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                 <label
                   htmlFor="booking-branch"
-                  className="text-[1.05rem] font-semibold text-[#374151]"
+                  className="text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
                 >
                   Chi nhánh gần nhất
                 </label>
                 <button
                   type="button"
                   onClick={handleDetectNearestBranch}
-                  className="text-[1.05rem] text-[#0369a1] underline underline-offset-2"
+                  className="self-start text-sm text-[#0369a1] underline underline-offset-2 sm:text-[1.05rem]"
                 >
                   {isLocating ? "Đang dò vị trí..." : "Dò vị trí để gợi ý"}
                 </button>
               </div>
               <select
                 id="booking-branch"
-                className="h-14 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-5 text-[1.05rem] text-[#111827] outline-none focus:border-[#a855f7]/50 md:text-[1.15rem]"
+                className="h-12 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 text-base text-[#111827] outline-none focus:border-[#a855f7]/50 sm:h-14 sm:px-5 sm:text-[1.05rem] md:text-[1.15rem]"
                 value={selectedBranchId}
                 onChange={(event) => setSelectedBranchId(Number(event.target.value))}
               >
@@ -447,7 +447,7 @@ export default function ServiceStandard() {
             <div>
               <label
                 htmlFor="booking-note"
-                className="mb-2 block text-[1.05rem] font-semibold text-[#374151]"
+                className="mb-2 block text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
               >
                 Ghi chú
               </label>
@@ -457,15 +457,15 @@ export default function ServiceStandard() {
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
                 placeholder="Mô tả tình trạng da hoặc yêu cầu đặc biệt..."
-                className="w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-5 py-4 text-[1.05rem] text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 md:text-[1.15rem]"
+                className="w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 py-3 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:px-5 sm:py-4 sm:text-[1.05rem] md:text-[1.15rem]"
               />
             </div>
 
             {submitError ? (
-              <p className="text-[0.95rem] text-[#dc2626]">{submitError}</p>
+              <p className="text-sm text-[#dc2626] sm:text-[0.95rem]">{submitError}</p>
             ) : null}
             {submitSuccess ? (
-              <p className="text-[0.95rem] text-[#0f766e]">
+              <p className="text-sm text-[#0f766e] sm:text-[0.95rem]">
                 {submitSuccess}
               </p>
             ) : null}
@@ -473,7 +473,7 @@ export default function ServiceStandard() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="h-16 w-full rounded-[14px] bg-gradient-to-r from-[#f04b9a] to-[#7c3aed] px-8 text-[1.35rem] font-extrabold text-white transition-opacity hover:opacity-90 md:text-[1.65rem]"
+              className="h-12 w-full rounded-[14px] bg-gradient-to-r from-[#f04b9a] to-[#7c3aed] px-4 text-[clamp(1rem,4vw,1.65rem)] font-extrabold text-white transition-opacity hover:opacity-90 sm:h-16 sm:px-8"
             >
               {isSubmitting ? "Đang gửi thông tin..." : "Đặt lịch ngay - Miễn phí tư vấn"}
             </button>

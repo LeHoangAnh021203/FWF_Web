@@ -106,11 +106,15 @@ export default function ComboIndepth() {
   };
 
   return (
-    <section className="w-full bg-[#f7941d] px-4 pb-8 pt-2 md:px-8 md:pb-10">
+    <section className="w-full overflow-x-hidden bg-[#f7941d] px-4 pb-8 pt-4 md:px-8 md:pb-10">
       <div className="mx-auto w-full max-w-[1320px]">
-        <div className="mb-4 flex items-end gap-3 text-white md:mb-6">
-          <h2 className="text-3xl font-extrabold uppercase leading-none md:text-5xl pt-5">Combo chuyên sâu</h2>
-          <p className="pb-1 text-2xl font-medium md:text-4xl">Intensive packages</p>
+        <div className="mb-4 flex flex-col gap-1 text-white sm:mb-6 sm:flex-row sm:items-end sm:gap-3">
+          <h2 className="text-[clamp(1.75rem,7vw,3rem)] font-extrabold uppercase leading-none md:text-5xl">
+            Combo chuyên sâu
+          </h2>
+          <p className="text-[clamp(1.1rem,4.5vw,1.75rem)] font-medium md:pb-1 md:text-4xl">
+            Intensive packages
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -212,7 +212,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
-  const solidAtTopPages = ["/b2b", "/cua-hang", "/cookie-policy"];
+  const solidAtTopPages = ["/b2b", "/cua-hang", "/cookie-policy", "/dich-vu"];
   const solidHeader = scrolled || solidAtTopPages.includes(pathname);
   const mobileColumns = [0, 1].map((column) =>
     navItems.filter((item) => item.mobileColumn === column),

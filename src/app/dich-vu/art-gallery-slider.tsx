@@ -163,11 +163,11 @@ export function ArtGallerySlider() {
 
         return generateStablePalette(activeItem.id + activeItem.name)
     }, [activeItem])
-    const slideWidth = isMobile ? 336 : 396
+    const slideWidth = isMobile ? 270 : 396
     const [c1, c2, c3] = currentColors
 
     return (
-        <div className="relative h-full w-full overflow-hidden">
+        <div className="relative h-full w-full overflow-hidden touch-pan-y">
             {/* Animated ambient background */}
             <AnimatePresence mode="wait">
                 <motion.div
@@ -192,13 +192,13 @@ export function ArtGallerySlider() {
             <div className="absolute inset-0 " />
 
             {/* Header */}
-            <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between p-8">
+            <header className="absolute top-0 left-0 right-0 z-20 flex items-start justify-between gap-2 p-3 sm:items-center sm:p-6 md:p-8">
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                    <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-md">
+                    <div className="flex max-w-[calc(100vw-5.5rem)] flex-wrap items-center gap-1 rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-md sm:max-w-none sm:gap-2">
                         <button
                             type="button"
                             onClick={() => handleTabChange("basic")}
-                            className={`rounded-full px-4 py-2 text-sm font-semibold transition ${activeTab === "basic" ? "bg-[#ff6a36] text-white" : "text-white/70 hover:text-white"
+                            className={`rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition sm:px-4 sm:py-2 sm:text-sm ${activeTab === "basic" ? "bg-[#ff6a36] text-white" : "text-white/70 hover:text-white"
                                 }`}
                         >
                             Dịch vụ cơ bản
@@ -206,7 +206,7 @@ export function ArtGallerySlider() {
                         <button
                             type="button"
                             onClick={() => handleTabChange("extra")}
-                            className={`rounded-full px-4 py-2 text-sm font-semibold transition ${activeTab === "extra" ? "bg-[#ff6a36] text-white" : "text-white/70 hover:text-white"
+                            className={`rounded-full px-2.5 py-1.5 text-[11px] font-semibold transition sm:px-4 sm:py-2 sm:text-sm ${activeTab === "extra" ? "bg-[#ff6a36] text-white" : "text-white/70 hover:text-white"
                                 }`}
                         >
                             Dịch vụ cộng thêm
@@ -217,18 +217,18 @@ export function ArtGallerySlider() {
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md"
+                    className="flex shrink-0 items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2.5 py-1.5 backdrop-blur-md sm:gap-2 sm:px-4 sm:py-2"
                 >
-                    <span className="text-sm text-white/60">{String(currentIndex + 1).padStart(2, "0")}</span>
+                    <span className="text-xs text-white/60 sm:text-sm">{String(currentIndex + 1).padStart(2, "0")}</span>
                     <span className="text-white/30">/</span>
-                    <span className="text-sm text-white/40">{String(totalSlides).padStart(2, "0")}</span>
+                    <span className="text-xs text-white/40 sm:text-sm">{String(totalSlides).padStart(2, "0")}</span>
                 </motion.div>
             </header>
 
             {/* Slider */}
             <div
                 ref={sliderRef}
-                className="relative flex h-full w-full cursor-grab items-center active:cursor-grabbing"
+                className="relative flex h-full w-full cursor-grab items-center touch-pan-y active:cursor-grabbing"
                 onMouseDown={handleDragStart}
                 onMouseMove={handleDragMove}
                 onMouseUp={handleDragEnd}
@@ -238,7 +238,7 @@ export function ArtGallerySlider() {
                 onTouchEnd={handleDragEnd}
             >
                 <motion.div
-                    className="flex items-center gap-8 px-[calc(50vw-200px)] md:gap-16 md:px-[calc(50vw-250px)]"
+                    className="flex items-center gap-5 px-[calc(50vw-130px)] sm:gap-8 sm:px-[calc(50vw-150px)] md:gap-16 md:px-[calc(50vw-250px)]"
                     animate={{
                         x: -currentIndex * slideWidth + dragX,
                     }}
@@ -318,28 +318,28 @@ function ExtraServicePriceCard({ item, isActive, dragOffset, index, currentIndex
             transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
             style={{ x: parallaxOffset }}
         >
-            <div className="w-[300px] rounded-[24px] border border-white/60 bg-[#ececec] p-5 shadow-[0_14px_35px_rgba(0,0,0,0.28)] md:w-[332px]">
-                <h3 className="text-[52px] font-extrabold leading-none text-[#212121] md:text-[56px]">{item.name}</h3>
-                <p className="mt-1 text-[22px] leading-none text-[#333333]/80 md:text-[24px]">{item.subtitle}</p>
+            <div className="w-[250px] rounded-[20px] border border-white/60 bg-[#ececec] p-4 shadow-[0_14px_35px_rgba(0,0,0,0.28)] sm:w-[280px] sm:rounded-[24px] sm:p-5 md:w-[332px]">
+                <h3 className="text-[clamp(2rem,8vw,3.5rem)] font-extrabold leading-none text-[#212121] md:text-[56px]">{item.name}</h3>
+                <p className="mt-1 text-[clamp(1rem,4vw,1.5rem)] leading-none text-[#333333]/80 md:text-[24px]">{item.subtitle}</p>
 
                 <div className="mt-3 border-t-[3px] border-[#272727] pt-2">
-                    <p className="text-right text-[16px] font-bold leading-none text-[#d1937a] line-through md:text-[18px]">
+                    <p className="text-right text-[14px] font-bold leading-none text-[#d1937a] line-through md:text-[18px]">
                         {formatPrice(item.comparePrice)}
                     </p>
                 </div>
 
-                <div className="mt-2 grid grid-cols-2 gap-3">
+                <div className="mt-2 grid grid-cols-2 gap-2 sm:gap-3">
                     <div className="min-w-0">
-                        <p className="text-[18px] font-extrabold leading-tight text-[#191919] md:text-[19px]">Giá thẻ Foxie</p>
-                        <p className="text-[12px] leading-none text-[#1f1f1f]/75 md:text-[13px]">Foxie Card&apos;s point</p>
-                        <p className="mt-1 whitespace-nowrap text-[18px] font-extrabold leading-none text-[#19b6bf] md:text-[20px]">
+                        <p className="text-[14px] font-extrabold leading-tight text-[#191919] sm:text-[18px] md:text-[19px]">Giá thẻ Foxie</p>
+                        <p className="text-[11px] leading-none text-[#1f1f1f]/75 md:text-[13px]">Foxie Card&apos;s point</p>
+                        <p className="mt-1 whitespace-nowrap text-[15px] font-extrabold leading-none text-[#19b6bf] sm:text-[18px] md:text-[20px]">
                             {formatPrice(item.foxiePrice)}
                         </p>
                     </div>
                     <div className="min-w-0 text-right">
-                        <p className="text-[18px] font-extrabold leading-tight text-[#191919] md:text-[19px]">Giá niêm yết</p>
-                        <p className="text-[12px] leading-none text-[#1f1f1f]/75 md:text-[13px]">Listed price</p>
-                        <p className="mt-1 whitespace-nowrap text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[20px]">
+                        <p className="text-[14px] font-extrabold leading-tight text-[#191919] sm:text-[18px] md:text-[19px]">Giá niêm yết</p>
+                        <p className="text-[11px] leading-none text-[#1f1f1f]/75 md:text-[13px]">Listed price</p>
+                        <p className="mt-1 whitespace-nowrap text-[15px] font-extrabold leading-none text-[#f7941d] sm:text-[18px] md:text-[20px]">
                             {formatPrice(item.listedPrice)}
                         </p>
                     </div>
@@ -373,16 +373,16 @@ function BasicServiceInfoCard({ item, isActive, dragOffset, index, currentIndex,
             transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
             style={{ x: parallaxOffset }}
         >
-            <div className="relative w-[300px] md:w-[332px]">
+            <div className="relative w-[250px] sm:w-[280px] md:w-[332px]">
                 <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full rounded-[24px] shadow-[0_14px_35px_rgba(0,0,0,0.28)] transition-transform duration-500 group-hover:scale-[1.02]"
+                    className="w-full rounded-[20px] shadow-[0_14px_35px_rgba(0,0,0,0.28)] transition-transform duration-500 group-hover:scale-[1.02] sm:rounded-[24px]"
                     loading="lazy"
                     draggable={false}
                 />
-                <div className="absolute inset-0 rounded-[24px] bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-6 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                <div className="absolute inset-0 rounded-[20px] bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-100 transition-opacity duration-300 sm:rounded-[24px] md:opacity-0 md:group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 opacity-100 transition-all duration-300 md:translate-y-6 md:p-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
 
                     <div className="flex items-center justify-end gap-2">
                         <button

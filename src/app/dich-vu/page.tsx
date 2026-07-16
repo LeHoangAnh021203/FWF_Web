@@ -22,7 +22,7 @@ export default function ServicePage() {
       <ComboLove />
       <div
         id="art-gallery-slider"
-        className="h-screen w-screen overflow-hidden bg-black"
+        className="h-[100svh] w-full max-w-[100vw] overflow-hidden bg-black"
       >
         <ArtGallerySlider />
       </div>

@@ -953,9 +953,10 @@ img {
 
 .service-page {
   min-height: 100vh;
-  padding-top: 96px;
+  padding-top: 72px;
   background: #ece7e1;
   color: #171717;
+  overflow-x: hidden;
 }
 
 .service-page .text-muted {
@@ -973,7 +974,19 @@ img {
 #combo-love,
 #tieu-chuan-dich-vu,
 #art-gallery-slider {
-  scroll-margin-top: 96px;
+  scroll-margin-top: 72px;
+}
+
+@media (min-width: 768px) {
+  .service-page {
+    padding-top: 96px;
+  }
+
+  #combo-love,
+  #tieu-chuan-dich-vu,
+  #art-gallery-slider {
+    scroll-margin-top: 96px;
+  }
 }
 
 .store-page-header {

@@ -96,36 +96,38 @@ export default function ComboLove() {
   };
 
   return (
-    <section id="combo-love" className="scroll-mt-20 w-full bg-[#f7941d] px-4 py-8 md:px-8 md:py-10">
+    <section id="combo-love" className="scroll-mt-20 w-full overflow-x-hidden bg-[#f7941d] px-4 py-8 md:px-8 md:py-10">
       <div className="mx-auto w-full max-w-[1320px]">
         <div className="mb-5 text-white md:mb-7">
-          <h2 className="text-3xl font-extrabold uppercase leading-[1.1] md:text-5xl">
+          <h2 className="text-[clamp(1.75rem,7vw,3rem)] font-extrabold uppercase leading-[1.1] md:text-5xl">
             Combo được
             <br />
             ưa chuộng nhất
           </h2>
-          <p className="mt-2 text-xl font-medium md:text-4xl">Most Popular Packages</p>
+          <p className="mt-2 text-[clamp(1.1rem,4.5vw,1.75rem)] font-medium md:text-4xl">
+            Most Popular Packages
+          </p>
         </div>
 
-        <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
+        <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
           {comboItems.map((item, index) => (
             <article
               key={`${item.image}-${index}`}
-              className="group min-w-[84%] snap-center overflow-hidden rounded-[24px] bg-white p-2 shadow-[0_8px_20px_rgba(0,0,0,0.12)] sm:min-w-[68%] md:min-w-0"
+              className="group min-w-[78%] snap-center overflow-hidden rounded-[22px] bg-white p-1.5 shadow-[0_8px_20px_rgba(0,0,0,0.12)] sm:min-w-[62%] sm:rounded-[24px] sm:p-2 md:min-w-0"
             >
               <div className="relative aspect-square overflow-hidden rounded-[18px] bg-[#f5f5f5]">
                 <Image
                   src={item.image}
                   alt={item.title}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 80vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
                 />
-                <div className="absolute right-3 top-3 z-10 min-w-10 rounded-full border-2 border-white bg-[#ff6a36] px-3 py-1 text-center text-sm font-extrabold text-white shadow-[0_6px_16px_rgba(0,0,0,0.25)]">
+                <div className="absolute right-2 top-2 z-10 min-w-9 rounded-full border-2 border-white bg-[#ff6a36] px-2.5 py-1 text-center text-xs font-extrabold text-white shadow-[0_6px_16px_rgba(0,0,0,0.25)] md:right-3 md:top-3 md:min-w-10 md:px-3 md:text-sm">
                   {String(index + 1).padStart(2, "0")}
                 </div>
                 {item.liked ? (
-                  <div className="absolute left-3 top-3 z-10 grid h-11 w-11 place-items-center overflow-hidden rounded-full border-2 border-white bg-white shadow-[0_6px_16px_rgba(0,0,0,0.25)]">
+                  <div className="absolute left-2 top-2 z-10 grid h-10 w-10 place-items-center overflow-hidden rounded-full border-2 border-white bg-white shadow-[0_6px_16px_rgba(0,0,0,0.25)] md:left-3 md:top-3 md:h-11 md:w-11">
                     <Image
                       src="/images/Cao like@4x.png"
                       alt="Like icon"
@@ -135,10 +137,10 @@ export default function ComboLove() {
                     />
                   </div>
                 ) : null}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-6 p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                  <div className="rounded-2xl border border-white/20 bg-black/20 p-3 text-white backdrop-blur-[1px] md:p-4">
-                    <p className="text-xs leading-tight text-white/80 md:text-sm">{item.description}</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent opacity-100 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 opacity-100 transition-all duration-300 md:translate-y-6 md:p-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+                  <div className="rounded-2xl border border-white/20 bg-black/30 p-3 text-white backdrop-blur-[1px] md:bg-black/20 md:p-4">
+                    <p className="text-[11px] leading-tight text-white/85 md:text-sm">{item.description}</p>
                     <h3 className="mt-1 text-[15px] font-extrabold leading-tight md:text-[20px]">{item.title}</h3>
 
                     <div className="mt-3 grid grid-cols-2 gap-3 leading-tight md:gap-4">
