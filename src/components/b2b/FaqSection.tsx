@@ -23,7 +23,7 @@ export function FaqSection() {
       <div className="container relative mx-auto px-4">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <div className="inline-flex flex-col items-center rounded-[32px] border border-white/60 bg-white/35 px-6 py-5 shadow-[0_18px_45px_-28px_rgba(234,88,12,0.35)] backdrop-blur-sm md:px-10 md:backdrop-blur-md">
-            <p className="mb-3 text-sm font-black uppercase tracking-[0.12em] text-orange-400 drop-shadow-[0_3px_10px_rgba(251,146,60,0.22)] md:bg-gradient-to-r md:from-orange-300 md:via-orange-400 md:to-amber-300 md:bg-clip-text md:text-transparent md:text-base">
+            <p className="mb-3 text-sm font-black uppercase text-orange-400 drop-shadow-[0_3px_10px_rgba(251,146,60,0.22)] md:bg-gradient-to-r md:from-orange-300 md:via-orange-400 md:to-amber-300 md:bg-clip-text md:text-transparent md:text-base">
               Câu Hỏi Thường Gặp
             </p>
             <h2 className="text-3xl font-extrabold text-orange-500 drop-shadow-[0_5px_16px_rgba(249,115,22,0.18)] md:bg-gradient-to-b md:from-[#ffb15f] md:via-orange-500 md:to-[#f97316] md:bg-clip-text md:text-5xl md:text-transparent">

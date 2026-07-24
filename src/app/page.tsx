@@ -5,7 +5,7 @@ import NewsShowcase from "./news-showcase";
 import ScrollEffects from "./scroll-effects";
 import ServiceCarousel from "./service-carousel";
 import { SiteFooter, SiteHeader, SocialLinks } from "./site-chrome";
-import { newsArticles } from "@/data/news";
+import { foxNewsItems } from "@/components/b2b/home-data";
 
 const services = [
   {
@@ -206,7 +206,7 @@ export default function Home() {
         </div>
       </section>
 
-      <NewsShowcase posts={newsArticles} />
+      <NewsShowcase posts={foxNewsItems} />
 
       <section className="feedback-section">
         <div className="section-heading">
@@ -230,7 +230,6 @@ export default function Home() {
       </section>
 
       <section className="commitment-section">
-        <p>Cam kết của Face Wash Fox</p>
         <h2>
           Face Wash Fox cam kết mang đến các trải nghiệm mới mẻ và hứng khởi cho
           người dùng thông qua dịch vụ chăm sóc da mặt chất lượng bằng máy móc

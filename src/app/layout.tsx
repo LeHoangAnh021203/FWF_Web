@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+
 import CookiePolicyBanner from "./cookie-policy-banner";
 import { VerticalMenu } from "./site-chrome";
 import "./globals.css";
+
+const poppins = Poppins({
+  subsets: ["latin", "latin-ext"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-poppins",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Face Wash Fox - Chuỗi cửa hàng rửa mặt công nghệ",
@@ -15,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi">
-      <body>
+    <html lang="vi" className={poppins.variable}>
+      <body className={`${poppins.className} antialiased`}>
         <VerticalMenu />
         {children}
         <CookiePolicyBanner />

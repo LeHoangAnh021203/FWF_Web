@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bell,
   Gift,
@@ -28,9 +28,18 @@ const navItems = [
   { label: "B2B", href: "/b2b", Icon: Users, mobileColumn: 1 },
 ] as const;
 
-const topNavItems = navItems.filter(
-  ({ label }) => !["Cửa hàng", "Dịch vụ", "B2B"].includes(label),
-);
+const desktopNavItems = [
+  { label: "Fox Menu", href: "#hero" },
+  { label: "Dịch vụ", href: "/dich-vu" },
+  { label: "News", href: "/#news" },
+  { label: "FAQ", href: "/faq" },
+] as const;
+
+const desktopMapItem = { label: "Fox Map", href: "/cua-hang" } as const;
+const desktopContactItem = {
+  label: "Liên Hệ Ngay",
+  href: "#home-contact-info",
+} as const;
 
 const hotline = "0889866666";
 const displayHotline = "0889 866 666";
@@ -208,70 +217,24 @@ export function VerticalMenu() {
 
 export function SiteHeader({ home = false }: { home?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
-  const [headerHidden, setHeaderHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
-  const solidAtTopPages = ["/b2b", "/cua-hang", "/cookie-policy", "/dich-vu"];
-  const solidHeader = scrolled || solidAtTopPages.includes(pathname);
+  const solidAtTopPages = ["/b2b", "/cua-hang", "/cookie-policy", "/dich-vu", "/tin-tuc"];
+  const solidHeader =
+    scrolled ||
+    solidAtTopPages.includes(pathname) ||
+    pathname.startsWith("/tin-tuc");
   const mobileColumns = [0, 1].map((column) =>
     navItems.filter((item) => item.mobileColumn === column),
   );
 
   useEffect(() => {
-    const updateScrolled = () => setScrolled(window.scrollY > 72);
+    const updateScrolled = () => setScrolled(window.scrollY > 24);
     updateScrolled();
     window.addEventListener("scroll", updateScrolled, { passive: true });
 
     return () => window.removeEventListener("scroll", updateScrolled);
   }, []);
-
-  useEffect(() => {
-    const clearHideTimer = () => {
-      if (hideTimerRef.current) {
-        clearTimeout(hideTimerRef.current);
-        hideTimerRef.current = null;
-      }
-    };
-
-    const scheduleHide = () => {
-      clearHideTimer();
-
-      if (menuOpen) {
-        setHeaderHidden(false);
-        return;
-      }
-
-      hideTimerRef.current = setTimeout(() => {
-        setHeaderHidden(true);
-      }, 2000);
-    };
-
-    const handleActivity = () => {
-      setHeaderHidden(false);
-      scheduleHide();
-    };
-
-    const activityEvents: Array<keyof WindowEventMap> = [
-      "scroll",
-      "mousemove",
-      "touchstart",
-      "keydown",
-      "focusin",
-    ];
-
-    scheduleHide();
-    activityEvents.forEach((eventName) => {
-      window.addEventListener(eventName, handleActivity, { passive: true });
-    });
-
-    return () => {
-      clearHideTimer();
-      activityEvents.forEach((eventName) => {
-        window.removeEventListener(eventName, handleActivity);
-      });
-    };
-  }, [menuOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -295,30 +258,29 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
 
   return (
     <header
-      className={`mono-header ${solidHeader ? "is-solid" : "is-transparent"} ${
-        headerHidden ? "is-hidden" : ""
-      }`}
+      className={`mono-header ${solidHeader ? "is-solid" : "is-transparent"}`}
     >
       <div className="mono-nav-shell">
         <a className="mono-brand" href={brandHref}>
           <img src="/logo/fwf-orange.png" alt="Face Wash Fox" />
         </a>
-        <nav aria-label="Main navigation">
-          {topNavItems.map(({ label, href, Icon }) => (
+        <nav className="mono-nav-main" aria-label="Main navigation">
+          {desktopNavItems.map(({ label, href }) => (
             <a href={resolveHomeAnchor(href, home)} key={label}>
-              <Icon aria-hidden="true" />
               <span>{label}</span>
             </a>
           ))}
-          <a className="mono-hotline" href={`tel:${hotline}`}>
-            {displayHotline}
-          </a>
         </nav>
         <div className="mono-header-actions">
-          <div className="mono-language-toggle" aria-label="Chọn ngôn ngữ">
-            <span className="is-active">VI</span>
-            <span>EN</span>
-          </div>
+          <a className="mono-header-pill mono-header-pill--ghost" href={desktopMapItem.href}>
+            {desktopMapItem.label}
+          </a>
+          <a
+            className="mono-header-pill mono-header-pill--cta"
+            href={resolveHomeAnchor(desktopContactItem.href, home)}
+          >
+            {desktopContactItem.label}
+          </a>
           <button
             type="button"
             className="mono-menu-trigger"
@@ -434,7 +396,6 @@ export function SiteFooter({ home = false }: { home?: boolean }) {
             Lầu 2, Số 2 Song Hành, Phường Bình Trưng, TP Hồ Chí Minh
           </p>
           <div className="footer-follow">
-            <h3>Follow Us!</h3>
             <SocialLinks footer />
           </div>
         </address>

@@ -284,7 +284,7 @@ export default function ServiceStandard() {
     >
       <div className="mx-auto max-w-[1600px]">
         <header className="mx-auto mb-8 max-w-[1200px] text-center md:mb-16">
-          <h2 className="text-[clamp(1.75rem,7vw,4rem)] font-extrabold uppercase tracking-tight text-[#121212]">
+          <h2 className="text-[clamp(1.75rem,7vw,4rem)] font-extrabold uppercase text-[#121212]">
             Tiêu Chuẩn Dịch Vụ
           </h2>
           <p className="mx-auto mt-3 max-w-[42rem] text-[clamp(0.95rem,3.6vw,1.6rem)] leading-relaxed text-[#6a6a6a] md:mt-4">
@@ -483,4 +483,3 @@ export default function ServiceStandard() {
     </section>
   );
 }
-

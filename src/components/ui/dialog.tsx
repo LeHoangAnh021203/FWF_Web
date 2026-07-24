@@ -5,6 +5,5 @@ export function DialogHeader({ className = "", ...props }: React.HTMLAttributes<
 }
 
 export function DialogTitle({ className = "", ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 className={`text-lg font-semibold leading-none tracking-tight ${className}`} {...props} />;
+  return <h3 className={`text-lg font-semibold leading-none ${className}`} {...props} />;
 }
-

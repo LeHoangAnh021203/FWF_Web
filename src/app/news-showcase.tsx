@@ -1,11 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
-
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 type NewsPost = {
   slug: string;
-  category: string;
   date: string;
   title: string;
   image: string;
@@ -16,38 +13,56 @@ type NewsShowcaseProps = {
 };
 
 export default function NewsShowcase({ posts }: NewsShowcaseProps) {
+  const items = posts.slice(0, 3);
+
   return (
-    <section id="news" className="news-section news-showcase-section">
-      <div className="news-showcase-shell">
-        <aside className="news-showcase-heading">
-          <span aria-hidden="true">=</span>
-          <h2>Tin tức mới nhất</h2>
-          <p>
-            Những thông tin mới nhất về các chương trình khuyến mãi và các sự
-            kiện nổi bật của Face Wash Fox.
+    <section
+      id="news"
+      className="overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,196,112,0.18),transparent_26%),linear-gradient(180deg,#ffffff_0%,#fffaf3_52%,#ffffff_100%)] py-20 md:py-24"
+    >
+      <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-6 md:px-10 xl:px-12">
+        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
+          <p className="mb-3 text-xl font-medium uppercase text-orange-400 md:text-[2rem]">
+            Cập nhật
           </p>
-        </aside>
+          <h2 className="text-3xl font-extrabold text-orange-500 drop-shadow-[0_5px_16px_rgba(249,115,22,0.18)] md:text-5xl">
+            <span className="bg-gradient-to-r from-[#ff6a3d] via-[#ff8a24] to-[#ffca43] bg-clip-text text-transparent">
+              Fox news
+            </span>
+          </h2>
+        </div>
 
-        <div className="news-card-track">
-          {posts.map((post) => (
-            <article className="news-feature-card" key={post.title}>
-              <Link className="news-feature-image" href={`/tin-tuc/${post.slug}`}>
-                <img src={post.image} alt="" />
-              </Link>
-
-              <div className="news-feature-body">
-                <time>{post.date}</time>
-                <h3 title={post.title}>
-                  <Link href={`/tin-tuc/${post.slug}`}>{post.title}</Link>
-                </h3>
-                <Link className="news-feature-link" href={`/tin-tuc/${post.slug}`}>
-                  <span aria-hidden="true">
-                    <ArrowRight />
-                  </span>
-                  Xem thêm
-                </Link>
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-11">
+          {items.map((item) => (
+            <Link
+              key={item.slug}
+              href={`/tin-tuc/${item.slug}`}
+              className="group flex h-full w-full flex-col text-left transition-transform duration-300 hover:-translate-y-1"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
               </div>
-            </article>
+
+              <div className="flex flex-1 flex-col pt-5">
+                <div className="mb-4 flex min-h-[56px] flex-wrap items-center gap-3">
+                  <p className="text-[1.05rem] font-medium text-orange-400 md:text-[1.15rem]">
+                    {item.date}
+                  </p>
+                  <span className="inline-flex min-w-[132px] items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-7 py-1 text-[1.05rem] font-medium italic text-black md:text-[1.2rem]">
+                    Mới
+                  </span>
+                </div>
+                <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] text-[#ff6a3d] md:min-h-[120px] md:text-[22px]">
+                  {item.title}
+                </h3>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

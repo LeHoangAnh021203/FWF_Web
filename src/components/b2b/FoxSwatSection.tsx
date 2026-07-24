@@ -56,7 +56,7 @@ export function FoxSwatSection() {
                 <div className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] bg-[rgba(130,99,88,0.42)] opacity-0 backdrop-blur-[8px] transition-opacity duration-300 group-hover:opacity-100" />
                 <CardContent className="relative grid gap-5 p-4 pt-16 text-orange-500 sm:p-5 sm:pt-16 md:p-6 md:pt-18 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-8">
                   <div
-                    className={`absolute left-1/2 top-5 z-30 -translate-x-1/2 rounded-full border bg-white px-3 py-1 text-sm font-extrabold uppercase tracking-[0.2em] shadow-[0_12px_30px_-18px_rgba(15,23,42,0.28)] sm:px-4 sm:py-1.5 sm:text-base lg:text-xl ${study.eyebrowClassName}`}
+                    className={`absolute left-1/2 top-5 z-30 -translate-x-1/2 rounded-full border bg-white px-3 py-1 text-sm font-extrabold uppercase shadow-[0_12px_30px_-18px_rgba(15,23,42,0.28)] sm:px-4 sm:py-1.5 sm:text-base lg:text-xl ${study.eyebrowClassName}`}
                   >
                     {study.eyebrow}
                   </div>
@@ -164,7 +164,7 @@ export function FoxSwatSection() {
 
               {selectedStudy.voucherImages?.length ? (
                 <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange-400">Voucher mẫu</p>
+                  <p className="text-sm font-semibold uppercase text-orange-400">Voucher mẫu</p>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                     {selectedStudy.voucherImages.map((voucherImage, index) => (
                       <div

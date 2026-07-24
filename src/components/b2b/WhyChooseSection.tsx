@@ -61,7 +61,7 @@ export function WhyChooseSection() {
       <div className="mx-auto grid max-w-[1440px] gap-10 px-4 md:px-8 xl:grid-cols-[minmax(0,0.94fr)_460px] xl:items-start xl:gap-12">
         <div className="max-w-[820px]">
           <div className="mb-8 max-w-2xl text-center lg:mb-10 lg:text-left">
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.14em] text-orange-300 md:text-base">
+            <p className="mb-3 text-sm font-bold uppercase text-orange-300 md:text-base">
               Khám phá
             </p>
             <h2 className="text-2xl font-bold leading-tight text-orange-500 md:text-3xl lg:text-4xl">
@@ -107,7 +107,7 @@ export function WhyChooseSection() {
           <div className="relative overflow-hidden rounded-[36px] border border-orange-100/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,247,239,0.72))] p-4 shadow-[0_35px_90px_-34px_rgba(234,88,12,0.28)] md:p-5">
             <div className="mb-5 flex items-center justify-between">
               <div>
-                <p className="text-sm font-bold uppercase tracking-[0.18em] text-orange-300">
+                <p className="text-sm font-bold uppercase text-orange-300">
                   Trải nghiệm
                 </p>
                 <h3 className="mt-2 text-2xl font-extrabold leading-tight text-orange-600">

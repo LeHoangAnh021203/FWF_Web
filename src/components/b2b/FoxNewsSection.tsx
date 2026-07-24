@@ -11,7 +11,7 @@ export function FoxNewsSection() {
     >
       <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-6 md:px-10 xl:px-12">
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
-          <p className="mb-3 text-xl font-medium uppercase tracking-[0.08em] text-orange-400 md:text-[2rem]">
+          <p className="mb-3 text-xl font-medium uppercase text-orange-400 md:text-[2rem]">
             Cập nhật
           </p>
           <h2 className="text-3xl font-extrabold text-orange-500 drop-shadow-[0_5px_16px_rgba(249,115,22,0.18)] md:bg-gradient-to-b md:from-[#ffb15f] md:via-orange-500 md:to-[#f97316] md:bg-clip-text md:text-5xl md:text-transparent">
@@ -25,7 +25,7 @@ export function FoxNewsSection() {
           {foxNewsItems.map((item) => (
             <Link
               key={item.slug}
-              href={`/news/${item.slug}`}
+              href={`/tin-tuc/${item.slug}`}
               className="group flex h-full w-full flex-col text-left transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
@@ -47,7 +47,7 @@ export function FoxNewsSection() {
                     Mới
                   </span>
                 </div>
-                <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] tracking-[-0.03em] text-[#ff6a3d] md:min-h-[168px] md:text-[22px]">
+                <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] text-[#ff6a3d] md:min-h-[168px] md:text-[22px]">
                   {item.title}
                 </h3>
               </div>
