@@ -4,7 +4,7 @@ import LoadingOverlay from "./loading-overlay";
 import NewsShowcase from "./news-showcase";
 import ScrollEffects from "./scroll-effects";
 import ServiceCarousel from "./service-carousel";
-import { SiteFooter, SiteHeader, SocialLinks } from "./site-chrome";
+import { SiteFooter, SiteHeader } from "./site-chrome";
 import { foxNewsItems } from "@/components/b2b/home-data";
 
 const services = [
