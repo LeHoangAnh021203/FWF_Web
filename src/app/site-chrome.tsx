@@ -29,8 +29,7 @@ const navItems = [
 ] as const;
 
 const desktopNavItems = [
-  { label: "Fox Menu", href: "#hero" },
-  { label: "Dịch vụ", href: "/dich-vu" },
+  { label: "Fox Menu", href: "/dich-vu" },
   { label: "News", href: "/#news" },
   { label: "FAQ", href: "/faq" },
 ] as const;

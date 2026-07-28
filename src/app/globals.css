@@ -10,9 +10,17 @@
   --brand-orange-bright: #f88517;
   --brand-orange-gold: #ff9922;
   --brand-lime: #66ff00;
+  --brand-menu-lime: #78c050;
+  --brand-menu-sky: #20b0e0;
+  --brand-menu-sky-soft: #d0f0f8;
+  --brand-menu-pink: #f898c0;
+  --brand-menu-coral: #f86030;
   --brand-warm-surface: #fff5ee;
   --brand-red-rgb: 255, 51, 0;
   --brand-orange-rgb: 238, 103, 48;
+  --brand-lime-rgb: 120, 192, 80;
+  --brand-sky-rgb: 32, 176, 224;
+  --brand-pink-rgb: 248, 152, 192;
   --surface-0: #ffffff;
   --surface-1: #fff8f2;
   --surface-2: #fff2e6;
@@ -2141,7 +2149,11 @@ img {
 
 .news-showcase-section {
   overflow: hidden;
-  background: #3511ae;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(var(--brand-pink-rgb), 0.28), transparent 36%),
+    radial-gradient(circle at 88% 72%, rgba(var(--brand-sky-rgb), 0.22), transparent 40%),
+    radial-gradient(circle at 70% 12%, rgba(248, 133, 23, 0.18), transparent 34%),
+    linear-gradient(145deg, #2a0f7a 0%, #3511ae 48%, #5a1a9e 100%);
   padding: clamp(72px, 8vw, 112px) 0 clamp(72px, 8vw, 112px);
 }
 
@@ -2525,9 +2537,18 @@ img {
   min-height: 0;
   padding: clamp(28px, 3.5vw, 44px) clamp(16px, 4vw, 64px) clamp(32px, 4vw, 52px);
   background:
-    linear-gradient(180deg, rgba(18, 43, 74, 0.12), rgba(248, 133, 23, 0.22)),
-    radial-gradient(circle at 50% 16%, rgba(255, 255, 255, 0.22), transparent 28%),
-    linear-gradient(180deg, #14345f 0%, #3f7ca7 52%, #c87335 100%);
+    radial-gradient(circle at 12% 22%, rgba(var(--brand-lime-rgb), 0.55), transparent 38%),
+    radial-gradient(circle at 88% 10%, rgba(var(--brand-pink-rgb), 0.62), transparent 40%),
+    radial-gradient(circle at 48% 6%, rgba(var(--brand-sky-rgb), 0.5), transparent 44%),
+    radial-gradient(circle at 70% 82%, rgba(248, 96, 48, 0.58), transparent 42%),
+    linear-gradient(
+      180deg,
+      #2a8ec4 0%,
+      #5bb8de 24%,
+      #b98ad4 50%,
+      #f2a0bc 72%,
+      var(--brand-menu-coral) 100%
+    );
   color: white;
 }
 
@@ -2540,9 +2561,21 @@ img {
   height: 22%;
   border-radius: 50% 50% 0 0;
   background:
-    radial-gradient(circle at 28% 20%, rgba(255, 183, 77, 0.46), transparent 18%),
-    linear-gradient(180deg, #9b542a, #5c321f);
+    radial-gradient(circle at 22% 18%, rgba(var(--brand-lime-rgb), 0.42), transparent 22%),
+    radial-gradient(circle at 78% 30%, rgba(var(--brand-pink-rgb), 0.35), transparent 24%),
+    linear-gradient(180deg, #e07040, #8a3a22);
   filter: blur(1px);
+}
+
+.feedback-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 42% 28% at 20% 70%, rgba(208, 240, 248, 0.18), transparent 70%),
+    radial-gradient(ellipse 36% 24% at 80% 40%, rgba(120, 192, 80, 0.16), transparent 70%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .feedback-section .section-heading {
@@ -2586,13 +2619,14 @@ img {
   width: clamp(112px, 12vw, 168px);
   aspect-ratio: 1;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.54);
+  border: 1px solid rgba(255, 255, 255, 0.62);
   border-radius: 999px;
   background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.92), rgba(255, 244, 233, 0.68) 58%, rgba(255, 255, 255, 0.22));
+    radial-gradient(circle, rgba(255, 255, 255, 0.94), rgba(208, 240, 248, 0.72) 52%, rgba(248, 152, 192, 0.28));
   box-shadow:
-    0 28px 80px rgba(0, 0, 0, 0.24),
-    0 0 72px rgba(255, 159, 28, 0.42);
+    0 28px 80px rgba(0, 0, 0, 0.22),
+    0 0 64px rgba(var(--brand-pink-rgb), 0.45),
+    0 0 40px rgba(var(--brand-lime-rgb), 0.28);
   transform: translate(-50%, -50%);
   backdrop-filter: blur(14px);
   pointer-events: none;
@@ -2612,15 +2646,13 @@ img {
   animation: feedbackCarousel 30s linear infinite;
 }
 
-.feedback-stage:hover .testimonial-track {
-  animation-play-state: paused;
-}
-
 .testimonial-card {
   --feedback-angle: 0deg;
   --feedback-y: 0px;
   --feedback-width: clamp(190px, 20vw, 250px);
   --feedback-radius: clamp(190px, 24vw, 280px);
+  --feedback-accent: rgba(var(--brand-pink-rgb), 0.62);
+  --feedback-glow: rgba(var(--brand-pink-rgb), 0.28);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -2628,16 +2660,18 @@ img {
   align-content: start;
   width: var(--feedback-width);
   min-height: 132px;
-  border: 1px solid rgba(117, 255, 221, 0.48);
+  border: 1px solid var(--feedback-accent);
   border-radius: 16px;
-  background: rgba(11, 34, 64, 0.38);
+  background:
+    linear-gradient(160deg, rgba(18, 42, 72, 0.52), rgba(56, 28, 48, 0.42)),
+    rgba(16, 28, 48, 0.4);
   color: white;
   padding: 12px;
   text-align: center;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 22px 70px rgba(0, 0, 0, 0.18),
-    0 0 28px rgba(45, 212, 191, 0.2);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 22px 70px rgba(0, 0, 0, 0.2),
+    0 0 32px var(--feedback-glow);
   transform:
     translate(-50%, -50%)
     translateY(var(--feedback-y))
@@ -2651,41 +2685,48 @@ img {
   backface-visibility: hidden;
 }
 
-.feedback-stage:hover .testimonial-card {
-  animation-play-state: paused;
-}
-
 .testimonial-card:nth-child(1) {
   --feedback-angle: 0deg;
   --feedback-y: -16px;
+  --feedback-accent: rgba(var(--brand-sky-rgb), 0.72);
+  --feedback-glow: rgba(var(--brand-sky-rgb), 0.3);
 }
 
 .testimonial-card:nth-child(2) {
   --feedback-angle: 72deg;
   --feedback-y: 14px;
+  --feedback-accent: rgba(var(--brand-lime-rgb), 0.7);
+  --feedback-glow: rgba(var(--brand-lime-rgb), 0.28);
 }
 
 .testimonial-card:nth-child(3) {
   --feedback-angle: 144deg;
   --feedback-y: -10px;
   width: clamp(195px, 21vw, 255px);
+  --feedback-accent: rgba(var(--brand-pink-rgb), 0.72);
+  --feedback-glow: rgba(var(--brand-pink-rgb), 0.32);
 }
 
 .testimonial-card:nth-child(4) {
   --feedback-angle: 216deg;
   --feedback-y: 16px;
   width: clamp(195px, 20vw, 250px);
+  --feedback-accent: rgba(248, 133, 23, 0.72);
+  --feedback-glow: rgba(248, 96, 48, 0.3);
 }
 
 .testimonial-card:nth-child(5) {
   --feedback-angle: 288deg;
   --feedback-y: -6px;
   width: clamp(190px, 20vw, 250px);
+  --feedback-accent: rgba(208, 240, 248, 0.55);
+  --feedback-glow: rgba(var(--brand-sky-rgb), 0.26);
 }
 
 .stars {
-  color: #ffd166;
+  color: var(--brand-orange-gold);
   font-size: 13px;
+  text-shadow: 0 0 12px rgba(255, 153, 34, 0.45);
 }
 
 .testimonial-card > p {

@@ -246,33 +246,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="home-contact-info" className="contact-section">
-        <div>
-          <h2>Hệ thống cửa hàng Face Wash Fox</h2>
-          <a href="/cua-hang">Xem vị trí</a>
-        </div>
-        <div>
-          <h2>Thời gian hoạt động</h2>
-          <p>
-            Giờ mở cửa: <b> từ 9h30 – 21h30 </b>
-            <br />
-            (tuỳ thuộc vào cửa hàng)
-          </p>
-          <p>
-            Hotline:<b> 0889866666 </b>
-          </p>
-        </div>
-        <div>
-          <h2>Tham gia cùng chúng tôi</h2>
-          <SocialLinks />
-          <p>Quét QR để tải ứng dụng:</p>
-          <img
-            className="qr"
-            src="/qr/fwf-app.png"
-            alt=""
-          />
-        </div>
-      </section>
+     
 
       <SiteFooter home />
     </main>
