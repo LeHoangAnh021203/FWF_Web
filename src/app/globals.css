@@ -67,7 +67,7 @@
   --color-border: var(--border);
   --color-input: var(--border);
   --color-ring: var(--brand-orange);
-  --font-sans: var(--font-poppins), Poppins, sans-serif;
+  --font-sans: var(--font-poppins), "SVN Poppins", sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -117,7 +117,7 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-poppins), Poppins, sans-serif;
+  font-family: var(--font-poppins), "SVN Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.65;
@@ -937,7 +937,7 @@ img {
 .store-stats strong {
   display: block;
   color: var(--foreground);
-  font-family: var(--font-poppins), Poppins, sans-serif;
+  font-family: var(--font-poppins), "SVN Poppins", sans-serif;
   font-size: clamp(48px, 5.7vw, 78px);
   font-weight: 700;
   line-height: 0.92;
@@ -2149,11 +2149,7 @@ img {
 
 .news-showcase-section {
   overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(var(--brand-pink-rgb), 0.28), transparent 36%),
-    radial-gradient(circle at 88% 72%, rgba(var(--brand-sky-rgb), 0.22), transparent 40%),
-    radial-gradient(circle at 70% 12%, rgba(248, 133, 23, 0.18), transparent 34%),
-    linear-gradient(145deg, #2a0f7a 0%, #3511ae 48%, #5a1a9e 100%);
+  background: #3511ae;
   padding: clamp(72px, 8vw, 112px) 0 clamp(72px, 8vw, 112px);
 }
 
@@ -2537,17 +2533,16 @@ img {
   min-height: 0;
   padding: clamp(28px, 3.5vw, 44px) clamp(16px, 4vw, 64px) clamp(32px, 4vw, 52px);
   background:
-    radial-gradient(circle at 12% 22%, rgba(var(--brand-lime-rgb), 0.55), transparent 38%),
-    radial-gradient(circle at 88% 10%, rgba(var(--brand-pink-rgb), 0.62), transparent 40%),
-    radial-gradient(circle at 48% 6%, rgba(var(--brand-sky-rgb), 0.5), transparent 44%),
-    radial-gradient(circle at 70% 82%, rgba(248, 96, 48, 0.58), transparent 42%),
+    radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.18), transparent 28%),
+    radial-gradient(circle at 18% 30%, rgba(var(--brand-orange-rgb), 0.35), transparent 36%),
+    radial-gradient(circle at 82% 24%, rgba(255, 153, 34, 0.28), transparent 34%),
     linear-gradient(
       180deg,
-      #2a8ec4 0%,
-      #5bb8de 24%,
-      #b98ad4 50%,
-      #f2a0bc 72%,
-      var(--brand-menu-coral) 100%
+      #1a100c 0%,
+      #3a1c12 28%,
+      #8a3a18 58%,
+      var(--brand-orange-deep) 82%,
+      var(--brand-orange-gold) 100%
     );
   color: white;
 }
@@ -2561,9 +2556,8 @@ img {
   height: 22%;
   border-radius: 50% 50% 0 0;
   background:
-    radial-gradient(circle at 22% 18%, rgba(var(--brand-lime-rgb), 0.42), transparent 22%),
-    radial-gradient(circle at 78% 30%, rgba(var(--brand-pink-rgb), 0.35), transparent 24%),
-    linear-gradient(180deg, #e07040, #8a3a22);
+    radial-gradient(circle at 28% 20%, rgba(255, 183, 77, 0.46), transparent 18%),
+    linear-gradient(180deg, #c45a1e, #5c2210);
   filter: blur(1px);
 }
 
@@ -2572,8 +2566,8 @@ img {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 42% 28% at 20% 70%, rgba(208, 240, 248, 0.18), transparent 70%),
-    radial-gradient(ellipse 36% 24% at 80% 40%, rgba(120, 192, 80, 0.16), transparent 70%);
+    radial-gradient(ellipse 42% 28% at 22% 72%, rgba(255, 153, 34, 0.16), transparent 70%),
+    radial-gradient(ellipse 36% 24% at 78% 38%, rgba(238, 103, 48, 0.14), transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
@@ -2619,14 +2613,13 @@ img {
   width: clamp(112px, 12vw, 168px);
   aspect-ratio: 1;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.54);
   border-radius: 999px;
   background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.94), rgba(208, 240, 248, 0.72) 52%, rgba(248, 152, 192, 0.28));
+    radial-gradient(circle, rgba(255, 255, 255, 0.94), rgba(255, 244, 233, 0.72) 58%, rgba(255, 153, 34, 0.22));
   box-shadow:
-    0 28px 80px rgba(0, 0, 0, 0.22),
-    0 0 64px rgba(var(--brand-pink-rgb), 0.45),
-    0 0 40px rgba(var(--brand-lime-rgb), 0.28);
+    0 28px 80px rgba(0, 0, 0, 0.24),
+    0 0 64px rgba(var(--brand-orange-rgb), 0.42);
   transform: translate(-50%, -50%);
   backdrop-filter: blur(14px);
   pointer-events: none;
@@ -2651,8 +2644,8 @@ img {
   --feedback-y: 0px;
   --feedback-width: clamp(190px, 20vw, 250px);
   --feedback-radius: clamp(190px, 24vw, 280px);
-  --feedback-accent: rgba(var(--brand-pink-rgb), 0.62);
-  --feedback-glow: rgba(var(--brand-pink-rgb), 0.28);
+  --feedback-accent: rgba(255, 153, 34, 0.55);
+  --feedback-glow: rgba(var(--brand-orange-rgb), 0.28);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -2663,15 +2656,15 @@ img {
   border: 1px solid var(--feedback-accent);
   border-radius: 16px;
   background:
-    linear-gradient(160deg, rgba(18, 42, 72, 0.52), rgba(56, 28, 48, 0.42)),
-    rgba(16, 28, 48, 0.4);
+    linear-gradient(160deg, rgba(28, 16, 12, 0.58), rgba(58, 28, 16, 0.42)),
+    rgba(18, 10, 8, 0.42);
   color: white;
   padding: 12px;
   text-align: center;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 22px 70px rgba(0, 0, 0, 0.2),
-    0 0 32px var(--feedback-glow);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 22px 70px rgba(0, 0, 0, 0.22),
+    0 0 28px var(--feedback-glow);
   transform:
     translate(-50%, -50%)
     translateY(var(--feedback-y))
@@ -2688,39 +2681,39 @@ img {
 .testimonial-card:nth-child(1) {
   --feedback-angle: 0deg;
   --feedback-y: -16px;
-  --feedback-accent: rgba(var(--brand-sky-rgb), 0.72);
-  --feedback-glow: rgba(var(--brand-sky-rgb), 0.3);
+  --feedback-accent: rgba(255, 153, 34, 0.58);
+  --feedback-glow: rgba(255, 153, 34, 0.28);
 }
 
 .testimonial-card:nth-child(2) {
   --feedback-angle: 72deg;
   --feedback-y: 14px;
-  --feedback-accent: rgba(var(--brand-lime-rgb), 0.7);
-  --feedback-glow: rgba(var(--brand-lime-rgb), 0.28);
+  --feedback-accent: rgba(248, 133, 23, 0.62);
+  --feedback-glow: rgba(248, 133, 23, 0.28);
 }
 
 .testimonial-card:nth-child(3) {
   --feedback-angle: 144deg;
   --feedback-y: -10px;
   width: clamp(195px, 21vw, 255px);
-  --feedback-accent: rgba(var(--brand-pink-rgb), 0.72);
-  --feedback-glow: rgba(var(--brand-pink-rgb), 0.32);
+  --feedback-accent: rgba(238, 103, 48, 0.65);
+  --feedback-glow: rgba(238, 103, 48, 0.3);
 }
 
 .testimonial-card:nth-child(4) {
   --feedback-angle: 216deg;
   --feedback-y: 16px;
   width: clamp(195px, 20vw, 250px);
-  --feedback-accent: rgba(248, 133, 23, 0.72);
-  --feedback-glow: rgba(248, 96, 48, 0.3);
+  --feedback-accent: rgba(234, 88, 20, 0.62);
+  --feedback-glow: rgba(234, 88, 20, 0.28);
 }
 
 .testimonial-card:nth-child(5) {
   --feedback-angle: 288deg;
   --feedback-y: -6px;
   width: clamp(190px, 20vw, 250px);
-  --feedback-accent: rgba(208, 240, 248, 0.55);
-  --feedback-glow: rgba(var(--brand-sky-rgb), 0.26);
+  --feedback-accent: rgba(255, 176, 102, 0.5);
+  --feedback-glow: rgba(255, 153, 34, 0.24);
 }
 
 .stars {
@@ -3170,7 +3163,7 @@ img {
 
 .footer-follow h3 {
   margin-bottom: 0;
-  font-family: var(--font-poppins), Poppins, sans-serif;
+  font-family: var(--font-poppins), "SVN Poppins", sans-serif;
   font-size: clamp(22px, 1.7vw, 30px);
   text-transform: none;
 }
@@ -3243,7 +3236,7 @@ img {
 
 .cookie-policy-content h2 {
   margin: 0;
-  font-family: var(--font-poppins), Poppins, sans-serif;
+  font-family: var(--font-poppins), "SVN Poppins", sans-serif;
   font-size: clamp(38px, 4vw, 56px);
   font-weight: 700;
   line-height: 1;

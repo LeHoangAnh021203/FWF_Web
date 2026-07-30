@@ -11,7 +11,7 @@ const services = [
   {
     name: "Aqua Peel Cleanse",
     description: "Rửa mặt công nghệ Hydra Facial",
-    price: "219.000 đ",
+    price: "299.000 đ",
     image: "/services/aqua-peel-clean.png",
   },
   {
@@ -41,7 +41,7 @@ const services = [
   {
     name: "Eye-Revive Cleanse",
     description: "Chăm sóc da mắt và làm giảm nếp nhăn mắt",
-    price: "489.000 đ",
+    price: "519.000 đ",
     image: "/services/eye-revive.png",
   },
 ];

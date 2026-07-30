@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import {
   Bell,
   Gift,
-  Handshake,
   Mail,
   MapPin,
   Menu,
@@ -29,7 +28,9 @@ const navItems = [
 ] as const;
 
 const desktopNavItems = [
-  { label: "Fox Menu", href: "/dich-vu" },
+  { label: "Dịch vụ", href: "/dich-vu" },
+  { label: "B2B", href: "/b2b" },
+  { label: "Cửa hàng", href: "/cua-hang" },
   { label: "News", href: "/#news" },
   { label: "FAQ", href: "/faq" },
 ] as const;
@@ -44,9 +45,6 @@ const hotline = "0889866666";
 const displayHotline = "0889 866 666";
 
 const verticalNavItems = [
-  { label: "Dịch vụ", href: "/dich-vu", Icon: Sparkles },
-  { label: "B2B", href: "/b2b", Icon: Handshake },
-  { label: "Cửa hàng", href: "/cua-hang", Icon: Store },
   { label: "Tin tức", href: "/#news", Icon: Bell },
 ] as const;
 
