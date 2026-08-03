@@ -20,7 +20,7 @@ export default function ScrollEffects() {
           ".commitment-section > h2",
           ".commitment-grid article",
           ".contact-section > div",
-          ".footer-main > div",
+          ".mono-footer",
         ].join(","),
       ),
     );

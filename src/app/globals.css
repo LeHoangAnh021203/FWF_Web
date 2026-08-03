@@ -2602,6 +2602,13 @@ img {
   min-height: clamp(280px, 32vw, 360px);
   margin: 0 auto;
   perspective: 1400px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.feedback-stage.is-dragging {
+  cursor: grabbing;
 }
 
 .feedback-mascot {
@@ -2636,16 +2643,18 @@ img {
   inset: 0;
   z-index: 2;
   transform-style: preserve-3d;
-  animation: feedbackCarousel 30s linear infinite;
+  pointer-events: none;
 }
 
 .testimonial-card {
   --feedback-angle: 0deg;
   --feedback-y: 0px;
   --feedback-width: clamp(190px, 20vw, 250px);
-  --feedback-radius: clamp(190px, 24vw, 280px);
+  --feedback-radius: 240px;
   --feedback-accent: rgba(255, 153, 34, 0.55);
   --feedback-glow: rgba(var(--brand-orange-rgb), 0.28);
+  --feedback-opacity: 1;
+  --feedback-scale: 1;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -2661,6 +2670,7 @@ img {
   color: white;
   padding: 12px;
   text-align: center;
+  opacity: var(--feedback-opacity);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.12),
     0 22px 70px rgba(0, 0, 0, 0.22),
@@ -2669,48 +2679,40 @@ img {
     translate(-50%, -50%)
     translateY(var(--feedback-y))
     rotateY(var(--feedback-angle))
-    translateZ(var(--feedback-radius));
+    translateZ(var(--feedback-radius))
+    rotateY(calc(-1 * var(--feedback-angle)))
+    scale(var(--feedback-scale));
   transform-origin: center;
   transform-style: preserve-3d;
-  animation: feedbackFaceReader 30s linear infinite;
   backdrop-filter: blur(16px);
-  will-change: transform;
+  will-change: transform, opacity;
   backface-visibility: hidden;
+  pointer-events: none;
 }
 
 .testimonial-card:nth-child(1) {
-  --feedback-angle: 0deg;
-  --feedback-y: -16px;
   --feedback-accent: rgba(255, 153, 34, 0.58);
   --feedback-glow: rgba(255, 153, 34, 0.28);
 }
 
 .testimonial-card:nth-child(2) {
-  --feedback-angle: 72deg;
-  --feedback-y: 14px;
   --feedback-accent: rgba(248, 133, 23, 0.62);
   --feedback-glow: rgba(248, 133, 23, 0.28);
 }
 
 .testimonial-card:nth-child(3) {
-  --feedback-angle: 144deg;
-  --feedback-y: -10px;
   width: clamp(195px, 21vw, 255px);
   --feedback-accent: rgba(238, 103, 48, 0.65);
   --feedback-glow: rgba(238, 103, 48, 0.3);
 }
 
 .testimonial-card:nth-child(4) {
-  --feedback-angle: 216deg;
-  --feedback-y: 16px;
   width: clamp(195px, 20vw, 250px);
   --feedback-accent: rgba(234, 88, 20, 0.62);
   --feedback-glow: rgba(234, 88, 20, 0.28);
 }
 
 .testimonial-card:nth-child(5) {
-  --feedback-angle: 288deg;
-  --feedback-y: -6px;
   width: clamp(190px, 20vw, 250px);
   --feedback-accent: rgba(255, 176, 102, 0.5);
   --feedback-glow: rgba(255, 153, 34, 0.24);
@@ -2756,34 +2758,6 @@ img {
   color: white;
   font-size: 14px;
   font-weight: 700;
-}
-
-@keyframes feedbackCarousel {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(-360deg);
-  }
-}
-
-@keyframes feedbackFaceReader {
-  from {
-    transform:
-      translate(-50%, -50%)
-      translateY(var(--feedback-y))
-      rotateY(var(--feedback-angle))
-      translateZ(var(--feedback-radius))
-      rotateY(calc(-1 * var(--feedback-angle)));
-  }
-  to {
-    transform:
-      translate(-50%, -50%)
-      translateY(var(--feedback-y))
-      rotateY(var(--feedback-angle))
-      translateZ(var(--feedback-radius))
-      rotateY(calc(360deg - var(--feedback-angle)));
-  }
 }
 
 .commitment-section {
@@ -2997,27 +2971,32 @@ img {
 .mono-footer {
   position: relative;
   overflow: hidden;
-  background: #fe6a39;
+  background: #ff6c39;
   color: #ffffff;
   padding: clamp(54px, 7vw, 92px) clamp(22px, 7vw, 130px) 28px;
 }
 
 .mono-footer .social-row {
-  width: fit-content;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
   max-width: 100%;
-  justify-content: flex-start;
-  gap: clamp(18px, 2.8vw, 38px);
-  border: 1px solid rgba(255, 111, 45, 0.24);
+  gap: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 999px;
-  background: rgba(255, 244, 237, 0.94);
-  padding: 10px clamp(18px, 2.8vw, 34px);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.7),
-    0 18px 44px rgba(0, 0, 0, 0.14);
+  background: #ffffff;
+  padding: 12px 18px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
 }
 
 .mono-footer .social-row a {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
   width: 28px;
+  height: 28px;
   min-height: 28px;
   border: 0;
   border-radius: 0;
@@ -3036,21 +3015,26 @@ img {
 }
 
 .mono-footer .social-row span {
-  display: inline-grid;
-  width: 100%;
-  height: 100%;
+  display: grid;
+  width: 22px;
+  height: 22px;
   place-items: center;
-  font-weight: 700;
+  flex: 0 0 auto;
 }
 
 .mono-footer .social-row img {
+  display: block;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
   filter: none;
 }
 
 .footer-main {
   display: grid;
-  grid-template-columns: minmax(250px, 0.95fr) minmax(280px, 1.05fr) minmax(300px, 1.25fr);
-  gap: clamp(42px, 7vw, 118px);
+  grid-template-columns: minmax(220px, 1.1fr) minmax(0, 2.2fr) minmax(240px, 1fr);
+  gap: clamp(36px, 5vw, 72px);
+  align-items: start;
   width: min(1420px, 100%);
   margin: 0 auto;
   padding: 0;
@@ -3091,8 +3075,9 @@ img {
 
 .footer-link-columns {
   display: grid;
-  grid-template-columns: repeat(2, minmax(180px, 1fr));
-  gap: 34px clamp(28px, 4vw, 54px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px clamp(20px, 3vw, 40px);
+  align-items: start;
 }
 
 .mono-footer h3 {
@@ -3305,6 +3290,273 @@ img {
   background: transparent;
   font-size: 20px;
   line-height: 1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.faq-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 153, 34, 0.12), transparent 36%),
+    linear-gradient(180deg, #fff8f2 0%, #ffffff 48%, #fff5ee 100%);
+}
+
+.faq-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: clamp(108px, 12vw, 148px) 0 clamp(56px, 8vw, 96px);
+}
+
+.faq-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+  gap: clamp(36px, 5vw, 72px);
+  border-radius: 40px;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255, 176, 102, 0.28), transparent 42%),
+    radial-gradient(circle at 86% 78%, rgba(255, 153, 34, 0.22), transparent 40%),
+    linear-gradient(115deg, #c24a1e 0%, #ea5814 48%, #c4a24a 100%);
+  color: #ffffff;
+  padding: clamp(36px, 5vw, 72px);
+  box-shadow: 0 28px 80px rgba(194, 74, 30, 0.28);
+}
+
+.faq-card-left h1,
+.faq-card-right h2 {
+  margin: 0;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.faq-card-left h1 {
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: 1;
+}
+
+.faq-card-lead {
+  max-width: 420px;
+  margin: 14px 0 28px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.55;
+}
+
+.faq-card-lead a {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.faq-category-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.faq-category {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.faq-category-trigger {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  padding: 18px 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-category-trigger span {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: clamp(17px, 1.5vw, 20px);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.faq-category-trigger svg {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  transition: transform 220ms ease;
+}
+
+.faq-category.is-open > .faq-category-trigger svg {
+  transform: rotate(180deg);
+}
+
+.faq-category-panel {
+  display: none;
+  padding-bottom: 8px;
+}
+
+.faq-category.is-open > .faq-category-panel {
+  display: block;
+}
+
+.faq-accordion {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.faq-accordion li {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.faq-accordion > li > button {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  padding: 14px 0 14px 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-accordion > li > button span {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.faq-accordion > li > button svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  opacity: 0.85;
+  transition: transform 220ms ease;
+}
+
+.faq-accordion li.is-open > button svg {
+  transform: rotate(180deg);
+}
+
+.faq-accordion-panel {
+  display: none;
+  padding: 0 8px 14px;
+}
+
+.faq-accordion li.is-open > .faq-accordion-panel {
+  display: block;
+}
+
+.faq-accordion-panel > p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.faq-card-right h2 {
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.2;
+}
+
+.faq-card-right > p {
+  margin: 10px 0 28px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 15px;
+}
+
+.faq-contact-form {
+  display: grid;
+  gap: 14px;
+}
+
+.faq-contact-form input,
+.faq-contact-form textarea {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  padding: 14px 16px;
+  font: inherit;
+  outline: none;
+  transition: background 160ms ease;
+}
+
+.faq-contact-form input::placeholder,
+.faq-contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.faq-contact-form input:focus,
+.faq-contact-form textarea:focus {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.faq-contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.faq-contact-form button {
+  width: fit-content;
+  margin-top: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #5a3a2a;
+  padding: 14px 28px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    opacity 160ms ease;
+}
+
+.faq-contact-form button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.faq-contact-form button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.faq-form-status {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.faq-form-status.is-success {
+  color: #e8ffe8;
+}
+
+.faq-form-status.is-error {
+  color: #ffe4e0;
 }
 
 .policy-page {
@@ -4092,18 +4344,41 @@ img {
     flex-direction: column;
   }
 
+  .faq-shell {
+    width: min(100% - 24px, 1180px);
+    padding-top: 108px;
+  }
+
+  .faq-card {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    border-radius: 28px;
+    padding: 28px 22px;
+  }
+
+  .faq-contact-form button {
+    width: 100%;
+  }
+
   .mono-footer {
     padding: 44px 24px 24px;
   }
 
   .mono-footer .social-row {
-    gap: 18px;
-    justify-content: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
   }
 
   .mono-footer .social-row a {
-    width: 22px;
-    min-height: 22px;
+    width: 24px;
+    height: 24px;
+    min-height: 24px;
+  }
+
+  .mono-footer .social-row span,
+  .mono-footer .social-row img {
+    width: 20px;
+    height: 20px;
   }
 
   .footer-main {
@@ -4368,44 +4643,13 @@ img {
   }
 
   .feedback-stage {
-    display: grid;
-    gap: 28px;
-    min-height: 0;
-  }
-
-  .feedback-mascot,
-  .testimonial-track,
-  .testimonial-card,
-  .testimonial-card:nth-child(n) {
-    position: relative;
-    inset: auto;
-    transform: none;
-  }
-
-  .feedback-mascot {
-    width: min(210px, 58vw);
-    margin: 0 auto;
-  }
-
-  .testimonial-track {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    padding: 4px 0 12px;
-    scroll-snap-type: x mandatory;
-    animation: none;
+    min-height: 300px;
+    touch-action: none;
   }
 
   .testimonial-card,
   .testimonial-card:nth-child(n) {
-    width: 78vw;
-    min-width: 78vw;
-    animation: none;
-    scroll-snap-align: center;
-  }
-
-  .testimonial-track {
-    grid-template-columns: repeat(5, 78vw);
+    width: min(72vw, 230px);
   }
 
   .commitment-section {

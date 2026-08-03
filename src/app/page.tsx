@@ -4,6 +4,7 @@ import LoadingOverlay from "./loading-overlay";
 import NewsShowcase from "./news-showcase";
 import ScrollEffects from "./scroll-effects";
 import ServiceCarousel from "./service-carousel";
+import FeedbackCarousel from "./feedback-carousel";
 import { SiteFooter, SiteHeader } from "./site-chrome";
 import { foxNewsItems } from "@/components/b2b/home-data";
 
@@ -213,20 +214,7 @@ export default function Home() {
           <h2>Feedback</h2>
           <p>Đánh giá của khách hàng về Face Wash Fox trong thời gian vừa qua.</p>
         </div>
-        <div className="feedback-stage">
-          <div className="testimonial-track">
-            {testimonials.map((item) => (
-              <article className="testimonial-card" key={item.name}>
-                <div className="stars">★★★★★</div>
-                <p>{item.quote}</p>
-                <div className="testimonial-person">
-                  <img src={item.image} alt="" />
-                  <h3>{item.name}</h3>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+        <FeedbackCarousel testimonials={testimonials} />
       </section>
 
       <section className="commitment-section">

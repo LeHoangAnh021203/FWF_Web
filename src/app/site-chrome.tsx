@@ -216,7 +216,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const solidAtTopPages = ["/b2b", "/cua-hang", "/cookie-policy", "/dich-vu", "/tin-tuc"];
+  const solidAtTopPages = ["/b2b", "/cua-hang", "/cookie-policy", "/dich-vu", "/tin-tuc", "/faq"];
   const solidHeader =
     scrolled ||
     solidAtTopPages.includes(pathname) ||
