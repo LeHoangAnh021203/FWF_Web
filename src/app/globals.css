@@ -944,6 +944,12 @@ img {
   line-height: 0.92;
 }
 
+.store-stats article:first-child strong {
+  font-size: clamp(28px, 3.2vw, 40px);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
 .store-stats article > span {
   margin-bottom: 8px;
   color: var(--accent-strong);

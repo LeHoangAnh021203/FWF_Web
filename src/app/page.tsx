@@ -138,12 +138,11 @@ export default function Home() {
         <p className="store-kicker">Sự có mặt của chúng tôi</p>
         <div className="store-stats">
           <article>
-            <span>Công nghệ</span>
-            <strong>Đầu tiên</strong>
+            <span>Chuỗi cửa hàng rửa mặt</span>
+            <strong>Công nghệ cao</strong>
             <p>
-              Chuỗi cửa hàng rửa mặt công nghệ cao đầu tiên tại Việt Nam, chuyên
-              cung cấp các dịch vụ chăm sóc da mặt chuyên sâu kết hợp công nghệ
-              hiện đại
+              chuyên cung cấp các dịch vụ chăm sóc da mặt
+              chuyên sâu kết hợp công nghệ hiện đại
             </p>
           </article>
           <article>
@@ -234,7 +233,7 @@ export default function Home() {
         </div>
       </section>
 
-     
+
 
       <SiteFooter home />
     </main>
