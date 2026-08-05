@@ -35,14 +35,14 @@ const desktopNavItems = [
   { label: "FAQ", href: "/faq" },
 ] as const;
 
+const hotline = "0889866666";
+const displayHotline = "0889 866 666";
+
 const desktopMapItem = { label: "Fox Map", href: "/cua-hang" } as const;
 const desktopContactItem = {
   label: "Liên Hệ Ngay",
-  href: "#home-contact-info",
+  href: `tel:${hotline}`,
 } as const;
-
-const hotline = "0889866666";
-const displayHotline = "0889 866 666";
 
 const verticalNavItems = [
   { label: "Tin tức", href: "/#news", Icon: Bell },
@@ -274,7 +274,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
           </a>
           <a
             className="mono-header-pill mono-header-pill--cta"
-            href={resolveHomeAnchor(desktopContactItem.href, home)}
+            href={desktopContactItem.href}
           >
             {desktopContactItem.label}
           </a>
@@ -382,7 +382,7 @@ export function SiteFooter({ home = false }: { home?: boolean }) {
           ))}
         </div>
 
-        <address className="footer-contact">
+        <address id="home-contact-info" className="footer-contact">
           <h3>Liên hệ</h3>
           <a href={`tel:${hotline}`}>
             <Phone aria-hidden="true" />
