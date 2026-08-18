@@ -1,6 +1,23 @@
 import type { NextConfig } from "next";
 
+const STATIC_ASSET_CACHE_CONTROL =
+  "public, max-age=604800, stale-while-revalidate=2592000";
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      {
+        source:
+          "/:path*\\.(jpg|jpeg|png|webp|avif|gif|svg|ico|mp4|webm|woff|woff2|ttf|otf)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: STATIC_ASSET_CACHE_CONTROL,
+          },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
