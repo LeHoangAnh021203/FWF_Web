@@ -24,7 +24,9 @@ const navItems = [
   { label: "Giới thiệu", href: "#story", Icon: Users },
   { label: "Liên hệ", href: "#home-contact-info", Icon: Phone },
   { label: "Khuyến mãi", href: "#news", Icon: Gift },
+  { label: "News", href: "/#news", Icon: Bell },
   { label: "B2B", href: "/b2b", Icon: Users },
+  { label: "FAQ", href: "/faq", Icon: Bell },
 ] as const;
 
 const desktopNavItems = [
