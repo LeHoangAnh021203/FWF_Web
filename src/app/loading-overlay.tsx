@@ -20,8 +20,6 @@ export default function LoadingOverlay() {
       timeoutId = setTimeout(() => setIsVisible(false), remaining);
     };
 
-    document.body.classList.add("is-loading");
-
     if (document.readyState === "complete") {
       hide();
     } else {
@@ -32,15 +30,8 @@ export default function LoadingOverlay() {
       window.removeEventListener("load", hide);
       clearTimeout(timeoutId);
       clearTimeout(fallbackTimeoutId);
-      document.body.classList.remove("is-loading");
     };
   }, []);
-
-  useEffect(() => {
-    if (!isVisible) {
-      document.body.classList.remove("is-loading");
-    }
-  }, [isVisible]);
 
   if (!isVisible) {
     return null;

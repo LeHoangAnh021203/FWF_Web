@@ -44,7 +44,7 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
 
     const step = 360 / count;
     const isMobile = window.innerWidth <= 900;
-    const radius = isMobile ? 190 : 290;
+    const radius = isMobile ? 150 : 290;
     const yOffsets = [-10, 12, -6, 14, -12, 8];
     let closestIndex = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
@@ -190,7 +190,8 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
     const distance = event.clientX - dragLastXRef.current;
     dragLastXRef.current = event.clientX;
     dragTotalRef.current += Math.abs(distance);
-    setRotation(rotationRef.current + distance * 0.42);
+    const dragSensitivity = window.innerWidth <= 640 ? 0.72 : 0.42;
+    setRotation(rotationRef.current + distance * dragSensitivity);
   };
 
   const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
