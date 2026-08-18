@@ -56,26 +56,28 @@ export function WhyChooseSection() {
   return (
     <section
       id="services"
-      className="overflow-hidden bg-[linear-gradient(180deg,#fffdfa_0%,#fff4e8_52%,#ffffff_100%)] py-20 md:py-24"
+      className="overflow-x-hidden bg-[linear-gradient(180deg,#fffdfa_0%,#fff4e8_52%,#ffffff_100%)] py-16 md:py-24"
     >
-      <div className="mx-auto grid max-w-[1440px] gap-10 px-4 md:px-8 xl:grid-cols-[minmax(0,0.94fr)_460px] xl:items-start xl:gap-12">
-        <div className="max-w-[820px]">
+      <div className="mx-auto grid w-full max-w-[1440px] gap-10 px-4 md:px-8 xl:grid-cols-[minmax(0,0.94fr)_460px] xl:items-start xl:gap-12">
+        <div className="min-w-0 w-full max-w-[820px]">
           <div className="mb-8 max-w-2xl text-center lg:mb-10 lg:text-left">
             <p className="mb-3 text-sm font-bold uppercase text-orange-300 md:text-base">
               Khám phá
             </p>
-            <h2 className="text-2xl font-bold leading-tight text-orange-500 md:text-3xl lg:text-4xl">
-              Điều khiến Face Wash Fox trở thành <br className="hidden lg:block" /> lựa chọn của nhiều doanh nghiệp
+            <h2 className="text-balance text-2xl font-bold leading-tight text-orange-500 md:text-3xl lg:text-4xl">
+              Điều khiến Face Wash Fox trở thành{" "}
+              <br className="hidden lg:block" />
+              lựa chọn của nhiều doanh nghiệp
             </h2>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-5 lg:gap-y-5">
+          <div className="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 lg:gap-x-5 lg:gap-y-5">
             {industries.map((industry) => (
               <details
                 key={industry.name}
-                className={`group rounded-[26px] bg-[linear-gradient(180deg,rgba(255,244,233,0.96),rgba(255,236,214,0.94))] p-2.5 shadow-[0_18px_45px_-30px_rgba(234,88,12,0.28)] transition-all duration-300 open:bg-[linear-gradient(180deg,rgba(255,239,221,0.98),rgba(255,228,198,0.96))] open:shadow-[0_24px_55px_-28px_rgba(234,88,12,0.34)] ${industry.layoutClass}`}
+                className={`group w-full min-w-0 rounded-[26px] bg-[linear-gradient(180deg,rgba(255,244,233,0.96),rgba(255,236,214,0.94))] p-2.5 shadow-[0_18px_45px_-30px_rgba(234,88,12,0.28)] transition-all duration-300 open:bg-[linear-gradient(180deg,rgba(255,239,221,0.98),rgba(255,228,198,0.96))] open:shadow-[0_24px_55px_-28px_rgba(234,88,12,0.34)] ${industry.layoutClass}`}
               >
-                <summary className="flex min-h-[164px] cursor-pointer list-none flex-col justify-between rounded-[22px] border border-orange-100/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.65),rgba(255,247,239,0.38))] p-5 marker:hidden">
+                <summary className="flex min-h-[148px] cursor-pointer list-none flex-col justify-between rounded-[22px] border border-orange-100/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.65),rgba(255,247,239,0.38))] p-4 marker:hidden md:min-h-[164px] md:p-5 [&::-webkit-details-marker]:hidden">
                   <div className="flex items-start justify-between gap-4">
                     <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-[18px] bg-[linear-gradient(180deg,#ffbf69_0%,#ff9f1c_100%)] text-white shadow-[0_16px_35px_-20px_rgba(234,88,12,0.8)] [&_svg]:h-7 [&_svg]:w-7">
                       <div className="absolute inset-0 rounded-[18px] bg-white/10" />
@@ -87,7 +89,7 @@ export function WhyChooseSection() {
                       <ChevronDown className="h-4 w-4" />
                     </div>
                   </div>
-                  <h3 className="max-w-[18ch] text-lg font-bold leading-tight text-orange-950 md:text-[1.35rem]">
+                  <h3 className="mt-4 max-w-[18ch] text-left text-lg font-bold leading-tight text-orange-950 md:text-[1.35rem]">
                     {industry.name}
                   </h3>
                 </summary>
@@ -102,7 +104,7 @@ export function WhyChooseSection() {
           </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[460px]">
+        <div className="relative mx-auto w-full min-w-0 max-w-[460px]">
           <div className="absolute inset-x-10 top-8 h-32 rounded-full bg-[radial-gradient(circle,rgba(251,146,60,0.18),transparent_72%)] blur-3xl" />
           <div className="relative overflow-hidden rounded-[36px] border border-orange-100/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,247,239,0.72))] p-4 shadow-[0_35px_90px_-34px_rgba(234,88,12,0.28)] md:p-5">
             <div className="mb-5 flex items-center justify-between">
@@ -114,31 +116,30 @@ export function WhyChooseSection() {
                   Fox SWAT in action
                 </h3>
               </div>
-            
             </div>
 
-            <div className="relative h-[640px] overflow-hidden rounded-[28px] bg-[linear-gradient(180deg,#fff7ed_0%,#fff1e6_100%)] p-2">
-              
-
+            <div className="relative h-[555px] overflow-hidden rounded-[28px] bg-[linear-gradient(180deg,#fff7ed_0%,#fff1e6_100%)] p-2 md:h-[640px]">
               <div
                 className="flex h-full items-stretch gap-[18px]"
                 style={{
                   width: `${imageTrack.length * slideWidth + (imageTrack.length - 1) * slideGap}px`,
                   transform: `translateX(-${activeIndex * (slideWidth + slideGap)}px)`,
-                  transition: isAnimating ? "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)" : "none",
+                  transition: isAnimating
+                    ? "transform 700ms cubic-bezier(0.22, 1, 0.36, 1)"
+                    : "none",
                 }}
               >
                 {imageTrack.map((image, index) => (
                   <div
                     key={`${image}-${index}`}
-                    className="relative h-full w-[312px] shrink-0 overflow-hidden rounded-[24px] "
+                    className="relative h-full w-[312px] shrink-0 overflow-hidden rounded-[24px]"
                   >
                     <Image
                       src={image}
                       alt={`Face Wash Fox showcase ${index + 1}`}
                       fill
                       sizes="312px"
-                      className="object-cover"
+                      className="object-contain md:object-cover"
                     />
                   </div>
                 ))}

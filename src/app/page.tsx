@@ -5,6 +5,7 @@ import NewsShowcase from "./news-showcase";
 import ScrollEffects from "./scroll-effects";
 import ServiceCarousel from "./service-carousel";
 import FeedbackCarousel from "./feedback-carousel";
+import CityTimeline from "./city-timeline";
 import { SiteFooter, SiteHeader } from "./site-chrome";
 import { foxNewsItems } from "@/components/b2b/home-data";
 
@@ -79,6 +80,45 @@ const testimonials = [
     image: "/PR/pr2/pr2_2.JPG",
   },
 ];
+
+const presenceCities = [
+  {
+    name: "Hà Nội",
+    text: "Hệ thống cửa hàng Face Wash Fox phủ rộng thủ đô với nhiều chi nhánh tiện lợi, mang trải nghiệm rửa mặt công nghệ cao đến gần khách hàng hơn.",
+    image: "/branch/AEON MALL HÀ ĐÔNG/MT1b.jpg",
+    imageAlt: "Chi nhánh Face Wash Fox AEON Mall Hà Đông",
+  },
+  {
+    name: "Hải Phòng",
+    text: "Mở rộng mạnh tại thành phố cảng, mang dịch vụ rửa mặt công nghệ cao và không gian trải nghiệm thân thiện đến người dân địa phương.",
+    image: "/branch/AEON MALL HÀ ĐÔNG/S6.jpg",
+    imageAlt: "Không gian Face Wash Fox tại AEON Mall Hà Đông",
+  },
+  {
+    name: "Đà Nẵng",
+    text: "Điểm đến rửa mặt công nghệ tại miền Trung, giúp khách hàng trải nghiệm liệu trình chuyên sâu với tiêu chuẩn đồng nhất toàn hệ thống.",
+    image: "/branch/Lotte Liễu Giai/V4.jpg",
+    imageAlt: "Không gian Face Wash Fox Lotte Liễu Giai",
+  },
+  {
+    name: "Nha Trang",
+    text: "Phục vụ khách địa phương và du khách với liệu trình làm sạch sâu, phù hợp khí hậu biển và nhịp sống năng động của thành phố.",
+    image: "/branch/Lotte Liễu Giai/V8.jpg",
+    imageAlt: "Nội thất Face Wash Fox Lotte Liễu Giai",
+  },
+  {
+    name: "TP Hồ Chí Minh",
+    text: "Thành phố có mật độ cửa hàng dày đặc nhất, phủ từ trung tâm đến các khu đô thị mới để khách dễ dàng đặt lịch và chăm sóc da.",
+    image: "/Fox Swat/S7B.jpg",
+    imageAlt: "Không gian Face Wash Fox tại TP Hồ Chí Minh",
+  },
+  {
+    name: "Vũng Tàu",
+    text: "Chi nhánh gần biển giúp khách thư giãn và chăm sóc da nhanh chóng với công nghệ hiện đại, giá minh bạch theo tiêu chuẩn Face Wash Fox.",
+    image: "/branch/AEON MALL HÀ ĐÔNG/S5B.jpg",
+    imageAlt: "Không gian Face Wash Fox AEON Mall Hà Đông",
+  },
+] as const;
 
 const commitments = [
   {
@@ -160,12 +200,7 @@ export default function Home() {
             <p>Chi nhánh trên toàn quốc</p>
           </article>
         </div>
-        <div className="store-location-copy">
-          <p>
-            Hà Nội, TP Hồ Chí Minh, Đà Nẵng, Hải Phòng, Nha Trang và Vũng Tàu
-          </p>
-          <a href="/cua-hang">Tìm cửa hàng</a>
-        </div>
+        <CityTimeline cities={presenceCities} />
       </section>
 
       <section id="our-picks" className="models-section">

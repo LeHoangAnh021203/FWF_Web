@@ -7,7 +7,7 @@ export default function ScrollEffects() {
     const revealItems = Array.from(
       document.querySelectorAll<HTMLElement>(
         [
-          ".store-section",
+          ".store-kicker",
           ".store-stats article",
           ".section-heading",
           ".service-carousel",

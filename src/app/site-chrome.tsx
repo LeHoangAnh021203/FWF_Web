@@ -19,12 +19,12 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { label: "Cửa hàng", href: "/cua-hang", Icon: Store, mobileColumn: 0 },
-  { label: "Dịch vụ", href: "/dich-vu", Icon: Sparkles, mobileColumn: 0 },
-  { label: "Giới thiệu", href: "#story", Icon: Users, mobileColumn: 0 },
-  { label: "Liên hệ", href: "#home-contact-info", Icon: Phone, mobileColumn: 1 },
-  { label: "Khuyến mãi", href: "#news", Icon: Gift, mobileColumn: 1 },
-  { label: "B2B", href: "/b2b", Icon: Users, mobileColumn: 1 },
+  { label: "Cửa hàng", href: "/cua-hang", Icon: Store },
+  { label: "Dịch vụ", href: "/dich-vu", Icon: Sparkles },
+  { label: "Giới thiệu", href: "#story", Icon: Users },
+  { label: "Liên hệ", href: "#home-contact-info", Icon: Phone },
+  { label: "Khuyến mãi", href: "#news", Icon: Gift },
+  { label: "B2B", href: "/b2b", Icon: Users },
 ] as const;
 
 const desktopNavItems = [
@@ -221,10 +221,6 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     scrolled ||
     solidAtTopPages.includes(pathname) ||
     pathname.startsWith("/tin-tuc");
-  const mobileColumns = [0, 1].map((column) =>
-    navItems.filter((item) => item.mobileColumn === column),
-  );
-
   useEffect(() => {
     const updateScrolled = () => setScrolled(window.scrollY > 24);
     updateScrolled();
@@ -307,44 +303,36 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
           </div>
 
           <div className="mono-mobile-menu-body">
-            <div>
-              <div className="mono-mobile-kicker">
-                <span>Face Wash Fox</span>
-                <span aria-hidden="true">↓</span>
-              </div>
-              <div className="mono-mobile-language">
+            <div className="mono-mobile-main">
+              <div className="mono-mobile-language" aria-label="Ngôn ngữ">
                 <span className="is-active">VI</span>
                 <span>EN</span>
               </div>
-              <div className="mono-mobile-link-grid">
-                {mobileColumns.map((column, index) => (
-                  <nav key={index} aria-label={`Mobile navigation ${index + 1}`}>
-                    {column.map(({ label, href }) => (
-                      <a
-                        key={label}
-                        href={resolveHomeAnchor(href, home)}
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        {label}
-                      </a>
-                    ))}
-                  </nav>
+              <nav className="mono-mobile-links" aria-label="Menu điều hướng">
+                {navItems.map(({ label, href }) => (
+                  <a
+                    key={label}
+                    href={resolveHomeAnchor(href, home)}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {label}
+                  </a>
                 ))}
-              </div>
+              </nav>
             </div>
 
             <aside className="mono-mobile-aside">
               <a href={`tel:${hotline}`} onClick={() => setMenuOpen(false)}>
                 <Phone aria-hidden="true" />
-                {displayHotline}
+                <span>{displayHotline}</span>
               </a>
               <a href="mailto:info@facewashfox.com" onClick={() => setMenuOpen(false)}>
                 <Mail aria-hidden="true" />
-                info@facewashfox.com
+                <span>info@facewashfox.com</span>
               </a>
               <a href="/cua-hang" onClick={() => setMenuOpen(false)}>
                 <MapPin aria-hidden="true" />
-                Tìm cửa hàng gần bạn
+                <span>Tìm cửa hàng gần bạn</span>
               </a>
               <SocialLinks />
             </aside>

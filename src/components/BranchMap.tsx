@@ -1555,32 +1555,18 @@ export default function BranchMap() {
         generateBranchSlug={generateBranchSlug}
       />
 
-      <div className="flex-1 relative min-w-0 overflow-hidden">
+      <div className="flex-1 relative min-w-0 overflow-hidden branch-map-stage">
         {!showSidebar && (
-          <div className="absolute top-2 left-2 md:top-4 md:left-4 z-[1000] flex items-center justify-center gap-1 ">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setShowSidebar(true)}
-              className="bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-xl hover:shadow-2xl h-8 w-8 md:h-10 md:w-10 rounded-full transition-all duration-300 hover:-translate-y-0.5 hover:scale-110 active:scale-95 border-white/30  btn-ripple menu-btn menu-glow"
-              title="Mở danh sách chi nhánh"
-            >
-              <Menu className="h-4 w-4 menu-icon" />
-            </Button>
-            <div className="block rounded-full bg-white/90 text-orange-600 px-2 py-0.5 shadow-md border border-orange-200/50 marquee hint-shimmer pointer-events-none max-w-[150px] sm:max-w-[220px] text-[11px]">
-              <div className="marquee__track">
-                <span className="marquee__item hint-glow">
-                  Bấm vào để xem tất cả chi nhánh
-                </span>
-                <span className="marquee__item hint-glow">
-                  Bấm vào để xem tất cả chi nhánh
-                </span>
-                <span className="marquee__item hint-glow">
-                  Bấm vào để xem tất cả chi nhánh
-                </span>
-              </div>
-            </div>
-          </div>
+          <button
+            type="button"
+            onClick={() => setShowSidebar(true)}
+            className="branch-map-open-list"
+            title="Mở danh sách chi nhánh"
+            aria-label="Mở danh sách chi nhánh"
+          >
+            <Menu className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span>Chi nhánh</span>
+          </button>
         )}
 
         <div
@@ -1664,49 +1650,51 @@ export default function BranchMap() {
           }}
         />
 
-        {/* Branch count display */}
-        <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4 z-[1000] bg-gradient-to-r from-orange-500 to-red-600 text-white px-3 py-2 md:px-6 md:py-4 rounded-lg md:rounded-xl shadow-2xl backdrop-blur-sm border border-white/20">
-          <div className="flex items-center gap-2 md:gap-3">
-            <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full animate-pulse"></div>
-            <span className="text-xs md:text-sm font-semibold">
-              Hiển thị {filteredBranches.length} / {branches.length} chi nhánh
+        <div className="branch-map-count">
+          <div className="flex items-center gap-2">
+            <span className="branch-map-count-dot" aria-hidden="true" />
+            <span className="branch-map-count-text">
+              <span className="branch-map-count-text--short">
+                {filteredBranches.length}/{branches.length} chi nhánh
+              </span>
+              <span className="branch-map-count-text--full">
+                Hiển thị {filteredBranches.length} / {branches.length} chi nhánh
+              </span>
             </span>
           </div>
           {selectedCity !== "Tất cả" && (
-            <div className="text-xs opacity-90 mt-1 md:mt-2 bg-white/20 px-1 py-0.5 md:px-2 md:py-1 rounded text-xs">
-              📍 Đang lọc theo: {selectedCity}
-            </div>
+            <div className="branch-map-count-meta">📍 {selectedCity}</div>
           )}
           {searchTerm && (
-            <div className="text-xs opacity-90 mt-1 md:mt-2 bg-white/20 px-1 py-0.5 md:px-2 md:py-1 rounded text-xs">
-              🔍 Tìm kiếm: &ldquo;{searchTerm}&rdquo;
+            <div className="branch-map-count-meta">
+              🔍 &ldquo;{searchTerm}&rdquo;
             </div>
           )}
         </div>
 
-        <div className="absolute bottom-28 right-[10px] md:bottom-32 z-[1000] flex flex-col gap-2 md:gap-3">
+        <div className="branch-map-tools">
           <Button
             variant="outline"
             size="icon"
             onClick={getMyLocation}
             disabled={isLoadingLocation}
-            className="bg-white/95 backdrop-blur-md shadow-xl hover:shadow-2xl disabled:opacity-50 border-white/30 hover:scale-105 transition-all duration-200 h-[34px] w-[34px]"
+            className="branch-map-tool-btn"
             title={isLoadingLocation ? "Đang tải vị trí..." : "Vị trí của tôi"}
           >
             {isLoadingLocation ? (
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+              <div className="animate-spin rounded-full h-3.5 w-3.5 border-b-2 border-orange-600"></div>
             ) : (
-              <Navigation className="h-5 w-5" />
+              <Navigation className="h-4 w-4" />
             )}
           </Button>
           <Button
             variant="outline"
             size="icon"
             onClick={resetView}
-            className="bg-white/95 backdrop-blur-md shadow-xl hover:shadow-2xl border-white/30 hover:scale-105 transition-all duration-200 h-[34px] w-[34px]"
+            className="branch-map-tool-btn"
             title="Reset view"
           >
-            <RotateCcw className="h-5 w-5" />
+            <RotateCcw className="h-4 w-4" />
           </Button>
         </div>
 
