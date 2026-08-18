@@ -111,14 +111,15 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   text-size-adjust: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overflow-y: auto;
 }
 
 body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  overflow-x: hidden;
+  overflow-x: clip;
   font-family: var(--font-poppins), "SVN Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 400;
@@ -194,7 +195,7 @@ img {
 .mono-page {
   min-height: 100vh;
   background: var(--background);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .loading-overlay {
