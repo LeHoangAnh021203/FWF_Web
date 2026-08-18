@@ -47,8 +47,10 @@ export default function CityTimeline({ cities }: { cities: readonly City[] }) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+    let pathDrawFrame: number | null = null;
 
     const updatePathDraw = () => {
+      pathDrawFrame = null;
       const rect = root.getBoundingClientRect();
       const viewHeight = window.innerHeight || 1;
       const start = viewHeight * 0.88;
@@ -59,6 +61,11 @@ export default function CityTimeline({ cities }: { cities: readonly City[] }) {
       );
       const eased = 1 - Math.pow(1 - progress, 1.55);
       root.style.setProperty("--timeline-draw", `${(eased * 100).toFixed(2)}%`);
+    };
+
+    const schedulePathDraw = () => {
+      if (pathDrawFrame !== null) return;
+      pathDrawFrame = requestAnimationFrame(updatePathDraw);
     };
 
     const updateCurve = () => {
@@ -132,7 +139,7 @@ export default function CityTimeline({ cities }: { cities: readonly City[] }) {
     const delayed = window.setTimeout(updateCurve, 160);
     updatePathDraw();
 
-    window.addEventListener("scroll", updatePathDraw, { passive: true });
+    window.addEventListener("scroll", schedulePathDraw, { passive: true });
     window.addEventListener("resize", updateCurve);
 
     const resizeObserver = new ResizeObserver(() => {
@@ -143,9 +150,12 @@ export default function CityTimeline({ cities }: { cities: readonly City[] }) {
     return () => {
       cancelAnimationFrame(frame);
       window.clearTimeout(delayed);
+      if (pathDrawFrame !== null) {
+        cancelAnimationFrame(pathDrawFrame);
+      }
       itemObserver.disconnect();
       resizeObserver.disconnect();
-      window.removeEventListener("scroll", updatePathDraw);
+      window.removeEventListener("scroll", schedulePathDraw);
       window.removeEventListener("resize", updateCurve);
     };
   }, [cities]);

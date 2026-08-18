@@ -27,6 +27,7 @@ const SOCIAL_CHANNELS: Array<{ label: string; href: string }> = [
 export default function ServiceCarousel({ services }: ServiceCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const rotationRef = useRef(0);
   const activeIndexRef = useRef(0);
@@ -38,10 +39,13 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
   const lastTimeRef = useRef<number | null>(null);
 
   const renderCarousel = useCallback(() => {
-    const step = 360 / services.length;
-    const isMobile = window.innerWidth <= 640;
-    const radius = isMobile ? 165 : 250;
-    const zDepth = isMobile ? 70 : 110;
+    const count = services.length;
+    if (!count) return;
+
+    const step = 360 / count;
+    const isMobile = window.innerWidth <= 900;
+    const radius = isMobile ? 190 : 290;
+    const yOffsets = [-10, 12, -6, 14, -12, 8];
     let closestIndex = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
 
@@ -53,16 +57,15 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
       const distance = Math.abs(angle);
       const radians = (angle * Math.PI) / 180;
       const frontness = (Math.cos(radians) + 1) / 2;
-      const x = Math.sin(radians) * radius;
-      const z = Math.cos(radians) * zDepth;
-      const rotateY = Math.max(-34, Math.min(34, -angle * 0.38));
-      const scale = 0.74 + frontness * 0.28;
-      const opacity = distance > 126 ? 0.06 : 0.18 + frontness * 0.82;
-      const blur = distance > 126 ? 8 : (1 - frontness) * 5;
+      const y = yOffsets[index % yOffsets.length];
+      const scale = 0.82 + frontness * 0.2;
+      const opacity = distance > 142 ? 0.08 : 0.24 + frontness * 0.76;
+      const blur = distance > 142 ? 6 : (1 - frontness) * 3.5;
 
-      card.style.setProperty("--service-x", `${x}px`);
-      card.style.setProperty("--service-z", `${z}px`);
-      card.style.setProperty("--service-rotate", `${rotateY}deg`);
+      card.style.setProperty("--service-angle", `${rawAngle}deg`);
+      card.style.setProperty("--service-counter-angle", `${-rawAngle}deg`);
+      card.style.setProperty("--service-radius", `${radius}px`);
+      card.style.setProperty("--service-y", `${y}px`);
       card.style.setProperty("--service-scale", String(scale));
       card.style.setProperty("--service-hover-scale", String(scale + 0.04));
       card.style.setProperty("--service-opacity", String(opacity));
@@ -91,6 +94,14 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
   };
 
   useEffect(() => {
+    const stopLoop = () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+      lastTimeRef.current = null;
+    };
+
     const tick = (time: number) => {
       if (lastTimeRef.current === null) {
         lastTimeRef.current = time;
@@ -106,13 +117,36 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
       frameRef.current = requestAnimationFrame(tick);
     };
 
+    const startLoop = () => {
+      if (frameRef.current !== null) return;
+      frameRef.current = requestAnimationFrame(tick);
+    };
+
+    const onResize = () => renderCarousel();
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          renderCarousel();
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { rootMargin: "180px 0px", threshold: 0.01 },
+    );
+
     renderCarousel();
-    frameRef.current = requestAnimationFrame(tick);
+    if (carouselRef.current) {
+      visibilityObserver.observe(carouselRef.current);
+    } else {
+      startLoop();
+    }
+    window.addEventListener("resize", onResize);
 
     return () => {
-      if (frameRef.current !== null) {
-        cancelAnimationFrame(frameRef.current);
-      }
+      stopLoop();
+      visibilityObserver.disconnect();
+      window.removeEventListener("resize", onResize);
     };
   }, [renderCarousel, setRotation]);
 
@@ -143,9 +177,6 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
 
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     if (selectedService) return;
-    if (event.target instanceof Element && event.target.closest(".service-carousel-card")) {
-      return;
-    }
 
     isDraggingRef.current = true;
     dragLastXRef.current = event.clientX;
@@ -189,6 +220,7 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
 
   return (
     <div
+      ref={carouselRef}
       className={selectedService ? "service-carousel has-modal" : "service-carousel"}
       onPointerCancel={() => {
         isDraggingRef.current = false;

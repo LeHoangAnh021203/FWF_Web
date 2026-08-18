@@ -75,6 +75,14 @@ export default function FeedbackCarousel({ testimonials }: FeedbackCarouselProps
   );
 
   useEffect(() => {
+    const stopLoop = () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+      lastTimeRef.current = null;
+    };
+
     const tick = (time: number) => {
       if (lastTimeRef.current === null) {
         lastTimeRef.current = time;
@@ -90,16 +98,35 @@ export default function FeedbackCarousel({ testimonials }: FeedbackCarouselProps
       frameRef.current = requestAnimationFrame(tick);
     };
 
+    const startLoop = () => {
+      if (frameRef.current !== null) return;
+      frameRef.current = requestAnimationFrame(tick);
+    };
+
     const onResize = () => renderCarousel();
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          renderCarousel();
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { rootMargin: "180px 0px", threshold: 0.01 },
+    );
 
     renderCarousel();
-    frameRef.current = requestAnimationFrame(tick);
+    if (stageRef.current) {
+      visibilityObserver.observe(stageRef.current);
+    } else {
+      startLoop();
+    }
     window.addEventListener("resize", onResize);
 
     return () => {
-      if (frameRef.current !== null) {
-        cancelAnimationFrame(frameRef.current);
-      }
+      stopLoop();
+      visibilityObserver.disconnect();
       window.removeEventListener("resize", onResize);
     };
   }, [renderCarousel, setRotation]);

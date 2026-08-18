@@ -2286,6 +2286,12 @@ img {
 }
 
 .service-carousel-card {
+  --service-angle: 0deg;
+  --service-counter-angle: 0deg;
+  --service-y: 0px;
+  --service-radius: 290px;
+  --service-opacity: 1;
+  --service-scale: 1;
   position: absolute;
   top: 48%;
   left: 50%;
@@ -2305,10 +2311,12 @@ img {
   text-align: center;
   transform:
     translate(-50%, -50%)
-    translateX(var(--service-x, 0))
-    translateZ(var(--service-z, 0))
-    rotateY(var(--service-rotate, 0deg))
+    translateY(var(--service-y))
+    rotateY(var(--service-angle))
+    translateZ(var(--service-radius))
+    rotateY(var(--service-counter-angle))
     scale(var(--service-scale, 1));
+  transform-origin: center;
   transform-style: preserve-3d;
   transition:
     opacity 360ms ease,
@@ -2337,9 +2345,10 @@ img {
   opacity: 1;
   transform:
     translate(-50%, -50%)
-    translateX(var(--service-x, 0))
-    translateZ(var(--service-z, 0))
-    rotateY(var(--service-rotate, 0deg))
+    translateY(var(--service-y))
+    rotateY(var(--service-angle))
+    translateZ(var(--service-radius))
+    rotateY(var(--service-counter-angle))
     scale(var(--service-hover-scale, 1.04));
   box-shadow:
     0 0 44px rgba(255, 255, 255, 0.78),

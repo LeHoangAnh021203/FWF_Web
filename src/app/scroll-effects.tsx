@@ -93,19 +93,30 @@ export default function ScrollEffects() {
 
     statNumbers.forEach((item) => statObserver.observe(item));
 
+    let scrollFrame: number | null = null;
+
     const updateScrollState = () => {
+      scrollFrame = null;
       const progress = Math.min(window.scrollY / window.innerHeight, 1);
       document.documentElement.style.setProperty("--hero-progress", String(progress));
       document.body.classList.toggle("has-scrolled", window.scrollY > 24);
     };
 
+    const scheduleScrollState = () => {
+      if (scrollFrame !== null) return;
+      scrollFrame = requestAnimationFrame(updateScrollState);
+    };
+
     updateScrollState();
-    window.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("scroll", scheduleScrollState, { passive: true });
 
     return () => {
       observer.disconnect();
       statObserver.disconnect();
-      window.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("scroll", scheduleScrollState);
+      if (scrollFrame !== null) {
+        cancelAnimationFrame(scrollFrame);
+      }
       document.documentElement.style.removeProperty("--hero-progress");
       document.body.classList.remove("has-scrolled");
     };
