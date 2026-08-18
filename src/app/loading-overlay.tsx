@@ -13,6 +13,7 @@ export default function LoadingOverlay() {
   useEffect(() => {
     const startedAt = Date.now();
     let timeoutId: ReturnType<typeof setTimeout>;
+    const fallbackTimeoutId = setTimeout(() => setIsVisible(false), 2600);
 
     const hide = () => {
       const remaining = Math.max(0, 2200 - (Date.now() - startedAt));
@@ -30,6 +31,7 @@ export default function LoadingOverlay() {
     return () => {
       window.removeEventListener("load", hide);
       clearTimeout(timeoutId);
+      clearTimeout(fallbackTimeoutId);
       document.body.classList.remove("is-loading");
     };
   }, []);
