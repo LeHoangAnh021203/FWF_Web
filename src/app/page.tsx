@@ -175,7 +175,7 @@ export default function Home() {
       </section>
 
       <section className="store-section">
-        <p className="store-kicker">Sự có mặt của chúng tôi</p>
+        <h2 className="store-title">Sự có mặt của chúng tôi</h2>
         <div className="store-stats">
           <article>
             <span>Chuỗi cửa hàng rửa mặt</span>
