@@ -116,25 +116,24 @@ const footerColumns: Array<[string, Array<[string, string]>]> = [
   [
     "Tổng quan",
     [
-      ["Trang chủ", "#hero"],
-      ["Về chúng tôi", "/ve-chung-toi/"],
-      ["Liên hệ", "/lien-he/"],
+      ["Trang chủ", "/#hero"],
+      ["Về chúng tôi", "/#story"],
+      ["Liên hệ", "/#home-contact-info"],
     ],
   ],
   [
     "Liên kết",
     [
-      ["Dịch vụ", "/dich-vu/"],
-      ["Tin tức", "/tin-tuc/"],
-      ["Cửa hàng", "/cua-hang/"],
+      ["Dịch vụ", "/dich-vu"],
+      ["Tin tức", "/#news"],
+      ["Cửa hàng", "/cua-hang"],
     ],
   ],
   [
     "Chính sách & Điều khoản",
     [
-      ["FAQ", "/faq/"],
-      ["Điều khoản & Điều kiện", "https://facewashfox.com/dieu-khoan-dieu-kien/"],
-      ["Tìm cửa hàng", "/cua-hang/"],
+      ["FAQ", "/faq"],
+      ["Điều khoản & Điều kiện", "/dieu-khoan-dieu-kien"],
     ],
   ],
 ];
