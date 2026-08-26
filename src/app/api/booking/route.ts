@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server"
 import nodemailer from "nodemailer"
 
+import {
+  appendWebBookingRow,
+  isGoogleSheetsApiConfigured,
+} from "@/lib/google-sheets"
+
 export const runtime = "nodejs"
 
 const FAQ_NOTIFY_EMAIL = "foxie@facewashfox.com"
@@ -89,6 +94,7 @@ function escapeHtml(value: string) {
 
 export async function POST(request: Request) {
   const bookingScriptUrl = process.env.BOOKING_APPS_SCRIPT_URL
+  const sheetsApiReady = isGoogleSheetsApiConfigured()
 
   let payload: BookingPayload
 
@@ -130,7 +136,7 @@ export async function POST(request: Request) {
     }
   }
 
-  if (!bookingScriptUrl) {
+  if (!sheetsApiReady && !bookingScriptUrl) {
     if (isQuote && emailResult?.sent) {
       return NextResponse.json({
         ok: true,
@@ -144,13 +150,57 @@ export async function POST(request: Request) {
       {
         error: isQuote
           ? emailResult?.error || "Không gửi được email. Vui lòng thử lại."
-          : "BOOKING_APPS_SCRIPT_URL is not configured.",
+          : "Chưa cấu hình Google Sheets API hoặc BOOKING_APPS_SCRIPT_URL.",
       },
       { status: 500 },
     )
   }
 
   try {
+    // Prefer Sheets API (faster). Fall back to Apps Script if needed.
+    if (sheetsApiReady) {
+      const sheetsResult = await appendWebBookingRow({ fullName, phone })
+      if (sheetsResult.ok) {
+        if (isQuote && !emailResult?.sent) {
+          return NextResponse.json(
+            {
+              error:
+                emailResult?.error || "Không gửi được email tới bộ phận hỗ trợ.",
+            },
+            { status: 502 },
+          )
+        }
+
+        return NextResponse.json({
+          ok: true,
+          success: true,
+          via: "sheets-api",
+          tab: sheetsResult.tab,
+          updatedRange: sheetsResult.updatedRange,
+          emailSent: Boolean(emailResult?.sent),
+          emailTo: emailResult?.to,
+        })
+      }
+
+      console.error("Sheets API append failed:", sheetsResult.error)
+      if (!bookingScriptUrl) {
+        if (isQuote && emailResult?.sent) {
+          return NextResponse.json({
+            ok: true,
+            success: true,
+            emailSent: true,
+            emailTo: emailResult.to,
+            sheetSaved: false,
+          })
+        }
+
+        return NextResponse.json(
+          { error: sheetsResult.error || "Không ghi được Google Sheet." },
+          { status: 502 },
+        )
+      }
+    }
+
     const sheetPayload = {
       requestType: isQuote ? "quote" : "booking",
       fullName,
@@ -168,9 +218,8 @@ export async function POST(request: Request) {
           : "",
     }
 
-    // Apps Script Web App: POST often 302s; following as POST can return HTML/405
-    // even after doPost already saved the row. Handle redirect manually.
-    const appsScriptResponse = await fetch(bookingScriptUrl, {
+    // Apps Script Web App: POST often 302s after doPost already saved.
+    const appsScriptResponse = await fetch(bookingScriptUrl!, {
       method: "POST",
       headers: {
         "Content-Type": "text/plain;charset=utf-8",
@@ -180,22 +229,11 @@ export async function POST(request: Request) {
       cache: "no-store",
     })
 
-    let responseText = await appsScriptResponse.text()
-    let status = appsScriptResponse.status
+    const status = appsScriptResponse.status
     const redirectedAfterPost = status >= 300 && status < 400
-
-    if (redirectedAfterPost) {
-      const location = appsScriptResponse.headers.get("location")
-      if (location) {
-        const redirected = await fetch(location, {
-          method: "GET",
-          redirect: "follow",
-          cache: "no-store",
-        })
-        responseText = await redirected.text()
-        status = redirected.status
-      }
-    }
+    const responseText = redirectedAfterPost
+      ? ""
+      : await appsScriptResponse.text()
 
     const parsed = parseAppsScriptJson(responseText)
     const explicitFail = Boolean(
@@ -204,7 +242,6 @@ export async function POST(request: Request) {
     const explicitOk = Boolean(
       parsed && (parsed.ok === true || parsed.success === true),
     )
-    // Google often 302 after doPost already wrote the row; follow can be HTML/405.
     const sheetSaved =
       explicitOk ||
       redirectedAfterPost ||
@@ -245,11 +282,13 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       success: true,
+      via: "apps-script",
       ...(parsed ?? {}),
       emailSent: Boolean(emailResult?.sent),
       emailTo: emailResult?.to,
     })
-  } catch {
+  } catch (error) {
+    console.error("Booking sheet write failed:", error)
     if (isQuote && emailResult?.sent) {
       return NextResponse.json({
         ok: true,
@@ -260,7 +299,15 @@ export async function POST(request: Request) {
       })
     }
 
-    return NextResponse.json({ error: "Failed to reach Apps Script." }, { status: 502 })
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to write booking to Google Sheet.",
+      },
+      { status: 502 },
+    )
   }
 }
 
