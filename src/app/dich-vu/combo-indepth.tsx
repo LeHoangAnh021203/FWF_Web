@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useLanguage } from "@/i18n/language-context";
 import useSharedCart from "./hooks/use-shared-cart";
 
 type ComboIndepthItem = {
   serviceId: string;
   image: string;
-  title: string;
-  subtitle: string;
+  titleKey: string;
+  subKey: string;
   foxiePrice: number;
   listedPrice: number;
   oldPrice: number;
@@ -19,8 +20,8 @@ const comboIndepthItems: ComboIndepthItem[] = [
   {
     serviceId: "deep-1",
     image: "/Intensive/MS Bri.png",
-    title: "MS brightening",
-    subtitle: "Brightening Mesotherapy",
+    titleKey: "svc.comboDeep.i1.title",
+    subKey: "svc.comboDeep.i1.sub",
     foxiePrice: 999000,
     listedPrice: 1490000,
     oldPrice: 2990000,
@@ -29,54 +30,18 @@ const comboIndepthItems: ComboIndepthItem[] = [
   {
     serviceId: "deep-2",
     image: "/Intensive/MS PDRN.png",
-    title: "MS PDRN",
-    subtitle: "PDRN Mesotherapy",
+    titleKey: "svc.comboDeep.i2.title",
+    subKey: "svc.comboDeep.i2.sub",
     foxiePrice: 999000,
     listedPrice: 1490000,
     oldPrice: 2990000,
   },
-  // {
-  //   serviceId: "deep-3",
-  //   image: "/Intensive/Peel da.png",
-  //   title: "Peel da dịu nhẹ",
-  //   subtitle: "Lumi Peel PRO",
-  //   foxiePrice: 2290000,
-  //   listedPrice: 2990000,
-  //   oldPrice: 5490000,
-  // },
-  // {
-  //   serviceId: "deep-4",
-  //   image: "/Intensive/ADAPT BANNER-17.png",
-  //   title: "Vi điểm dưỡng sáng Glow Calming PRO",
-  //   subtitle: "Glow Calming Therapy PRO",
-  //   foxiePrice: 2290000,
-  //   listedPrice: 2990000,
-  //   oldPrice: 4990000,
-  // },
-  // {
-  //   serviceId: "deep-5",
-  //   image: "/Intensive/Vi diêm PDRN.png",
-  //   title: "Vi điểm phục hồi PDRN Concentrate",
-  //   subtitle: "PDRN Concentrate Revitalize PRO",
-  //   foxiePrice: 2290000,
-  //   listedPrice: 2990000,
-  //   oldPrice: 5990000,
-  //   liked: true,
-  // },
-  // {
-  //   serviceId: "deep-6",
-  //   image: "/Intensive/ADAPT BANNER-10.png",
-  //   title: "Vi điểm nâng cao Hyal Power Boost PRO",
-  //   subtitle: "Hyal Power Boost PRO",
-  //   foxiePrice: 999000,
-  //   listedPrice: 1590000,
-  //   oldPrice: 2749000,
-  // },
 ];
 
 const formatPrice = (value: number) => `${value.toLocaleString("en-US")}đ`;
 
 export default function ComboIndepth() {
+  const { t } = useLanguage();
   const { addItem } = useSharedCart();
   const [selectedItem, setSelectedItem] = useState<ComboIndepthItem | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -96,7 +61,7 @@ export default function ComboIndepth() {
 
     addItem({
       id: `service-${selectedItem.serviceId}`,
-      name: selectedItem.title,
+      name: t(selectedItem.titleKey),
       price: selectedItem.foxiePrice,
       quantity,
       type: "service",
@@ -110,23 +75,23 @@ export default function ComboIndepth() {
       <div className="mx-auto w-full max-w-[1320px]">
         <div className="mb-4 flex flex-col gap-1 text-white sm:mb-6 sm:flex-row sm:items-end sm:gap-3">
           <h2 className="text-[clamp(1.75rem,7vw,3rem)] font-extrabold uppercase leading-none md:text-5xl">
-            Combo chuyên sâu
+            {t("svc.comboDeep.title")}
           </h2>
           <p className="text-[clamp(1.1rem,4.5vw,1.75rem)] font-medium md:pb-1 md:text-4xl">
-            Intensive packages
+            {t("svc.comboDeep.subtitle")}
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {comboIndepthItems.map((item, index) => (
             <article
-              key={`${item.title}-${index}`}
+              key={`${item.titleKey}-${index}`}
               className="group overflow-hidden rounded-[22px] bg-white p-1 shadow-[0_8px_20px_rgba(0,0,0,0.12)] md:rounded-[24px]"
             >
               <div className="relative aspect-square overflow-hidden rounded-[18px] bg-[#f5f5f5]">
                 <Image
                   src={item.image}
-                  alt={item.title}
+                  alt={t(item.titleKey)}
                   fill
                   sizes="(max-width: 1024px) 100vw, 33vw"
                   className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
@@ -140,7 +105,7 @@ export default function ComboIndepth() {
                   <div className="absolute left-2 top-2 z-10 grid h-10 w-10 place-items-center overflow-hidden rounded-full border-2 border-white bg-white shadow-[0_6px_16px_rgba(0,0,0,0.25)] md:left-3 md:top-3 md:h-11 md:w-11">
                   <Image
                     src="/images/Cao like@4x.png"
-                    alt="Like icon"
+                    alt={t("svc.comboDeep.likeAlt")}
                       width={34}
                       height={34}
                       className="h-8 w-8 object-contain"
@@ -152,13 +117,13 @@ export default function ComboIndepth() {
 
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 opacity-100 transition-all duration-300 md:translate-y-6 md:p-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
                   <div className="rounded-2xl border border-white/20 bg-black/30 p-3 text-white backdrop-blur-[1px] md:bg-black/20 md:p-4">
-                    <p className="text-[11px] leading-tight text-white/85 md:text-sm">{item.subtitle}</p>
-                    <h3 className="mt-1 text-[16px] font-extrabold leading-tight md:text-[20px]">{item.title}</h3>
+                    <p className="text-[11px] leading-tight text-white/85 md:text-sm">{t(item.subKey)}</p>
+                    <h3 className="mt-1 text-[16px] font-extrabold leading-tight md:text-[20px]">{t(item.titleKey)}</h3>
 
                     <div className="mt-2 grid grid-cols-2 gap-2.5 leading-tight md:mt-3 md:gap-4">
                       <div>
-                        <p className="text-[10px] font-semibold text-white/70 md:text-xs">Giá thẻ Foxie</p>
-                        <p className="text-[10px] text-white/60 md:text-xs">Foxie Card&apos;s point</p>
+                        <p className="text-[10px] font-semibold text-white/70 md:text-xs">{t("svc.comboDeep.foxiePrice")}</p>
+                        <p className="text-[10px] text-white/60 md:text-xs">{t("svc.comboDeep.foxiePoint")}</p>
                         <p className="mt-1 text-[16px] font-extrabold leading-none text-[#ffb699] md:text-[20px]">
                           {formatPrice(item.foxiePrice)}
                         </p>
@@ -166,8 +131,8 @@ export default function ComboIndepth() {
 
                       <div className="text-right">
                         <p className="text-[12px] font-bold text-white/65 line-through md:text-[10px]">{formatPrice(item.oldPrice)}</p>
-                        <p className="text-[10px] font-semibold text-white/70 md:text-xs">Giá niêm yết</p>
-                        <p className="text-[10px] text-white/60 md:text-xs">Listed price</p>
+                        <p className="text-[10px] font-semibold text-white/70 md:text-xs">{t("svc.comboDeep.listedPrice")}</p>
+                        <p className="text-[10px] text-white/60 md:text-xs">{t("svc.comboDeep.listedEn")}</p>
                         <p className="mt-1 text-[14px] font-extrabold leading-none text-[#ffd08c] md:text-[15px]">
                           {formatPrice(item.listedPrice)}
                         </p>
@@ -179,11 +144,11 @@ export default function ComboIndepth() {
                         type="button"
                         className="pointer-events-auto rounded-full border border-white/45 bg-white/12 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/20 md:text-sm"
                       >
-                        Chi tiết
+                        {t("svc.comboDeep.detail")}
                       </button>
                       <button
                         type="button"
-                        aria-label="Them vao gio hang"
+                        aria-label={t("svc.comboDeep.addCartAria")}
                         onClick={() => openAddCartModal(item)}
                         className="pointer-events-auto grid h-9 w-9 place-items-center rounded-full border border-white/45 bg-[#ff6a36] text-white transition hover:bg-[#f45c28] md:h-10 md:w-10"
                       >
@@ -214,12 +179,12 @@ export default function ComboIndepth() {
       {selectedItem ? (
         <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#151515] p-5 text-white">
-            <h3 className="text-lg font-semibold">Thêm vào giỏ hàng</h3>
-            <p className="mt-1 text-sm text-white/70">{selectedItem.title}</p>
+            <h3 className="text-lg font-semibold">{t("svc.comboDeep.modalTitle")}</h3>
+            <p className="mt-1 text-sm text-white/70">{t(selectedItem.titleKey)}</p>
             <p className="mt-2 text-sm text-[#ffb699]">{formatPrice(selectedItem.foxiePrice)}</p>
 
             <div className="mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3">
-              <span className="text-sm">Số lượng</span>
+              <span className="text-sm">{t("svc.comboDeep.qty")}</span>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
@@ -245,14 +210,14 @@ export default function ComboIndepth() {
                 onClick={closeAddCartModal}
                 className="rounded-full border border-white/20 px-4 py-2 text-sm text-white/80"
               >
-                Hủy
+                {t("svc.comboDeep.cancel")}
               </button>
               <button
                 type="button"
                 onClick={confirmAddToCart}
                 className="rounded-full bg-[#ff6a36] px-5 py-2 text-sm font-semibold text-white hover:bg-[#f45c28]"
               >
-                Thêm vào giỏ
+                {t("svc.comboDeep.addCart")}
               </button>
             </div>
           </div>

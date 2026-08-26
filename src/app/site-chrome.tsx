@@ -3,10 +3,11 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Bell,
   Gift,
+  Globe,
   Mail,
   MapPin,
   Menu,
@@ -18,38 +19,33 @@ import {
   X,
 } from "lucide-react";
 
-const navItems = [
-  { label: "Cửa hàng", href: "/cua-hang", Icon: Store },
-  { label: "Dịch vụ", href: "/dich-vu", Icon: Sparkles },
-  { label: "Giới thiệu", href: "#story", Icon: Users },
-  { label: "Liên hệ", href: "#home-contact-info", Icon: Phone },
-  { label: "Khuyến mãi", href: "#news", Icon: Gift },
-  { label: "News", href: "/#news", Icon: Bell },
-  { label: "B2B", href: "/b2b", Icon: Users },
-  { label: "FAQ", href: "/faq", Icon: Bell },
+import { languageOptions } from "@/i18n/dictionaries";
+import { useLanguage } from "@/i18n/language-context";
+
+const navItemConfigs = [
+  { key: "nav.stores", href: "/cua-hang", Icon: Store },
+  { key: "nav.services", href: "/dich-vu", Icon: Sparkles },
+  { key: "nav.about", href: "#story", Icon: Users },
+  { key: "nav.contact", href: "#home-contact-info", Icon: Phone },
+  { key: "nav.promo", href: "#news", Icon: Gift },
+  { key: "nav.news", href: "/#news", Icon: Bell },
+  { key: "nav.b2b", href: "/b2b", Icon: Users },
+  { key: "nav.faq", href: "/faq", Icon: Bell },
 ] as const;
 
-const desktopNavItems = [
-  { label: "Dịch vụ", href: "/dich-vu" },
-  { label: "B2B", href: "/b2b" },
-  { label: "Cửa hàng", href: "/cua-hang" },
-  { label: "News", href: "/#news" },
-  { label: "FAQ", href: "/faq" },
+const desktopNavItemConfigs = [
+  { key: "nav.services", href: "/dich-vu" },
+  { key: "nav.b2b", href: "/b2b" },
+  { key: "nav.stores", href: "/cua-hang" },
+  { key: "nav.news", href: "/#news" },
+  { key: "nav.faq", href: "/faq" },
 ] as const;
 
 const hotline = "0889866666";
 const displayHotline = "0889 866 666";
 
-const desktopMapItem = { label: "Fox Map", href: "/cua-hang" } as const;
-const desktopContactItem = {
-  label: "Liên Hệ Ngay",
-  href: `tel:${hotline}`,
-} as const;
-
-const verticalNavItems = [
-  { label: "Tin tức", href: "/#news", Icon: Bell },
-] as const;
-
+const desktopMapHref = "/cua-hang";
+const desktopContactHref = `tel:${hotline}`;
 
 const verticalSocialItems = [
   {
@@ -112,31 +108,31 @@ const socials = [
   },
 ];
 
-const footerColumns: Array<[string, Array<[string, string]>]> = [
-  [
-    "Tổng quan",
-    [
-      ["Trang chủ", "/#hero"],
-      ["Về chúng tôi", "/#story"],
-      ["Liên hệ", "/#home-contact-info"],
+const footerColumnConfigs = [
+  {
+    titleKey: "footer.overview",
+    links: [
+      { labelKey: "nav.home", href: "/#hero" },
+      { labelKey: "footer.aboutUs", href: "/#story" },
+      { labelKey: "footer.contact", href: "/#home-contact-info" },
     ],
-  ],
-  [
-    "Liên kết",
-    [
-      ["Dịch vụ", "/dich-vu"],
-      ["Tin tức", "/#news"],
-      ["Cửa hàng", "/cua-hang"],
+  },
+  {
+    titleKey: "footer.links",
+    links: [
+      { labelKey: "nav.services", href: "/dich-vu" },
+      { labelKey: "footer.news", href: "/#news" },
+      { labelKey: "nav.stores", href: "/cua-hang" },
     ],
-  ],
-  [
-    "Chính sách & Điều khoản",
-    [
-      ["FAQ", "/faq"],
-      ["Điều khoản & Điều kiện", "/dieu-khoan-dieu-kien"],
+  },
+  {
+    titleKey: "footer.policy",
+    links: [
+      { labelKey: "nav.faq", href: "/faq" },
+      { labelKey: "footer.terms", href: "/dieu-khoan-dieu-kien" },
     ],
-  ],
-];
+  },
+] as const;
 
 const resolveHomeAnchor = (href: string, home: boolean) => {
   if (!href.startsWith("#")) return href;
@@ -158,38 +154,95 @@ export function SocialLinks({ footer = false }: { footer?: boolean }) {
 }
 
 export function VerticalMenu() {
-  const pathname = usePathname();
+  const { language, setLanguage, t } = useLanguage();
   const [socialOpen, setSocialOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
+  const languageRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!languageOpen) return;
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (!languageRef.current?.contains(event.target as Node)) {
+        setLanguageOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setLanguageOpen(false);
+    };
+
+    window.addEventListener("mousedown", onPointerDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("mousedown", onPointerDown);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [languageOpen]);
 
   return (
-    <nav aria-label="Điều hướng nhanh" className="mono-vertical-menu">
-      {verticalNavItems.map(({ label, href, Icon }) => {
-        const isActive = !href.includes("#") && pathname.startsWith(href);
+    <nav aria-label={t("nav.quickNav")} className="mono-vertical-menu">
+      <div
+        ref={languageRef}
+        className={`mono-social-popover mono-language-popover${languageOpen ? " is-open" : ""}`}
+      >
+        <button
+          type="button"
+          aria-label={t("nav.language")}
+          aria-expanded={languageOpen}
+          title={t("nav.language")}
+          onClick={() => {
+            setLanguageOpen((open) => !open);
+            setSocialOpen(false);
+          }}
+          className="mono-social-trigger"
+        >
+          <Globe aria-hidden="true" />
+          <span>{t("nav.language")}</span>
+        </button>
 
-        return (
-          <a
-            key={label}
-            href={href}
-            aria-label={label}
-            title={label}
-            className={isActive ? "is-active" : undefined}
-          >
-            <Icon aria-hidden="true" />
-            <span>{label}</span>
-          </a>
-        );
-      })}
+        <div className="mono-social-list mono-language-list" role="tablist" aria-label={t("nav.language")}>
+          {languageOptions.map((option) => {
+            const isActive = language === option.id;
+            return (
+              <button
+                key={option.id}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-label={option.label}
+                title={option.label}
+                className={`mono-language-chip${isActive ? " is-active" : ""}`}
+                onClick={() => {
+                  setLanguage(option.id);
+                }}
+              >
+                <img
+                  src={option.flagSrc}
+                  alt=""
+                  aria-hidden="true"
+                  className="mono-language-chip-flag"
+                />
+                <span className="mono-language-chip-label">{option.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <i aria-hidden="true" />
       <div className={`mono-social-popover ${socialOpen ? "is-open" : ""}`}>
         <button
           type="button"
-          aria-label="Mở liên kết mạng xã hội"
+          aria-label={t("nav.openSocial")}
           aria-expanded={socialOpen}
-          onClick={() => setSocialOpen((open) => !open)}
+          onClick={() => {
+            setSocialOpen((open) => !open);
+            setLanguageOpen(false);
+          }}
           className="mono-social-trigger"
         >
           <Share2 aria-hidden="true" />
-          <span>Social</span>
+          <span>{t("nav.social")}</span>
         </button>
         <div className="mono-social-list">
           {verticalSocialItems.map(({ label, href, src }) => (
@@ -214,6 +267,7 @@ export function VerticalMenu() {
 }
 
 export function SiteHeader({ home = false }: { home?: boolean }) {
+  const { language, setLanguage, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -222,6 +276,16 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     scrolled ||
     solidAtTopPages.includes(pathname) ||
     pathname.startsWith("/tin-tuc");
+
+  const desktopNavItems = desktopNavItemConfigs.map(({ key, href }) => ({
+    label: t(key),
+    href,
+  }));
+  const navItems = navItemConfigs.map(({ key, href }) => ({
+    label: t(key),
+    href,
+  }));
+
   useEffect(() => {
     const updateScrolled = () => setScrolled(window.scrollY > 24);
     updateScrolled();
@@ -260,25 +324,25 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
         </a>
         <nav className="mono-nav-main" aria-label="Main navigation">
           {desktopNavItems.map(({ label, href }) => (
-            <a href={resolveHomeAnchor(href, home)} key={label}>
+            <a href={resolveHomeAnchor(href, home)} key={href}>
               <span>{label}</span>
             </a>
           ))}
         </nav>
         <div className="mono-header-actions">
-          <a className="mono-header-pill mono-header-pill--ghost" href={desktopMapItem.href}>
-            {desktopMapItem.label}
+          <a className="mono-header-pill mono-header-pill--ghost" href={desktopMapHref}>
+            {t("nav.map")}
           </a>
           <a
             className="mono-header-pill mono-header-pill--cta"
-            href={desktopContactItem.href}
+            href={desktopContactHref}
           >
-            {desktopContactItem.label}
+            {t("nav.contactCta")}
           </a>
           <button
             type="button"
             className="mono-menu-trigger"
-            aria-label="Mở menu"
+            aria-label={t("nav.openMenu")}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(true)}
           >
@@ -295,7 +359,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
             </a>
             <button
               type="button"
-              aria-label="Đóng menu"
+              aria-label={t("nav.closeMenu")}
               className="mono-mobile-close"
               onClick={() => setMenuOpen(false)}
             >
@@ -305,14 +369,26 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
 
           <div className="mono-mobile-menu-body">
             <div className="mono-mobile-main">
-              <div className="mono-mobile-language" aria-label="Ngôn ngữ">
-                <span className="is-active">VI</span>
-                <span>EN</span>
+              <div className="mono-mobile-language" aria-label={t("nav.language")}>
+                {languageOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    className={language === option.id ? "is-active" : undefined}
+                    aria-pressed={language === option.id}
+                    aria-label={option.label}
+                    title={option.label}
+                    onClick={() => setLanguage(option.id)}
+                  >
+                    <img src={option.flagSrc} alt="" aria-hidden="true" />
+                    <span>{option.short}</span>
+                  </button>
+                ))}
               </div>
-              <nav className="mono-mobile-links" aria-label="Menu điều hướng">
+              <nav className="mono-mobile-links" aria-label={t("nav.mobileNav")}>
                 {navItems.map(({ label, href }) => (
                   <a
-                    key={label}
+                    key={href}
                     href={resolveHomeAnchor(href, home)}
                     onClick={() => setMenuOpen(false)}
                   >
@@ -333,7 +409,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
               </a>
               <a href="/cua-hang" onClick={() => setMenuOpen(false)}>
                 <MapPin aria-hidden="true" />
-                <span>Tìm cửa hàng gần bạn</span>
+                <span>{t("nav.findStore")}</span>
               </a>
               <SocialLinks />
             </aside>
@@ -345,25 +421,24 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
 }
 
 export function SiteFooter({ home = false }: { home?: boolean }) {
+  const { t } = useLanguage();
+
   return (
     <footer className="mono-footer">
       <div className="footer-main">
         <div className="footer-brand">
-          <strong>DA ĐẸP BẮT ĐẦU TỪ VIỆC RỬA MẶT</strong>
-          <p>
-            Face Wash Fox - Chuỗi cửa hàng rửa mặt công nghệ lần đầu tiên xuất
-            hiện tại Việt Nam.
-          </p>
+          <strong>{t("footer.tagline")}</strong>
+          <p>{t("footer.about")}</p>
         </div>
 
         <div className="footer-link-columns">
-          {footerColumns.map(([title, links]) => (
-            <div key={title}>
-              <h3>{title}</h3>
+          {footerColumnConfigs.map(({ titleKey, links }) => (
+            <div key={titleKey}>
+              <h3>{t(titleKey)}</h3>
               <ul>
-                {links.map(([label, href]) => (
-                  <li key={label}>
-                    <a href={resolveHomeAnchor(href, home)}>{label}</a>
+                {links.map(({ labelKey, href }) => (
+                  <li key={labelKey}>
+                    <a href={resolveHomeAnchor(href, home)}>{t(labelKey)}</a>
                   </li>
                 ))}
               </ul>
@@ -372,14 +447,14 @@ export function SiteFooter({ home = false }: { home?: boolean }) {
         </div>
 
         <address id="home-contact-info" className="footer-contact">
-          <h3>Liên hệ</h3>
+          <h3>{t("footer.contact")}</h3>
           <a href={`tel:${hotline}`}>
             <Phone aria-hidden="true" />
             {displayHotline}
           </a>
           <p>
             <MapPin aria-hidden="true" />
-            Lầu 2, Số 2 Song Hành, Phường Bình Trưng, TP Hồ Chí Minh
+            {t("footer.address")}
           </p>
           <div className="footer-follow">
             <SocialLinks footer />

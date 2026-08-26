@@ -7,15 +7,15 @@ export default function ScrollEffects() {
     const revealItems = Array.from(
       document.querySelectorAll<HTMLElement>(
         [
+          ".quick-booking-banner",
           ".store-title",
           ".store-stats article",
           ".section-heading",
-          ".service-carousel",
+          ".service-player",
           ".model-card",
           ".story-copy",
           ".story-video",
           ".news-card",
-          ".testimonial-card",
           ".commitment-section > p",
           ".commitment-section > h2",
           ".commitment-grid article",

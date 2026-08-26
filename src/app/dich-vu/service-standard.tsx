@@ -7,32 +7,33 @@ import {
   type FormEvent,
 } from "react";
 import { branches } from "@/data/branches";
+import { useLanguage } from "@/i18n/language-context";
 import { serviceImages } from "./service-images";
 
 const centerImage = serviceImages.standardsCenter;
 
 const leftStandards = [
   {
-    title: "Quy trình khép kín",
-    subtitle: "& hiệu quả",
+    titleKey: "svc.std1.title",
+    subKey: "svc.std1.sub",
     icon: serviceImages.quyTrinh,
     color: "from-cyan-400/20 to-cyan-500/10",
   },
   {
-    title: "Mỹ phẩm cao cấp và",
-    subtitle: "định lượng rõ ràng",
+    titleKey: "svc.std2.title",
+    subKey: "svc.std2.sub",
     icon: serviceImages.caoCap,
     color: "from-lime-400/20 to-lime-500/10",
   },
   {
-    title: "Thiết bị công nghệ đổi",
-    subtitle: "mới & tiên tiến",
+    titleKey: "svc.std3.title",
+    subKey: "svc.std3.sub",
     icon: serviceImages.thietBi,
     color: "from-pink-300/20 to-pink-400/10",
   },
   {
-    title: "Thông tin rõ ràng và",
-    subtitle: "minh bạch",
+    titleKey: "svc.std4.title",
+    subKey: "svc.std4.sub",
     icon: serviceImages.thongTin,
     color: "from-orange-300/20 to-orange-400/10",
   },
@@ -40,26 +41,26 @@ const leftStandards = [
 
 const rightStandards = [
   {
-    title: "Nhân viên thân thiện",
-    subtitle: "& chuyên nghiệp",
+    titleKey: "svc.std5.title",
+    subKey: "svc.std5.sub",
     icon: serviceImages.nhanVien,
     color: "from-sky-400/20 to-sky-500/10",
   },
   {
-    title: "Giá cả công khai",
-    subtitle: "",
+    titleKey: "svc.std6.title",
+    subKey: "svc.std6.sub",
     icon: serviceImages.giaCa,
     color: "from-amber-300/20 to-amber-400/10",
   },
   {
-    title: "Nhanh chóng tiết",
-    subtitle: "kiệm thời gian",
+    titleKey: "svc.std7.title",
+    subKey: "svc.std7.sub",
     icon: serviceImages.nhanh,
     color: "from-yellow-300/20 to-yellow-400/10",
   },
   {
-    title: "Chất lượng cao",
-    subtitle: "",
+    titleKey: "svc.std8.title",
+    subKey: "svc.std8.sub",
     icon: serviceImages.chatLuong,
     color: "from-violet-300/20 to-violet-400/10",
   },
@@ -123,6 +124,7 @@ function StandardRow({
 }
 
 export default function ServiceStandard() {
+  const { t } = useLanguage();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -160,7 +162,7 @@ export default function ServiceStandard() {
 
   const handleDetectNearestBranch = useCallback(() => {
     if (typeof window === "undefined" || !navigator.geolocation) {
-      setLocationError("Thiết bị không hỗ trợ định vị vị trí.");
+      setLocationError(t("svc.book.locUnsupported"));
       return;
     }
 
@@ -195,12 +197,12 @@ export default function ServiceStandard() {
       },
       (error) => {
         const errorMessageByCode: Record<number, string> = {
-          1: "Bạn chưa cấp quyền truy cập vị trí.",
-          2: "Không thể xác định vị trí hiện tại.",
-          3: "Hết thời gian lấy vị trí. Vui lòng thử lại.",
+          1: t("svc.book.locDenied"),
+          2: t("svc.book.locUnavailable"),
+          3: t("svc.book.locTimeout"),
         };
         setLocationError(
-          errorMessageByCode[error.code] ?? "Định vị thất bại. Vui lòng thử lại.",
+          errorMessageByCode[error.code] ?? t("svc.book.locFail"),
         );
         setIsLocating(false);
       },
@@ -210,7 +212,7 @@ export default function ServiceStandard() {
         maximumAge: 300000,
       },
     );
-  }, []);
+  }, [t]);
 
   const handleSubmitBooking = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -218,17 +220,17 @@ export default function ServiceStandard() {
     setSubmitSuccess("");
 
     if (!fullName.trim()) {
-      setSubmitError("Vui lòng nhập họ và tên.");
+      setSubmitError(t("svc.book.errName"));
       return;
     }
 
     if (!phone.trim()) {
-      setSubmitError("Vui lòng nhập số điện thoại.");
+      setSubmitError(t("svc.book.errPhone"));
       return;
     }
 
     if (!selectedBranch) {
-      setSubmitError("Vui lòng chọn chi nhánh.");
+      setSubmitError(t("svc.book.errBranch"));
       return;
     }
 
@@ -260,17 +262,17 @@ export default function ServiceStandard() {
         const data = (await response.json().catch(() => null)) as
           | { error?: string }
           | null;
-        throw new Error(data?.error ?? "Không thể gửi đăng ký lúc này.");
+        throw new Error(data?.error ?? t("svc.book.errSubmit"));
       }
 
-      setSubmitSuccess("Đặt lịch thành công. Chúng tôi sẽ liên hệ bạn sớm.");
+      setSubmitSuccess(t("svc.book.success"));
       setFullName("");
       setPhone("");
       setEmail("");
       setNote("");
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Đã có lỗi xảy ra. Vui lòng thử lại.";
+        error instanceof Error ? error.message : t("svc.book.errGeneric");
       setSubmitError(message);
     } finally {
       setIsSubmitting(false);
@@ -285,33 +287,48 @@ export default function ServiceStandard() {
       <div className="mx-auto max-w-[1600px]">
         <header className="mx-auto mb-8 max-w-[1200px] text-center md:mb-16">
           <h2 className="text-[clamp(1.75rem,7vw,4rem)] font-extrabold uppercase text-[#121212]">
-            Tiêu Chuẩn Dịch Vụ
+            {t("svc.standardTitle")}
           </h2>
           <p className="mx-auto mt-3 max-w-[42rem] text-[clamp(0.95rem,3.6vw,1.6rem)] leading-relaxed text-[#6a6a6a] md:mt-4">
-            Face Wash Fox luôn đặt trải nghiệm của khách hàng lên hàng đầu và
-            chúng tôi chỉ tập trung vào một việc duy nhất đó là làm sạch: “Da
-            đẹp bắt đầu từ việc rửa mặt”
+            {t("svc.standardLead")}
           </p>
         </header>
 
         <div className="grid items-center gap-6 sm:gap-8 lg:grid-cols-[1fr_minmax(280px,620px)_1fr] lg:gap-10">
           <div className="order-2 grid grid-cols-2 gap-3 sm:gap-5 lg:order-1 lg:grid-cols-1 lg:gap-12">
             {leftStandards.map((item) => (
-              <StandardRow key={item.icon} item={item} />
+              <StandardRow
+                key={item.icon}
+                item={{
+                  title: t(item.titleKey),
+                  subtitle: t(item.subKey),
+                  icon: item.icon,
+                  color: item.color,
+                }}
+              />
             ))}
           </div>
 
           <div className="order-1 flex items-center justify-center lg:order-2">
             <img
               src={centerImage}
-              alt="Tieu chuan dich vu Face Wash Fox"
+              alt={t("svc.standardTitle")}
               className="h-auto w-full max-w-[420px] object-contain lg:max-w-[620px]"
             />
           </div>
 
           <div className="order-3 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-1 lg:gap-12">
             {rightStandards.map((item) => (
-              <StandardRow key={item.icon} item={item} reverse />
+              <StandardRow
+                key={item.icon}
+                item={{
+                  title: t(item.titleKey),
+                  subtitle: t(item.subKey),
+                  icon: item.icon,
+                  color: item.color,
+                }}
+                reverse
+              />
             ))}
           </div>
         </div>
@@ -333,10 +350,10 @@ export default function ServiceStandard() {
           </div>
 
           <h3 className="mt-5 text-center text-[clamp(1.5rem,6vw,3.3rem)] font-extrabold text-[#0f172a] sm:mt-6">
-            Đặt lịch tư vấn miễn phí
+            {t("svc.bookTitle")}
           </h3>
           <p className="mt-2 text-center text-[clamp(0.95rem,3.8vw,1.8rem)] text-[#4b5563]">
-            Điền thông tin để nhận tư vấn từ chuyên gia
+            {t("svc.bookLead")}
           </p>
 
           <form
@@ -349,14 +366,14 @@ export default function ServiceStandard() {
                   htmlFor="booking-name"
                   className="mb-2 block text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
                 >
-                  Họ và tên *
+                  {t("svc.name")}
                 </label>
                 <input
                   id="booking-name"
                   type="text"
                   value={fullName}
                   onChange={(event) => setFullName(event.target.value)}
-                  placeholder="Nhập họ và tên"
+                  placeholder={t("svc.namePh")}
                   required
                   className="h-12 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:h-14 sm:px-5 sm:text-[1.05rem] md:text-[1.15rem]"
                 />
@@ -367,14 +384,14 @@ export default function ServiceStandard() {
                   htmlFor="booking-phone"
                   className="mb-2 block text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
                 >
-                  Số điện thoại *
+                  {t("svc.phone")}
                 </label>
                 <input
                   id="booking-phone"
                   type="tel"
                   value={phone}
                   onChange={(event) => setPhone(event.target.value)}
-                  placeholder="Nhập số điện thoại"
+                  placeholder={t("svc.phonePh")}
                   required
                   className="h-12 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:h-14 sm:px-5 sm:text-[1.05rem] md:text-[1.15rem]"
                 />
@@ -386,14 +403,14 @@ export default function ServiceStandard() {
                 htmlFor="booking-email"
                 className="mb-2 block text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
               >
-                Email
+                {t("svc.book.email")}
               </label>
               <input
                 id="booking-email"
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="Nhập email"
+                placeholder={t("svc.book.emailPh")}
                 className="h-12 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:h-14 sm:px-5 sm:text-[1.05rem] md:text-[1.15rem]"
               />
             </div>
@@ -404,14 +421,14 @@ export default function ServiceStandard() {
                   htmlFor="booking-branch"
                   className="text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
                 >
-                  Chi nhánh gần nhất
+                  {t("svc.branch")}
                 </label>
                 <button
                   type="button"
                   onClick={handleDetectNearestBranch}
                   className="self-start text-sm text-[#0369a1] underline underline-offset-2 sm:text-[1.05rem]"
                 >
-                  {isLocating ? "Đang dò vị trí..." : "Dò vị trí để gợi ý"}
+                  {isLocating ? t("svc.book.locating") : t("svc.book.locate")}
                 </button>
               </div>
               <select
@@ -439,7 +456,10 @@ export default function ServiceStandard() {
               ) : null}
               {nearestBranch ? (
                 <p className="mt-2 text-[0.95rem] text-[#0f766e]">
-                  Đã gợi ý chi nhánh gần nhất ({nearestBranch.distanceKm.toFixed(1)} km).
+                  {t("svc.book.nearestHint").replace(
+                    "{km}",
+                    nearestBranch.distanceKm.toFixed(1),
+                  )}
                 </p>
               ) : null}
             </div>
@@ -449,14 +469,14 @@ export default function ServiceStandard() {
                 htmlFor="booking-note"
                 className="mb-2 block text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
               >
-                Ghi chú
+                {t("svc.book.note")}
               </label>
               <textarea
                 id="booking-note"
                 rows={4}
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
-                placeholder="Mô tả tình trạng da hoặc yêu cầu đặc biệt..."
+                placeholder={t("svc.book.notePh")}
                 className="w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 py-3 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:px-5 sm:py-4 sm:text-[1.05rem] md:text-[1.15rem]"
               />
             </div>
@@ -475,7 +495,7 @@ export default function ServiceStandard() {
               disabled={isSubmitting}
               className="h-12 w-full rounded-[14px] bg-gradient-to-r from-[#f04b9a] to-[#7c3aed] px-4 text-[clamp(1rem,4vw,1.65rem)] font-extrabold text-white transition-opacity hover:opacity-90 sm:h-16 sm:px-8"
             >
-              {isSubmitting ? "Đang gửi thông tin..." : "Đặt lịch ngay - Miễn phí tư vấn"}
+              {isSubmitting ? t("svc.sending") : t("svc.submit")}
             </button>
           </form>
         </div>

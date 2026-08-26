@@ -1,35 +1,28 @@
+"use client";
+
 import Link from "next/link";
 
+import { useLanguage } from "@/i18n/language-context";
+
 export default function CookiePolicyPage() {
+  const { t } = useLanguage();
+
   return (
     <main className="policy-page">
       <Link href="/">Face Wash Fox</Link>
-      <h1>Chính sách Cookie</h1>
-      <p>
-        Face Wash Fox sử dụng cookie và công nghệ tương tự để duy trì hoạt động
-        website, ghi nhớ lựa chọn của bạn, phân tích cách khách truy cập sử dụng
-        trang và cải thiện trải nghiệm tìm cửa hàng, xem dịch vụ.
-      </p>
+      <h1>{t("cookiePage.title")}</h1>
+      <p>{t("cookiePage.intro")}</p>
       <section>
-        <h2>Cookie cần thiết</h2>
-        <p>
-          Các cookie này giúp website hoạt động ổn định, lưu lựa chọn cookie và
-          hỗ trợ những tính năng cơ bản của trang.
-        </p>
+        <h2>{t("cookiePage.s1.title")}</h2>
+        <p>{t("cookiePage.s1.body")}</p>
       </section>
       <section>
-        <h2>Cookie phân tích</h2>
-        <p>
-          Chúng tôi có thể dùng dữ liệu tổng hợp để hiểu nội dung nào hữu ích
-          với khách hàng và tối ưu trải nghiệm truy cập.
-        </p>
+        <h2>{t("cookiePage.s2.title")}</h2>
+        <p>{t("cookiePage.s2.body")}</p>
       </section>
       <section>
-        <h2>Quản lý lựa chọn</h2>
-        <p>
-          Bạn có thể chấp nhận hoặc từ chối cookie không cần thiết trên banner
-          cookie. Bạn cũng có thể xoá cookie trong cài đặt trình duyệt.
-        </p>
+        <h2>{t("cookiePage.s3.title")}</h2>
+        <p>{t("cookiePage.s3.body")}</p>
       </section>
     </main>
   );

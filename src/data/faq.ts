@@ -1,134 +1,51 @@
-export type FaqItem = {
-  question: string;
-  answer: string;
+export type FaqCategoryDef = {
+  id: string;
+  titleKey: string;
+  items: Array<{ qKey: string; aKey: string }>;
 };
 
-export type FaqCategory = {
-  title: string;
-  items: FaqItem[];
-};
-
-export const faqCategories: FaqCategory[] = [
+export const faqCategories: FaqCategoryDef[] = [
   {
-    title: "Dịch vụ",
+    id: "services",
+    titleKey: "faq.cat.services",
     items: [
-      {
-        question: "Làm sao để đặt lịch?",
-        answer:
-          "Đặt tại cửa hàng, qua app Face Wash Fox hoặc hotline 0889 866 666.",
-      },
-      {
-        question: "Giá thẻ Foxie khác giá niêm yết thế nào?",
-        answer:
-          "Giá niêm yết dành cho khách thường. Chủ thẻ Foxie được ưu đãi, tiết kiệm đến khoảng 35%.",
-      },
-      {
-        question: "Mỗi liệu trình mất bao lâu?",
-        answer:
-          "Khoảng 30–40 phút tùy dịch vụ. Combo có thể lâu hơn.",
-      },
-      {
-        question: "Nam giới và trẻ em có dùng được không?",
-        answer:
-          "Có. Dịch vụ phù hợp mọi đối tượng. Khách dưới 12 tuổi nên hỏi nhân viên để được tư vấn.",
-      },
-      {
-        question: "Cửa hàng mở cửa lúc nào?",
-        answer:
-          "Thường từ 9h30–21h30, có thể khác theo chi nhánh. Xem chi tiết tại trang Cửa hàng.",
-      },
-      {
-        question: "Thẻ Foxie dùng như thế nào?",
-        answer:
-          "Dùng để hưởng giá ưu đãi toàn hệ thống, có thể chia sẻ với người thân. Liên hệ cửa hàng để kích hoạt.",
-      },
+      { qKey: "faq.s.q1", aKey: "faq.s.a1" },
+      { qKey: "faq.s.q2", aKey: "faq.s.a2" },
+      { qKey: "faq.s.q3", aKey: "faq.s.a3" },
+      { qKey: "faq.s.q4", aKey: "faq.s.a4" },
+      { qKey: "faq.s.q5", aKey: "faq.s.a5" },
+      { qKey: "faq.s.q6", aKey: "faq.s.a6" },
     ],
   },
   {
-    title: "Đặt hàng & Giao nhận",
+    id: "shipping",
+    titleKey: "faq.cat.shipping",
     items: [
-      {
-        question: "Đơn hàng của tôi được giao như thế nào?",
-        answer:
-          "Đơn được xác nhận qua app hoặc hotline, rồi giao theo địa chỉ bạn cung cấp trong khung thời gian đã chọn.",
-      },
-      {
-        question: "Mã vận đơn ghi giao trong 1–3 ngày nghĩa là gì?",
-        answer:
-          "Đây là ước tính thời gian giao theo đơn vị vận chuyển. Thời gian thực tế có thể sớm hoặc muộn hơn tùy khu vực.",
-      },
-      {
-        question: "Mất bao lâu để nhận hàng?",
-        answer:
-          "Nội thành thường 1–3 ngày làm việc. Ngoại tỉnh có thể lâu hơn tùy đơn vị giao hàng.",
-      },
-      {
-        question: "Ngày làm việc là gì?",
-        answer:
-          "Từ thứ Hai đến thứ Sáu, không gồm thứ Bảy, Chủ nhật và ngày lễ.",
-      },
-      {
-        question: "Làm sao biết đơn đã được gửi?",
-        answer:
-          "Bạn nhận thông báo qua app, SMS hoặc email kèm mã vận đơn khi đơn bắt đầu giao.",
-      },
-      {
-        question: "Vì sao một số sản phẩm không giao quốc tế?",
-        answer:
-          "Do quy định vận chuyển và bảo quản sản phẩm. Hiện Face Wash Fox ưu tiên giao trong Việt Nam.",
-      },
-      {
-        question: "Vì sao mã vận đơn chưa cập nhật?",
-        answer:
-          "Đơn vị vận chuyển có thể cập nhật chậm vài giờ. Nếu quá 24 giờ vẫn chưa đổi, hãy liên hệ hotline 0889 866 666.",
-      },
+      { qKey: "faq.sh.q1", aKey: "faq.sh.a1" },
+      { qKey: "faq.sh.q2", aKey: "faq.sh.a2" },
+      { qKey: "faq.sh.q3", aKey: "faq.sh.a3" },
+      { qKey: "faq.sh.q4", aKey: "faq.sh.a4" },
+      { qKey: "faq.sh.q5", aKey: "faq.sh.a5" },
+      { qKey: "faq.sh.q6", aKey: "faq.sh.a6" },
+      { qKey: "faq.sh.q7", aKey: "faq.sh.a7" },
     ],
   },
   {
-    title: "Đổi trả",
+    id: "returns",
+    titleKey: "faq.cat.returns",
     items: [
-      {
-        question: "Làm sao biết đơn đã được gửi đi?",
-        answer:
-          "Bạn sẽ nhận thông báo và mã vận đơn khi đơn được bàn giao cho đơn vị giao hàng.",
-      },
-      {
-        question: "Sản phẩm nào không hỗ trợ giao quốc tế?",
-        answer:
-          "Một số mặt hàng bị hạn chế do điều kiện bảo quản hoặc quy định vận chuyển. Nhân viên sẽ báo khi bạn đặt hàng.",
-      },
-      {
-        question: "Mã vận đơn không cập nhật thì làm sao?",
-        answer:
-          "Chờ thêm một chu kỳ cập nhật của đơn vị giao. Nếu vẫn không đổi, liên hệ cửa hàng hoặc hotline để được kiểm tra.",
-      },
+      { qKey: "faq.r.q1", aKey: "faq.r.a1" },
+      { qKey: "faq.r.q2", aKey: "faq.r.a2" },
+      { qKey: "faq.r.q3", aKey: "faq.r.a3" },
     ],
   },
   {
-    title: "Ưu đãi",
+    id: "other",
+    titleKey: "faq.cat.other",
     items: [
-      {
-        question: "Làm sao nhận ưu đãi / mã giảm giá?",
-        answer:
-          "Theo dõi app, fanpage hoặc chương trình tại cửa hàng. Chủ thẻ Foxie cũng được giá ưu đãi cố định.",
-      },
-      {
-        question: "Ưu đãi có áp dụng mọi dịch vụ không?",
-        answer:
-          "Tùy chương trình. Một số gói hoặc combo có thể không áp dụng đồng thời nhiều ưu đãi.",
-      },
-      {
-        question: "Mã ưu đãi không dùng được thì sao?",
-        answer:
-          "Kiểm tra hạn sử dụng, điều kiện áp dụng hoặc liên hệ hotline 0889 866 666 để được hỗ trợ.",
-      },
+      { qKey: "faq.o.q1", aKey: "faq.o.a1" },
+      { qKey: "faq.o.q2", aKey: "faq.o.a2" },
+      { qKey: "faq.o.q3", aKey: "faq.o.a3" },
     ],
   },
 ];
-
-export const consumerFaqItems: FaqItem[] = faqCategories.flatMap((category) =>
-  category.items.map((item) => ({
-    question: item.question,
-    answer: item.answer,
-  })),
-);

@@ -2,8 +2,10 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import type { PointerEvent } from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { PointerEvent, useCallback, useEffect, useRef, useState } from "react";
+
+import { useLanguage } from "@/i18n/language-context";
 
 type Service = {
   name: string;
@@ -17,249 +19,176 @@ type ServiceCarouselProps = {
 };
 
 const HOTLINE_NUMBER = "0889866666";
-const SOCIAL_CHANNELS: Array<{ label: string; href: string }> = [
-  { label: "Facebook", href: "https://www.facebook.com/facewashfox" },
-  { label: "Instagram", href: "https://www.instagram.com/facewashfox" },
-  { label: "TikTok", href: "https://www.tiktok.com/@facewashfox" },
-  { label: "Zalo", href: "https://zalo.me/facewashfox" },
-];
+const TRACK_MS = 6000;
 
 export default function ServiceCarousel({ services }: ServiceCarouselProps) {
+  const { t } = useLanguage();
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const carouselRef = useRef<HTMLDivElement | null>(null);
-  const cardRefs = useRef<Array<HTMLButtonElement | null>>([]);
-  const rotationRef = useRef(0);
-  const activeIndexRef = useRef(0);
-  const dragLastXRef = useRef(0);
-  const dragTotalRef = useRef(0);
-  const isDraggingRef = useRef(false);
-  const suppressClickRef = useRef(false);
-  const frameRef = useRef<number | null>(null);
-  const lastTimeRef = useRef<number | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const count = services.length;
+  const current = services[activeIndex];
 
-  const renderCarousel = useCallback(() => {
-    const count = services.length;
-    if (!count) return;
+  const goTo = useCallback(
+    (index: number) => {
+      if (!count) return;
+      setActiveIndex((index + count) % count);
+    },
+    [count],
+  );
 
-    const step = 360 / count;
-    const isMobile = window.innerWidth <= 900;
-    const radius = isMobile ? 150 : 290;
-    const yOffsets = [-10, 12, -6, 14, -12, 8];
-    let closestIndex = 0;
-    let closestDistance = Number.POSITIVE_INFINITY;
+  const goPrev = () => goTo(activeIndex - 1);
+  const goNext = () => goTo(activeIndex + 1);
 
-    cardRefs.current.forEach((card, index) => {
-      if (!card) return;
-
-      const rawAngle = rotationRef.current + index * step;
-      const angle = ((((rawAngle + 180) % 360) + 360) % 360) - 180;
-      const distance = Math.abs(angle);
-      const radians = (angle * Math.PI) / 180;
-      const frontness = (Math.cos(radians) + 1) / 2;
-      const y = yOffsets[index % yOffsets.length];
-      const scale = 0.82 + frontness * 0.2;
-      const opacity = distance > 142 ? 0.08 : 0.24 + frontness * 0.76;
-      const blur = distance > 142 ? 6 : (1 - frontness) * 3.5;
-
-      card.style.setProperty("--service-angle", `${rawAngle}deg`);
-      card.style.setProperty("--service-counter-angle", `${-rawAngle}deg`);
-      card.style.setProperty("--service-radius", `${radius}px`);
-      card.style.setProperty("--service-y", `${y}px`);
-      card.style.setProperty("--service-scale", String(scale));
-      card.style.setProperty("--service-hover-scale", String(scale + 0.04));
-      card.style.setProperty("--service-opacity", String(opacity));
-      card.style.setProperty("--service-blur", `${blur}px`);
-      card.style.zIndex = String(Math.round(frontness * 100));
-
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestIndex = index;
-      }
-    });
-
-    if (closestIndex !== activeIndexRef.current) {
-      activeIndexRef.current = closestIndex;
-      setActiveIndex(closestIndex);
-    }
-  }, [services.length]);
-
-  const setRotation = useCallback((rotation: number) => {
-    rotationRef.current = rotation;
-    renderCarousel();
-  }, [renderCarousel]);
-
-  const updateActiveIndex = () => {
-    renderCarousel();
+  const shine = (event: PointerEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    event.currentTarget.style.setProperty(
+      "--shine-x",
+      `${event.clientX - rect.left}px`,
+    );
+    event.currentTarget.style.setProperty(
+      "--shine-y",
+      `${event.clientY - rect.top}px`,
+    );
   };
 
   useEffect(() => {
-    const stopLoop = () => {
-      if (frameRef.current !== null) {
-        cancelAnimationFrame(frameRef.current);
-        frameRef.current = null;
-      }
-      lastTimeRef.current = null;
-    };
+    const list = listRef.current;
+    const active = list?.querySelector<HTMLElement>(".is-active");
+    if (!list || !active) return;
 
-    const tick = (time: number) => {
-      if (lastTimeRef.current === null) {
-        lastTimeRef.current = time;
-      }
+    const top = active.offsetTop - list.clientHeight / 2 + active.offsetHeight / 2;
+    list.scrollTo({
+      top: Math.max(0, top),
+      behavior: "smooth",
+    });
+  }, [activeIndex]);
 
-      const deltaSeconds = (time - lastTimeRef.current) / 1000;
-      lastTimeRef.current = time;
+  useEffect(() => {
+    if (selectedService || count < 2) return;
 
-      if (!isDraggingRef.current) {
-        setRotation(rotationRef.current - deltaSeconds * 12);
-      }
-
-      frameRef.current = requestAnimationFrame(tick);
-    };
-
-    const startLoop = () => {
-      if (frameRef.current !== null) return;
-      frameRef.current = requestAnimationFrame(tick);
-    };
-
-    const onResize = () => renderCarousel();
-    const visibilityObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          renderCarousel();
-          startLoop();
-        } else {
-          stopLoop();
-        }
-      },
-      { rootMargin: "180px 0px", threshold: 0.01 },
-    );
-
-    renderCarousel();
-    if (carouselRef.current) {
-      visibilityObserver.observe(carouselRef.current);
-    } else {
-      startLoop();
-    }
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      stopLoop();
-      visibilityObserver.disconnect();
-      window.removeEventListener("resize", onResize);
-    };
-  }, [renderCarousel, setRotation]);
-
-  const rotateToIndex = (index: number) => {
-    const step = 360 / services.length;
-    const target = -index * step;
-    const current = rotationRef.current;
-    const currentTurns = Math.round((current - target) / 360);
-
-    setRotation(target + currentTurns * 360);
-    activeIndexRef.current = index;
-    setActiveIndex(index);
-  };
-
-  const handleCardClick = (service: Service, index: number) => {
-    if (suppressClickRef.current) {
-      suppressClickRef.current = false;
-      return;
-    }
-
-    rotateToIndex(index);
-    setSelectedService(service);
-  };
+    const timer = window.setTimeout(() => goTo(activeIndex + 1), TRACK_MS);
+    return () => window.clearTimeout(timer);
+  }, [activeIndex, count, goTo, selectedService]);
 
   const closeModal = useCallback(() => {
     setSelectedService(null);
   }, []);
 
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (selectedService) return;
-
-    isDraggingRef.current = true;
-    dragLastXRef.current = event.clientX;
-    dragTotalRef.current = 0;
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (!isDraggingRef.current) return;
-
-    const distance = event.clientX - dragLastXRef.current;
-    dragLastXRef.current = event.clientX;
-    dragTotalRef.current += Math.abs(distance);
-    const dragSensitivity = window.innerWidth <= 640 ? 0.72 : 0.42;
-    setRotation(rotationRef.current + distance * dragSensitivity);
-  };
-
-  const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
-    if (!isDraggingRef.current) return;
-
-    suppressClickRef.current = dragTotalRef.current > 8;
-    isDraggingRef.current = false;
-    event.currentTarget.releasePointerCapture(event.pointerId);
-    updateActiveIndex();
-  };
-
   useEffect(() => {
     if (!selectedService) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeModal();
-      }
+      if (event.key === "Escape") closeModal();
     };
 
     window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-    };
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [closeModal, selectedService]);
 
+  if (!current) return null;
+
   return (
-    <div
-      ref={carouselRef}
-      className={selectedService ? "service-carousel has-modal" : "service-carousel"}
-      onPointerCancel={() => {
-        isDraggingRef.current = false;
-        updateActiveIndex();
-      }}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-    >
-      <div className="service-carousel-stage">
-        {services.map((service, index) => {
-          return (
-            <button
-              aria-label={`Chọn ${service.name}`}
-              className={
-                index === activeIndex ? "service-carousel-card is-active" : "service-carousel-card"
-              }
-              key={service.name}
-              onClick={() => handleCardClick(service, index)}
-              ref={(element) => {
-                cardRefs.current[index] = element;
-              }}
-              type="button"
+    <div className={selectedService ? "service-player has-modal" : "service-player"}>
+      <div className="service-player-shell">
+        <div className="service-player-now">
+          <button
+            type="button"
+            className="service-player-art"
+            aria-label={`${t("home.services.viewDetail")} ${current.name}`}
+            onClick={() => setSelectedService(current)}
+          >
+            <img src={current.image} alt="" />
+          </button>
+
+          <div className="service-player-meta">
+            <p className="service-player-kicker">{t("home.services.selected")}</p>
+            <h3>{current.name}</h3>
+            <p className="service-player-desc">{current.description}</p>
+            <span className="service-player-price">{current.price}</span>
+
+            <div
+              className="service-player-progress"
+              aria-hidden="true"
             >
-              <span className="service-card-logo" aria-hidden="true">
-                <img src="/logo/logo.png" alt="" />
-              </span>
-              <span className="service-card-image">
+              <i
+                key={activeIndex}
+                className={!selectedService ? "is-running" : undefined}
+                style={{
+                  animationDuration: `${TRACK_MS}ms`,
+                  animationPlayState: selectedService ? "paused" : "running",
+                }}
+              />
+            </div>
+
+            <div className="service-player-controls">
+              <button
+                type="button"
+                className="service-glossy is-nav"
+                aria-label={t("home.services.prev")}
+                onClick={goPrev}
+                onPointerMove={shine}
+              >
+                <span className="service-glossy-metal" aria-hidden="true" />
+                <span className="service-glossy-shine" aria-hidden="true" />
+                <span className="service-glossy-label">
+                  <ChevronLeft strokeWidth={2.6} />
+                </span>
+              </button>
+              <button
+                type="button"
+                className="service-glossy is-cta"
+                onClick={() => setSelectedService(current)}
+                onPointerMove={shine}
+              >
+                <span className="service-glossy-metal" aria-hidden="true" />
+                <span className="service-glossy-shine" aria-hidden="true" />
+                <span className="service-glossy-label">{t("home.services.viewDetail")}</span>
+              </button>
+              <button
+                type="button"
+                className="service-glossy is-nav"
+                aria-label={t("home.services.next")}
+                onClick={goNext}
+                onPointerMove={shine}
+              >
+                <span className="service-glossy-metal" aria-hidden="true" />
+                <span className="service-glossy-shine" aria-hidden="true" />
+                <span className="service-glossy-label">
+                  <ChevronRight strokeWidth={2.6} />
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="service-player-playlist">
+          <div className="service-player-list-head">
+            <p>{t("home.services.list")}</p>
+            <span>{t("home.services.count").replace("{count}", String(services.length))}</span>
+          </div>
+          <div className="service-player-list" ref={listRef} aria-label={t("home.services.list")}>
+          {services.map((service, index) => {
+            const isActive = index === activeIndex;
+
+            return (
+              <button
+                type="button"
+                key={service.name}
+                className={isActive ? "service-player-track is-active" : "service-player-track"}
+                onClick={() => setActiveIndex(index)}
+              >
                 <img src={service.image} alt="" />
-              </span>
-              <span className="service-card-copy">
-                <strong>{service.name}</strong>
-                <small>{service.description}</small>
+                <span>
+                  <strong>{service.name}</strong>
+                  <small>{service.description}</small>
+                </span>
                 <em>{service.price}</em>
-              </span>
-            </button>
-          );
-        })}
+              </button>
+            );
+          })}
+          </div>
+        </div>
       </div>
 
       {selectedService ? (
@@ -272,11 +201,10 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
             className="service-modal"
             aria-modal="true"
             onClick={(event) => event.stopPropagation()}
-            onPointerDown={(event) => event.stopPropagation()}
             role="dialog"
           >
             <button
-              aria-label="Đóng chi tiết dịch vụ"
+              aria-label={t("home.services.viewDetail")}
               className="service-modal-close"
               onClick={closeModal}
               type="button"
@@ -292,20 +220,18 @@ export default function ServiceCarousel({ services }: ServiceCarouselProps) {
               <span>{selectedService.description}</span>
               <div className="service-modal-contact">
                 <a className="service-modal-hotline" href={`tel:${HOTLINE_NUMBER}`}>
-                  Hotline: {HOTLINE_NUMBER}
+                  {t("home.services.phone")}: {HOTLINE_NUMBER}
                 </a>
-                <div className="service-modal-socials" aria-label="Kênh mạng xã hội">
-                  {SOCIAL_CHANNELS.map((channel) => (
-                    <a
-                      href={channel.href}
-                      key={channel.label}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {channel.label}
-                    </a>
-                  ))}
-                </div>
+                <a
+                  className="service-glossy is-cta service-modal-book"
+                  href="#dat-lich"
+                  onClick={closeModal}
+                  onPointerMove={shine}
+                >
+                  <span className="service-glossy-metal" aria-hidden="true" />
+                  <span className="service-glossy-shine" aria-hidden="true" />
+                  <span className="service-glossy-label">{t("home.services.book")}</span>
+                </a>
               </div>
             </div>
           </article>

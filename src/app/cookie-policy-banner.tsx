@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
 
+import { useLanguage } from "@/i18n/language-context";
+
 const COOKIE_CHOICE_KEY = "fwf-cookie-policy-choice";
 const COOKIE_CHOICE_EVENT = "fwf-cookie-policy-choice-change";
 
@@ -19,6 +21,7 @@ const subscribeToCookieChoice = (callback: () => void) => {
 const getCookieChoiceSnapshot = () => !localStorage.getItem(COOKIE_CHOICE_KEY);
 
 export default function CookiePolicyBanner() {
+  const { t } = useLanguage();
   const isVisible = useSyncExternalStore(
     subscribeToCookieChoice,
     getCookieChoiceSnapshot,
@@ -35,9 +38,9 @@ export default function CookiePolicyBanner() {
   }
 
   return (
-    <section className="cookie-policy-banner" aria-label="Cookie Policy">
+    <section className="cookie-policy-banner" aria-label={t("cookie.title")}>
       <button
-        aria-label="Đóng thông báo Cookie Policy"
+        aria-label={t("cookie.close")}
         className="cookie-close"
         onClick={() => saveChoice("closed")}
         type="button"
@@ -45,18 +48,17 @@ export default function CookiePolicyBanner() {
         x
       </button>
       <div className="cookie-policy-content">
-        <h2>Cookie Policy</h2>
+        <h2>{t("cookie.title")}</h2>
         <p>
-          Face Wash Fox sử dụng cookie để hiểu cách bạn dùng website, cải thiện
-          trải nghiệm đặt lịch và tối ưu nội dung dịch vụ. Bạn có thể xem thêm
-          tại <Link href="/cookie-policy">Chính sách Cookie</Link>.
+          {t("cookie.body")}{" "}
+          <Link href="/cookie-policy">{t("cookie.link")}</Link>.
         </p>
         <div className="cookie-actions">
           <button onClick={() => saveChoice("declined")} type="button">
-            Từ chối
+            {t("cookie.decline")}
           </button>
           <button onClick={() => saveChoice("accepted")} type="button">
-            Đồng ý
+            {t("cookie.accept")}
           </button>
         </div>
       </div>

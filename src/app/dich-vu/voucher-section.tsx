@@ -3,30 +3,32 @@
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/i18n/language-context";
 import useSharedCart from "./hooks/use-shared-cart";
 
 type VoucherCard = {
   id: string;
-  name: string;
+  nameKey: string;
   price: number;
   image: string;
 };
 
 const voucherCards: VoucherCard[] = [
-  { id: "foxie-crown", name: "Foxie Crown 100 triệu", price: 100000000, image: "/voucher/Asset 2@4x.png" },
-  { id: "foxie-crystal", name: "Foxie Crystal 80 triệu", price: 80000000, image: "/voucher/Asset 1@4x.png" },
-  { id: "foxie-platinum", name: "Foxie Platinum 50 triệu", price: 50000000, image: "/voucher/Asset 3@4x.png" },
-  { id: "foxie-diamond", name: "Foxie Diamond 30 triệu", price: 30000000, image: "/voucher/Asset 4@4x.png" },
-  { id: "foxie-gold", name: "Foxie Gold 20 triệu", price: 20000000, image: "/voucher/Asset 8@4x.png" },
-  { id: "foxie-silver", name: "Foxie Silver 10 triệu", price: 10000000, image: "/voucher/Asset 7@4x.png" },
-  { id: "foxie-bronze", name: "Foxie Bronze 5 triệu", price: 5000000, image: "/voucher/Asset 6@4x.png" },
-  { id: "foxie-iron", name: "Foxie Iron 1.5 triệu", price: 3000000, image: "/voucher/Asset 5@4x.png" },
+  { id: "foxie-crown", nameKey: "svc.voucher.crown", price: 100000000, image: "/voucher/Asset 2@4x.png" },
+  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", price: 80000000, image: "/voucher/Asset 1@4x.png" },
+  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", price: 50000000, image: "/voucher/Asset 3@4x.png" },
+  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", price: 30000000, image: "/voucher/Asset 4@4x.png" },
+  { id: "foxie-gold", nameKey: "svc.voucher.gold", price: 20000000, image: "/voucher/Asset 8@4x.png" },
+  { id: "foxie-silver", nameKey: "svc.voucher.silver", price: 10000000, image: "/voucher/Asset 7@4x.png" },
+  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", price: 5000000, image: "/voucher/Asset 6@4x.png" },
+  { id: "foxie-iron", nameKey: "svc.voucher.iron", price: 3000000, image: "/voucher/Asset 5@4x.png" },
 ];
 
 const formatVnd = (value: number) =>
   new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value);
 
 export default function VoucherSection() {
+  const { t } = useLanguage();
   const { addItem } = useSharedCart();
   const [quantities, setQuantities] = useState<Record<string, number>>(
     Object.fromEntries(voucherCards.map((voucher) => [voucher.id, 1])),
@@ -44,7 +46,7 @@ export default function VoucherSection() {
     const quantity = quantities[voucher.id] ?? 1;
     addItem({
       id: `voucher-${voucher.id}`,
-      name: voucher.name,
+      name: t(voucher.nameKey),
       price: voucher.price,
       quantity,
       type: "voucher",
@@ -56,17 +58,16 @@ export default function VoucherSection() {
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-7 text-center md:mb-10">
           <h2 className="text-[clamp(1.75rem,7vw,3.75rem)] font-extrabold uppercase leading-tight text-[#f05b2a] md:text-6xl">
-            Thẻ Thành Viên Foxie
+            {t("svc.voucher.title")}
           </h2>
           <p className="mt-1 text-[clamp(1.05rem,4vw,2.25rem)] font-bold uppercase text-[#f05b2a] md:mt-2 md:text-4xl">
-            Nhận ngay ưu đãi độc quyền
+            {t("svc.voucher.subtitle")}
           </p>
           <p className="mx-auto mt-3 max-w-4xl text-sm font-medium leading-relaxed text-[#222] md:mt-4 md:text-2xl">
-            Được sử dụng tất cả dịch vụ với giá thẻ Foxie{" "}
-            <span className="font-bold">tiết kiệm đến 35%</span> so với giá niêm
-            yết.{" "}
+            {t("svc.voucher.body1")}{" "}
+            <span className="font-bold">{t("svc.voucher.bodySave")}</span> {t("svc.voucher.body2")}{" "}
             <span className="font-bold">
-              Thẻ có thể chia sẻ hoặc dùng chung với bạn bè và người thân
+              {t("svc.voucher.bodyShare")}
             </span>
             .
           </p>
@@ -86,7 +87,7 @@ export default function VoucherSection() {
               >
                 <Image
                   src={voucher.image}
-                  alt={voucher.name}
+                  alt={t(voucher.nameKey)}
                   fill
                   className="object-contain object-center"
                   sizes="(max-width: 640px) 80vw, (max-width: 1024px) 50vw, 25vw"
@@ -144,7 +145,7 @@ export default function VoucherSection() {
                     className="flex h-9 w-full items-center justify-center gap-2 rounded-xl bg-[#ff6a36] text-sm font-semibold text-white hover:bg-[#f45c28]"
                   >
                     <ShoppingCart className="h-4 w-4" />
-                    Thêm vào giỏ
+                    {t("svc.voucher.addCart")}
                   </button>
                 </div>
               </div>

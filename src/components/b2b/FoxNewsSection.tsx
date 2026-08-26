@@ -1,9 +1,15 @@
-import Image from "next/image"
-import Link from "next/link"
+"use client";
 
-import { foxNewsItems } from "@/components/b2b/home-data"
+import Image from "next/image";
+import Link from "next/link";
+
+import { getLocalizedFoxNews } from "@/components/b2b/home-data";
+import { useLanguage } from "@/i18n/language-context";
 
 export function FoxNewsSection() {
+  const { language, t } = useLanguage();
+  const items = getLocalizedFoxNews(language);
+
   return (
     <section
       id="fox-news"
@@ -12,7 +18,7 @@ export function FoxNewsSection() {
       <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-6 md:px-10 xl:px-12">
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
           <p className="mb-3 text-xl font-medium uppercase text-orange-400 md:text-[2rem]">
-            Cập nhật
+            {t("b2b.news.update")}
           </p>
           <h2 className="text-3xl font-extrabold text-orange-500 drop-shadow-[0_5px_16px_rgba(249,115,22,0.18)] md:bg-gradient-to-b md:from-[#ffb15f] md:via-orange-500 md:to-[#f97316] md:bg-clip-text md:text-5xl md:text-transparent">
             <span className="bg-gradient-to-r from-[#ff6a3d] via-[#ff8a24] to-[#ffca43] bg-clip-text text-transparent">
@@ -22,7 +28,7 @@ export function FoxNewsSection() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-11">
-          {foxNewsItems.map((item) => (
+          {items.map((item) => (
             <Link
               key={item.slug}
               href={`/tin-tuc/${item.slug}`}
@@ -44,7 +50,7 @@ export function FoxNewsSection() {
                     {item.date}
                   </p>
                   <span className="inline-flex min-w-[132px] items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-7 py-1 text-[1.05rem] font-medium italic text-black md:text-[1.2rem]">
-                    Mới
+                    {t("b2b.news.badge")}
                   </span>
                 </div>
                 <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] text-[#ff6a3d] md:min-h-[168px] md:text-[22px]">
@@ -56,5 +62,5 @@ export function FoxNewsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

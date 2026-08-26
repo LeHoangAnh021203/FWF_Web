@@ -4,10 +4,10 @@
 
 import { useEffect, useState } from "react";
 
-const introText =
-  "Face Wash Fox (Cáo Rửa Mặt) là chuỗi cửa hàng rửa mặt công nghệ, chăm sóc da chuyên nghiệp lần đầu xuất hiện tại Việt Nam";
+import { useLanguage } from "@/i18n/language-context";
 
 export default function LoadingOverlay() {
+  const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -42,17 +42,14 @@ export default function LoadingOverlay() {
       <div className="loading-card">
         <div className="loading-logo-wrap" aria-hidden="true">
           <div className="loading-logo-ring">
-            <img
-              src="/logo/logo.png"
-              alt=""
-            />
+            <img src="/logo/logo.png" alt="" />
           </div>
         </div>
         <div className="loading-copy">
           <p>Face Wash Fox</p>
-          <h2>{introText}</h2>
+          <h2>{t("home.loading.intro")}</h2>
           <div>
-            <span>Đang tải</span>
+            <span>{t("home.loading.status")}</span>
             <i aria-hidden="true" />
           </div>
         </div>

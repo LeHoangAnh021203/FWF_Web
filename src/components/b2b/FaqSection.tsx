@@ -5,8 +5,10 @@ import { ChevronDown } from "lucide-react"
 import Image from "next/image"
 
 import { faqItems } from "@/components/b2b/home-data"
+import { useLanguage } from "@/i18n/language-context"
 
 export function FaqSection() {
+  const { t } = useLanguage()
   const [openFaqIndex, setOpenFaqIndex] = useState(-1)
 
   return (
@@ -24,10 +26,10 @@ export function FaqSection() {
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <div className="inline-flex flex-col items-center rounded-[32px] border border-white/60 bg-white/35 px-6 py-5 shadow-[0_18px_45px_-28px_rgba(234,88,12,0.35)] backdrop-blur-sm md:px-10 md:backdrop-blur-md">
             <p className="mb-3 text-sm font-black uppercase text-orange-400 drop-shadow-[0_3px_10px_rgba(251,146,60,0.22)] md:bg-gradient-to-r md:from-orange-300 md:via-orange-400 md:to-amber-300 md:bg-clip-text md:text-transparent md:text-base">
-              Câu Hỏi Thường Gặp
+              {t("b2b.faq.eyebrow")}
             </p>
             <h2 className="text-3xl font-extrabold text-orange-500 drop-shadow-[0_5px_16px_rgba(249,115,22,0.18)] md:bg-gradient-to-b md:from-[#ffb15f] md:via-orange-500 md:to-[#f97316] md:bg-clip-text md:text-5xl md:text-transparent">
-              Dịch vụ Face Wash Fox
+              {t("b2b.faq.title")}
             </h2>
           </div>
         </div>
@@ -35,9 +37,11 @@ export function FaqSection() {
         <div className="mx-auto grid max-w-6xl gap-4 lg:grid-cols-2 lg:gap-5">
           {faqItems.map((item, index) => {
             const isOpen = openFaqIndex === index
+            const question = t(`b2b.faq.q${item.id}`)
+            const answer = t(`b2b.faq.a${item.id}`)
 
             return (
-              <div key={item.question}>
+              <div key={item.id}>
                 <button
                   type="button"
                   onClick={() => setOpenFaqIndex(isOpen ? -1 : index)}
@@ -50,13 +54,13 @@ export function FaqSection() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between gap-4">
                         <h3 className="text-lg font-semibold leading-tight text-stone-900 md:text-xl">
-                          {item.question}
+                          {question}
                         </h3>
                         <ChevronDown className={`mt-1 h-5 w-5 shrink-0 text-orange-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                       </div>
                       <div className={`grid transition-all duration-300 ${isOpen ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                         <div className="overflow-hidden">
-                          <p className="pr-0 text-sm leading-7 text-stone-600 md:pr-8 md:text-base md:leading-8">{item.answer}</p>
+                          <p className="pr-0 text-sm leading-7 text-stone-600 md:pr-8 md:text-base md:leading-8">{answer}</p>
                         </div>
                       </div>
                     </div>

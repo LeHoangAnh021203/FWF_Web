@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import CookiePolicyBanner from "./cookie-policy-banner";
+import FloatingActions from "./floating-actions";
+import AppProviders from "./providers";
 import { VerticalMenu } from "./site-chrome";
 import "./globals.css";
 
@@ -124,9 +126,12 @@ export default function RootLayout({
   return (
     <html lang="vi" className={svnPoppins.variable}>
       <body className={`${svnPoppins.className} antialiased`}>
-        <VerticalMenu />
-        {children}
-        <CookiePolicyBanner />
+        <AppProviders>
+          <VerticalMenu />
+          {children}
+          <FloatingActions />
+          <CookiePolicyBanner />
+        </AppProviders>
       </body>
     </html>
   );

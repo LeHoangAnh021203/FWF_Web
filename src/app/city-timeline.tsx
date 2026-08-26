@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 
+import { useLanguage } from "@/i18n/language-context";
+
 type City = {
   name: string;
   text: string;
@@ -38,6 +40,7 @@ function buildCurvedPath(
 }
 
 export default function CityTimeline({ cities }: { cities: readonly City[] }) {
+  const { t } = useLanguage();
   const rootRef = useRef<HTMLDivElement>(null);
   const [pathD, setPathD] = useState("");
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
@@ -225,7 +228,7 @@ export default function CityTimeline({ cities }: { cities: readonly City[] }) {
         className={`city-timeline-cta ${ctaVisible ? "is-visible" : "is-pending"}`}
       >
         <a className="store-find-btn" href="/cua-hang">
-          Tìm cửa hàng
+          {t("home.findStore")}
         </a>
       </div>
     </div>

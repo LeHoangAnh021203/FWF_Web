@@ -8,8 +8,10 @@ import { caseStudies, type CaseStudy } from "@/components/b2b/home-data"
 import { Button } from "@/components/b2b/ui/button"
 import { Card, CardContent } from "@/components/b2b/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/b2b/ui/dialog"
+import { useLanguage } from "@/i18n/language-context"
 
 export function FoxSwatSection() {
+  const { t } = useLanguage()
   const [selectedStudy, setSelectedStudy] = useState<CaseStudy | null>(null)
   const [previewStates, setPreviewStates] = useState<Record<string, { current: number; previous: number }>>({})
 
@@ -24,8 +26,8 @@ export function FoxSwatSection() {
         for (const study of rotatingStudies) {
           const total = study.previewImages?.length ?? 0
           if (!total) continue
-          const currentIndex = current[study.title]?.current ?? 0
-          next[study.title] = {
+          const currentIndex = current[study.id]?.current ?? 0
+          next[study.id] = {
             previous: currentIndex,
             current: (currentIndex + 1) % total,
           }
@@ -37,17 +39,24 @@ export function FoxSwatSection() {
     return () => window.clearInterval(interval)
   }, [])
 
+  const studyTitle = (study: CaseStudy) => t(`b2b.pkg.${study.id}.title`)
+  const studyDesc = (study: CaseStudy) => t(`b2b.pkg.${study.id}.desc`)
+  const studyTags = (study: CaseStudy) =>
+    Array.from({ length: study.tagCount }, (_, i) => t(`b2b.pkg.${study.id}.tag${i + 1}`))
+  const studyDetails = (study: CaseStudy) =>
+    Array.from({ length: study.detailCount }, (_, i) => t(`b2b.pkg.${study.id}.d${i + 1}`))
+
   return (
     <section id="fox-swat" className="relative z-20 bg-gradient-to-b from-orange-100 via-white to-orange-50 py-20">
       <div className="mx-auto w-full max-w-[1480px] px-4 md:px-8 xl:px-10">
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <h2 className="mb-4 text-sm font-bold uppercase text-orange-300 md:text-base">KHÁM PHÁ</h2>
-          <p className="mb-4 text-3xl font-bold text-black md:text-4xl">3 GÓI DỊCH VỤ</p>
+          <h2 className="mb-4 text-sm font-bold uppercase text-orange-300 md:text-base">{t("b2b.packagesEyebrow")}</h2>
+          <p className="mb-4 text-3xl font-bold text-black md:text-4xl">{t("b2b.packagesTitle")}</p>
         </div>
         <div className="grid gap-8 pt-6">
           {caseStudies.map((study, index) => (
             <div
-              key={study.title}
+              key={study.id}
               className="group cursor-pointer"
               style={{ contentVisibility: "auto", containIntrinsicSize: "420px" }}
             >
@@ -70,14 +79,14 @@ export function FoxSwatSection() {
                             <Image
                               key={previewImage}
                               src={previewImage}
-                              alt={`${study.title} voucher ${previewIndex + 1}`}
+                              alt={`${studyTitle(study)} voucher ${previewIndex + 1}`}
                               fill
                               priority={index < 3 && previewIndex === 0}
                               sizes="(max-width: 1024px) 100vw, 44vw"
                               className={`object-cover object-center transition-transform duration-700 ${
-                                previewIndex === (previewStates[study.title]?.current ?? 0)
+                                previewIndex === (previewStates[study.id]?.current ?? 0)
                                   ? "translate-x-0 z-20"
-                                  : previewIndex === (previewStates[study.title]?.previous ?? -1)
+                                  : previewIndex === (previewStates[study.id]?.previous ?? -1)
                                     ? "-translate-x-full z-10"
                                     : "translate-x-full z-0"
                               }`}
@@ -87,7 +96,7 @@ export function FoxSwatSection() {
                       ) : (
                         <Image
                           src={study.image}
-                          alt={study.title}
+                          alt={studyTitle(study)}
                           fill
                           priority={index < 3}
                           sizes="(max-width: 1024px) 100vw, 44vw"
@@ -98,14 +107,14 @@ export function FoxSwatSection() {
                   </div>
                   <div className="px-2 py-1 md:px-3">
                     <h3 className="mb-3 text-xl font-semibold leading-tight text-orange-600 transition-colors duration-300 group-hover:text-orange-500 sm:text-2xl">
-                      {study.title}
+                      {studyTitle(study)}
                     </h3>
                     <p
                       className="mb-4 max-w-2xl text-sm leading-6 text-stone-500 sm:text-base sm:leading-7 lg:line-clamp-3"
-                      dangerouslySetInnerHTML={{ __html: study.description }}
+                      dangerouslySetInnerHTML={{ __html: studyDesc(study) }}
                     />
                     <div className="flex flex-wrap gap-2">
-                      {study.tags.map((tag) => (
+                      {studyTags(study).map((tag) => (
                         <span
                           key={tag}
                           className="rounded-full border border-orange-300/80 bg-white/90 px-3 py-1.5 text-xs font-medium text-orange-600 shadow-sm transition-all duration-300 group-hover:border-orange-400 group-hover:bg-orange-50 sm:text-sm"
@@ -120,7 +129,7 @@ export function FoxSwatSection() {
                         onClick={() => setSelectedStudy(study)}
                         className="rounded-full bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-[0_18px_38px_-20px_rgba(234,88,12,0.45)] transition-all duration-300 hover:bg-orange-600"
                       >
-                        Chi tiết
+                        {t("b2b.detail")}
                         <ArrowUpRight className="ml-2 h-4 w-4" />
                       </Button>
                     </div>
@@ -131,7 +140,7 @@ export function FoxSwatSection() {
                       onClick={() => setSelectedStudy(study)}
                       className="pointer-events-auto translate-y-4 rounded-full bg-white/98 px-8 py-3 text-base font-bold text-orange-600 shadow-[0_18px_38px_-20px_rgba(15,23,42,0.35)] transition-all duration-300 hover:bg-white group-hover:translate-y-0"
                     >
-                      Chi tiết
+                      {t("b2b.detail")}
                       <ArrowUpRight className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
@@ -146,15 +155,15 @@ export function FoxSwatSection() {
           {selectedStudy ? (
             <div className="space-y-6">
               <DialogHeader className="space-y-3">
-                <DialogTitle className="text-2xl leading-tight">{selectedStudy.title}</DialogTitle>
+                <DialogTitle className="text-2xl leading-tight">{studyTitle(selectedStudy)}</DialogTitle>
                 <div
                   className="text-sm leading-6 text-stone-600"
-                  dangerouslySetInnerHTML={{ __html: selectedStudy.description }}
+                  dangerouslySetInnerHTML={{ __html: studyDesc(selectedStudy) }}
                 />
               </DialogHeader>
 
               <ul className="space-y-3 text-base leading-7 text-stone-700">
-                {selectedStudy.detailPoints.map((point) => (
+                {studyDetails(selectedStudy).map((point) => (
                   <li key={point} className="flex gap-3">
                     <GamepadDirectional className={`mt-1 h-5 w-5 shrink-0 ${selectedStudy.iconClassName}`} />
                     <span>{point}</span>
@@ -164,7 +173,7 @@ export function FoxSwatSection() {
 
               {selectedStudy.voucherImages?.length ? (
                 <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase text-orange-400">Voucher mẫu</p>
+                  <p className="text-sm font-semibold uppercase text-orange-400">{t("b2b.voucherSamples")}</p>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                     {selectedStudy.voucherImages.map((voucherImage, index) => (
                       <div

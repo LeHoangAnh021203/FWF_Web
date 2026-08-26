@@ -1,26 +1,22 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { Maximize2, Minimize2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const BranchMap = dynamic(() => import("../components/BranchMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="store-map-loading">
-      <span />
-      <p>Đang tải bản đồ cửa hàng...</p>
-    </div>
-  ),
-});
+import { useLanguage } from "@/i18n/language-context";
+
+/** Deployed FWF_Map app — push/deploy Map updates this URL automatically. */
+const STORE_MAP_URL =
+  process.env.NEXT_PUBLIC_STORE_MAP_URL?.trim() ||
+  "https://cuahang.facewashfox.com/";
 
 export default function StoreMapSection() {
+  const { t } = useLanguage();
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle("store-map-fullscreen-open", isFullscreen);
-    window.setTimeout(() => window.dispatchEvent(new Event("resize")), 80);
-    window.setTimeout(() => window.dispatchEvent(new Event("resize")), 320);
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setIsFullscreen(false);
@@ -45,15 +41,9 @@ export default function StoreMapSection() {
           className="store-map-fullscreen-toggle"
           onClick={() => setIsFullscreen((current) => !current)}
           aria-label={
-            isFullscreen
-              ? "Thu nhỏ bản đồ khỏi toàn màn hình"
-              : "Phóng to bản đồ toàn màn hình"
+            isFullscreen ? t("home.map.collapse") : t("home.map.expand")
           }
-          title={
-            isFullscreen
-              ? "Thu nhỏ bản đồ khỏi toàn màn hình"
-              : "Phóng to bản đồ toàn màn hình"
-          }
+          title={isFullscreen ? t("home.map.collapse") : t("home.map.expand")}
         >
           {isFullscreen ? (
             <Minimize2 aria-hidden="true" />
@@ -61,7 +51,23 @@ export default function StoreMapSection() {
             <Maximize2 aria-hidden="true" />
           )}
         </button>
-        <BranchMap />
+
+        {!isLoaded ? (
+          <div className="store-map-loading" aria-hidden="true">
+            <span />
+            <p>{t("home.map.loading")}</p>
+          </div>
+        ) : null}
+
+        <iframe
+          title={t("home.map.title")}
+          src={STORE_MAP_URL}
+          className="store-map-iframe"
+          allow="geolocation; clipboard-write"
+          referrerPolicy="no-referrer-when-downgrade"
+          loading="lazy"
+          onLoad={() => setIsLoaded(true)}
+        />
       </div>
     </section>
   );

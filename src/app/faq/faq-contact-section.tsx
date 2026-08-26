@@ -4,10 +4,12 @@ import { FormEvent, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 import { faqCategories } from "@/data/faq";
+import { useLanguage } from "@/i18n/language-context";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
 
 export default function FaqContactSection() {
+  const { t } = useLanguage();
   const [openCategory, setOpenCategory] = useState("");
   const [openQuestion, setOpenQuestion] = useState("");
   const [fullName, setFullName] = useState("");
@@ -39,7 +41,7 @@ export default function FaqContactSection() {
         const data = (await response.json().catch(() => null)) as {
           error?: string;
         } | null;
-        throw new Error(data?.error || "Không gửi được tin nhắn. Vui lòng thử lại.");
+        throw new Error(data?.error || t("faq.fail"));
       }
 
       setSubmitState("success");
@@ -50,7 +52,7 @@ export default function FaqContactSection() {
     } catch (error) {
       setSubmitState("error");
       setErrorMessage(
-        error instanceof Error ? error.message : "Đã có lỗi xảy ra. Vui lòng thử lại.",
+        error instanceof Error ? error.message : t("faq.error"),
       );
     }
   };
@@ -59,19 +61,20 @@ export default function FaqContactSection() {
     <section className="faq-shell" aria-labelledby="faq-heading">
       <div className="faq-card">
         <div className="faq-card-left">
-          <h1 id="faq-heading">FAQS</h1>
+          <h1 id="faq-heading">{t("faq.heading")}</h1>
           <p className="faq-card-lead">
-            Những câu hỏi thường gặp về Face Wash Fox. Xem thêm tại{" "}
-            <a href="/dich-vu">Dịch vụ</a> nếu cần chi tiết liệu trình.
+            {t("faq.leadBefore")}
+            <a href="/dich-vu">{t("faq.leadLink")}</a>
+            {t("faq.leadAfter")}
           </p>
 
           <ul className="faq-category-list">
             {faqCategories.map((category) => {
-              const isCategoryOpen = openCategory === category.title;
+              const isCategoryOpen = openCategory === category.id;
 
               return (
                 <li
-                  key={category.title}
+                  key={category.id}
                   className={isCategoryOpen ? "faq-category is-open" : "faq-category"}
                 >
                   <button
@@ -79,18 +82,18 @@ export default function FaqContactSection() {
                     className="faq-category-trigger"
                     aria-expanded={isCategoryOpen}
                     onClick={() => {
-                      setOpenCategory(isCategoryOpen ? "" : category.title);
+                      setOpenCategory(isCategoryOpen ? "" : category.id);
                       setOpenQuestion("");
                     }}
                   >
-                    <span>{category.title}</span>
+                    <span>{t(category.titleKey)}</span>
                     <ChevronDown aria-hidden="true" />
                   </button>
 
                   <div className="faq-category-panel">
                     <ul className="faq-accordion">
                       {category.items.map((item) => {
-                        const id = `${category.title}::${item.question}`;
+                        const id = `${category.id}::${item.qKey}`;
                         const isOpen = openQuestion === id;
 
                         return (
@@ -100,11 +103,11 @@ export default function FaqContactSection() {
                               aria-expanded={isOpen}
                               onClick={() => setOpenQuestion(isOpen ? "" : id)}
                             >
-                              <span>{item.question}</span>
+                              <span>{t(item.qKey)}</span>
                               <ChevronDown aria-hidden="true" />
                             </button>
                             <div className="faq-accordion-panel">
-                              <p>{item.answer}</p>
+                              <p>{t(item.aKey)}</p>
                             </div>
                           </li>
                         );
@@ -118,72 +121,72 @@ export default function FaqContactSection() {
         </div>
 
         <div className="faq-card-right">
-          <h2>CHƯA TÌM THẤY CÂU TRẢ LỜI?</h2>
-          <p>Đừng ngại liên hệ với chúng tôi</p>
+          <h2>{t("faq.contactTitle")}</h2>
+          <p>{t("faq.contactLead")}</p>
 
           <form className="faq-contact-form" onSubmit={handleSubmit}>
             <label className="sr-only" htmlFor="faq-name">
-              Họ và tên
+              {t("faq.name")}
             </label>
             <input
               id="faq-name"
               name="fullName"
               type="text"
               required
-              placeholder="Họ và tên"
+              placeholder={t("faq.name")}
               value={fullName}
               onChange={(event) => setFullName(event.target.value)}
               autoComplete="name"
             />
 
             <label className="sr-only" htmlFor="faq-email">
-              Email
+              {t("faq.email")}
             </label>
             <input
               id="faq-email"
               name="email"
               type="email"
               required
-              placeholder="Email"
+              placeholder={t("faq.email")}
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               autoComplete="email"
             />
 
             <label className="sr-only" htmlFor="faq-phone">
-              Số điện thoại
+              {t("faq.phone")}
             </label>
             <input
               id="faq-phone"
               name="phone"
               type="tel"
               required
-              placeholder="Số điện thoại"
+              placeholder={t("faq.phone")}
               value={phone}
               onChange={(event) => setPhone(event.target.value)}
               autoComplete="tel"
             />
 
             <label className="sr-only" htmlFor="faq-message">
-              Nội dung
+              {t("faq.message")}
             </label>
             <textarea
               id="faq-message"
               name="message"
               required
               rows={5}
-              placeholder="Nội dung"
+              placeholder={t("faq.message")}
               value={message}
               onChange={(event) => setMessage(event.target.value)}
             />
 
             <button type="submit" disabled={submitState === "loading"}>
-              {submitState === "loading" ? "ĐANG GỬI..." : "GỬI TIN NHẮN"}
+              {submitState === "loading" ? t("faq.sending") : t("faq.submit")}
             </button>
 
             {submitState === "success" ? (
               <p className="faq-form-status is-success" role="status">
-                Đã gửi thành công. Chúng tôi sẽ liên hệ bạn sớm.
+                {t("faq.success")}
               </p>
             ) : null}
             {submitState === "error" ? (

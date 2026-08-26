@@ -5,8 +5,10 @@ import { useState } from "react"
 import { branches } from "@/data/branches"
 import { Button } from "@/components/b2b/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/b2b/ui/dialog"
+import { useLanguage } from "@/i18n/language-context"
 
 export function BookingSection() {
+  const { t } = useLanguage()
   const [fullName, setFullName] = useState("")
   const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
@@ -22,13 +24,13 @@ export function BookingSection() {
     setSubmitSuccess("")
 
     if (!fullName.trim() || !phone.trim()) {
-      setSubmitError("Vui lòng điền đầy đủ họ tên và số điện thoại.")
+      setSubmitError(t("b2b.booking.required"))
       return
     }
 
     const selectedBranch = branches.find((branch) => branch.id === selectedBranchId)
     if (!selectedBranch) {
-      setSubmitError("Không tìm thấy chi nhánh đã chọn.")
+      setSubmitError(t("b2b.booking.branchMissing"))
       return
     }
 
@@ -57,13 +59,13 @@ export function BookingSection() {
         throw new Error("BOOKING_SUBMIT_FAILED")
       }
 
-      setSubmitSuccess("Đăng ký thành công. Face Wash Fox sẽ liên hệ với bạn trong thời gian sớm nhất!")
+      setSubmitSuccess(t("b2b.booking.success"))
       setFullName("")
       setPhone("")
       setEmail("")
       setNote("")
     } catch {
-      setSubmitError("Gửi thông tin thất bại. Vui lòng thử lại.")
+      setSubmitError(t("b2b.booking.fail"))
     } finally {
       setIsSubmitting(false)
     }
@@ -77,11 +79,11 @@ export function BookingSection() {
             href="tel:0889866666"
             className="flex h-14 w-full items-center justify-center rounded-[14px] bg-orange-500 px-6 text-center text-lg font-extrabold text-white transition-opacity hover:opacity-90 md:h-16 md:px-8 md:text-[1.65rem]"
           >
-            Liên hệ để nhận báo giá
+            {t("b2b.booking.phoneCta")}
           </a>
-          <h2 className="mb-4 pt-5 text-xl font-bold text-black md:text-3xl">Doanh Nghiệp Của Bạn Đã Sẵn Sàng Chưa?</h2>
+          <h2 className="mb-4 pt-5 text-xl font-bold text-black md:text-3xl">{t("b2b.booking.title")}</h2>
           <p className="mb-8 text-sm leading-7 text-muted-foreground md:text-[16px]">
-            Hãy cung cấp cho chúng tôi thông tin của bạn để chúng tôi biết rằng <br /> bạn đã sẵn sàng để hợp tác với FWF nhé!
+            {t("b2b.booking.subtitle")}
           </p>
           <form className="mt-8 space-y-6 md:mt-10" onSubmit={handleSubmitBooking}>
             <div className="grid gap-5 md:grid-cols-2">
@@ -91,7 +93,7 @@ export function BookingSection() {
                   type="text"
                   value={fullName}
                   onChange={(event) => setFullName(event.target.value)}
-                  placeholder="Nhập họ và tên"
+                  placeholder={t("b2b.booking.namePh")}
                   required
                   className="h-14 w-full rounded-[14px] border border-orange-200 bg-orange-50 px-5 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-orange-400 md:text-[1.15rem]"
                 />
@@ -102,7 +104,7 @@ export function BookingSection() {
                   type="tel"
                   value={phone}
                   onChange={(event) => setPhone(event.target.value)}
-                  placeholder="Nhập số điện thoại"
+                  placeholder={t("b2b.booking.phonePh")}
                   required
                   className="h-14 w-full rounded-[14px] border border-orange-200 bg-orange-50 px-5 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-orange-400 md:text-[1.15rem]"
                 />
@@ -115,7 +117,7 @@ export function BookingSection() {
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="Nhập email"
+                placeholder={t("b2b.booking.emailPh")}
                 className="h-14 w-full rounded-[14px] border border-orange-200 bg-orange-50 px-5 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-orange-400 md:text-[1.15rem]"
               />
             </div>
@@ -126,7 +128,7 @@ export function BookingSection() {
                 rows={4}
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
-                placeholder="Hãy cho chúng tôi biết bạn đang cần gì..."
+                placeholder={t("b2b.booking.notePh")}
                 className="w-full rounded-[14px] border border-orange-200 bg-orange-50 px-5 py-4 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-orange-400 md:text-[1.15rem]"
               />
             </div>
@@ -138,7 +140,7 @@ export function BookingSection() {
               disabled={isSubmitting}
               className="h-14 w-full rounded-[14px] bg-orange-500 px-8 text-lg font-extrabold text-white transition-opacity hover:opacity-90 md:h-16 md:text-[1.65rem]"
             >
-              {isSubmitting ? "Đang gửi thông tin..." : "Đặt lịch tư vấn miễn phí"}
+              {isSubmitting ? t("b2b.booking.sending") : t("b2b.booking.submit")}
             </button>
           </form>
         </div>
@@ -146,7 +148,7 @@ export function BookingSection() {
       <Dialog open={Boolean(submitSuccess)} onOpenChange={(open) => !open && setSubmitSuccess("")}>
         <DialogContent className="border-orange-200 bg-white text-orange-950 sm:max-w-md">
           <DialogHeader className="space-y-3 text-center">
-            <DialogTitle className="text-2xl">Đăng ký thành công</DialogTitle>
+            <DialogTitle className="text-2xl">{t("b2b.booking.successTitle")}</DialogTitle>
           </DialogHeader>
           <p className="text-center text-base leading-7 text-stone-600">{submitSuccess}</p>
           <Button
@@ -154,7 +156,7 @@ export function BookingSection() {
             className="w-full bg-orange-500 text-white hover:bg-orange-600"
             onClick={() => setSubmitSuccess("")}
           >
-            Đóng
+            {t("b2b.booking.close")}
           </Button>
         </DialogContent>
       </Dialog>
