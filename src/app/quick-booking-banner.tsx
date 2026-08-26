@@ -87,29 +87,22 @@ export default function QuickBookingBanner() {
     setSubmitState("loading");
 
     try {
-      // Preview success UX locally — no real booking is sent.
-      const simulateSuccess = process.env.NODE_ENV !== "production";
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          requestType: "booking",
+          fullName: name,
+          phone: phoneNumber,
+          note: "Đăng ký nhanh từ banner trang chủ",
+        }),
+      });
 
-      if (simulateSuccess) {
-        await new Promise((resolve) => window.setTimeout(resolve, 700));
-      } else {
-        const response = await fetch("/api/booking", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            requestType: "booking",
-            fullName: name,
-            phone: phoneNumber,
-            note: "Đăng ký nhanh từ banner trang chủ",
-          }),
-        });
-
-        if (!response.ok) {
-          const data = (await response.json().catch(() => null)) as {
-            error?: string;
-          } | null;
-          throw new Error(data?.error || t("booking.fail"));
-        }
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        throw new Error(data?.error || t("booking.fail"));
       }
 
       setFullName("");

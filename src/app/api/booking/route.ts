@@ -151,33 +151,66 @@ export async function POST(request: Request) {
   }
 
   try {
+    const sheetPayload = {
+      requestType: isQuote ? "quote" : "booking",
+      fullName,
+      phone,
+      email,
+      note,
+      branchId: payload.branchId ?? "",
+      branchName: payload.branchName ?? "",
+      branchAddress: payload.branchAddress ?? "",
+      branchCity: payload.branchCity ?? "",
+      branchMapsUrl: payload.branchMapsUrl ?? "",
+      nearestDistanceKm:
+        typeof payload.nearestDistanceKm === "number"
+          ? Number(payload.nearestDistanceKm.toFixed(1))
+          : "",
+    }
+
+    // Apps Script Web App: POST often 302s; following as POST can return HTML/405
+    // even after doPost already saved the row. Handle redirect manually.
     const appsScriptResponse = await fetch(bookingScriptUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "text/plain;charset=utf-8",
       },
-      body: JSON.stringify({
-        requestType: isQuote ? "quote" : "booking",
-        fullName,
-        phone,
-        email,
-        note,
-        branchId: payload.branchId ?? "",
-        branchName: payload.branchName ?? "",
-        branchAddress: payload.branchAddress ?? "",
-        branchCity: payload.branchCity ?? "",
-        branchMapsUrl: payload.branchMapsUrl ?? "",
-        nearestDistanceKm:
-          typeof payload.nearestDistanceKm === "number"
-            ? Number(payload.nearestDistanceKm.toFixed(1))
-            : "",
-      }),
+      body: JSON.stringify(sheetPayload),
+      redirect: "manual",
       cache: "no-store",
     })
 
-    const responseText = await appsScriptResponse.text()
+    let responseText = await appsScriptResponse.text()
+    let status = appsScriptResponse.status
+    const redirectedAfterPost = status >= 300 && status < 400
 
-    if (!appsScriptResponse.ok) {
+    if (redirectedAfterPost) {
+      const location = appsScriptResponse.headers.get("location")
+      if (location) {
+        const redirected = await fetch(location, {
+          method: "GET",
+          redirect: "follow",
+          cache: "no-store",
+        })
+        responseText = await redirected.text()
+        status = redirected.status
+      }
+    }
+
+    const parsed = parseAppsScriptJson(responseText)
+    const explicitFail = Boolean(
+      parsed && (parsed.ok === false || parsed.success === false),
+    )
+    const explicitOk = Boolean(
+      parsed && (parsed.ok === true || parsed.success === true),
+    )
+    // Google often 302 after doPost already wrote the row; follow can be HTML/405.
+    const sheetSaved =
+      explicitOk ||
+      redirectedAfterPost ||
+      (status === 200 && !explicitFail && !looksLikeHtml(responseText))
+
+    if (!sheetSaved || explicitFail) {
       if (isQuote && emailResult?.sent) {
         return NextResponse.json({
           ok: true,
@@ -185,14 +218,16 @@ export async function POST(request: Request) {
           emailSent: true,
           emailTo: emailResult.to,
           sheetSaved: false,
-          details: responseText,
+          details: responseText.slice(0, 500),
         })
       }
 
       return NextResponse.json(
         {
-          error: "Apps Script rejected the request.",
-          details: responseText,
+          error:
+            (typeof parsed?.error === "string" && parsed.error) ||
+            "Không ghi được Google Sheet. Vui lòng thử lại.",
+          details: responseText.slice(0, 500),
         },
         { status: 502 },
       )
@@ -207,21 +242,13 @@ export async function POST(request: Request) {
       )
     }
 
-    try {
-      const parsed = JSON.parse(responseText) as Record<string, unknown>
-      return NextResponse.json({
-        ...parsed,
-        emailSent: Boolean(emailResult?.sent),
-        emailTo: emailResult?.to,
-      })
-    } catch {
-      return new NextResponse(responseText, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        },
-      })
-    }
+    return NextResponse.json({
+      ok: true,
+      success: true,
+      ...(parsed ?? {}),
+      emailSent: Boolean(emailResult?.sent),
+      emailTo: emailResult?.to,
+    })
   } catch {
     if (isQuote && emailResult?.sent) {
       return NextResponse.json({
@@ -235,4 +262,19 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ error: "Failed to reach Apps Script." }, { status: 502 })
   }
+}
+
+function parseAppsScriptJson(text: string): Record<string, unknown> | null {
+  const trimmed = text.trim()
+  if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) return null
+  try {
+    return JSON.parse(trimmed) as Record<string, unknown>
+  } catch {
+    return null
+  }
+}
+
+function looksLikeHtml(text: string) {
+  const head = text.trim().slice(0, 32).toLowerCase()
+  return head.startsWith("<!doctype") || head.startsWith("<html")
 }
