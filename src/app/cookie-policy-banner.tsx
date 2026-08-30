@@ -54,10 +54,18 @@ export default function CookiePolicyBanner() {
           <Link href="/cookie-policy">{t("cookie.link")}</Link>.
         </p>
         <div className="cookie-actions">
-          <button onClick={() => saveChoice("declined")} type="button">
+          <button
+            className="cookie-action cookie-action--decline"
+            onClick={() => saveChoice("declined")}
+            type="button"
+          >
             {t("cookie.decline")}
           </button>
-          <button onClick={() => saveChoice("accepted")} type="button">
+          <button
+            className="cookie-action cookie-action--accept"
+            onClick={() => saveChoice("accepted")}
+            type="button"
+          >
             {t("cookie.accept")}
           </button>
         </div>
