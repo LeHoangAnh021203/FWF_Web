@@ -125,6 +125,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={svnPoppins.variable}>
+      <head>
+        <link rel="preload" href="/fwf-hero-poster.webp" as="image" type="image/webp" />
+      </head>
       <body className={`${svnPoppins.className} antialiased`}>
         <AppProviders>
           <VerticalMenu />

@@ -7,6 +7,7 @@ import { useLanguage } from "@/i18n/language-context";
 
 import CityTimeline from "./city-timeline";
 import FeedbackCarousel from "./feedback-carousel";
+import HeroVideo from "./hero-video";
 import LoadingOverlay from "./loading-overlay";
 import NewsShowcase from "./news-showcase";
 import QuickBookingBanner from "./quick-booking-banner";
@@ -153,17 +154,7 @@ export default function HomePage() {
           <span>W</span>
           <span>F</span>
         </div>
-        <div className="hero-frame">
-          <video
-            className="hero-video"
-            src="/fwf-hero.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          />
-        </div>
+        <HeroVideo />
       </section>
 
       <QuickBookingBanner />
