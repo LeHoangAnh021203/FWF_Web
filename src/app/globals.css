@@ -6370,12 +6370,12 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   }
 
   .mono-hero {
-    min-height: 78svh;
-    height: 78svh;
+    min-height: 100dvh;
+    height: 100dvh;
   }
 
   .hero-frame {
-    height: 78svh;
+    height: 100dvh;
   }
 
   .hero-title {
