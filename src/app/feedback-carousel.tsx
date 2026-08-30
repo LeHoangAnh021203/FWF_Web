@@ -70,7 +70,7 @@ export default function FeedbackCarousel({ testimonials }: FeedbackCarouselProps
     if (!count) return;
 
     const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
-    const radius = isMobile ? 170 : 240;
+    const radius = isMobile ? 128 : 240;
     let closestIndex = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
 
