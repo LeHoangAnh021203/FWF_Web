@@ -660,7 +660,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 className={`${isMobile ? "text-lg font-bold text-gray-900" : "text-base md:text-lg font-bold"}`}
                 style={isMobile ? undefined : { color: "#ffffff" }}
               >
-                Face Wash Fox
+                {isMobile ? "Danh sách cửa hàng" : "Face Wash Fox"}
               </h1>
             </div>
             <Button

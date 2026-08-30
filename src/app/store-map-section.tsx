@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 import { useLanguage } from "@/i18n/language-context";
 
-/** Deployed FWF_Map app — push/deploy Map updates this URL automatically. */
 const STORE_MAP_URL =
   process.env.NEXT_PUBLIC_STORE_MAP_URL?.trim() ||
   "https://cuahang.facewashfox.com/";

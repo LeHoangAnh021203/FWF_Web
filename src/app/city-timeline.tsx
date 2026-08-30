@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 
 import { useLanguage } from "@/i18n/language-context";
@@ -228,6 +229,7 @@ export default function CityTimeline({ cities }: { cities: readonly City[] }) {
         className={`city-timeline-cta ${ctaVisible ? "is-visible" : "is-pending"}`}
       >
         <a className="store-find-btn" href="/cua-hang">
+          <MapPin aria-hidden="true" />
           {t("home.findStore")}
         </a>
       </div>

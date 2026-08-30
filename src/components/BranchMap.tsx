@@ -888,19 +888,11 @@ export default function BranchMap() {
             ).addTo(map);
             console.log("[v0] Using VietMap raster tiles as base layer");
           } else {
-            // Fallback to Carto Voyager if VietMap key is missing
-            L.tileLayer(
-              "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-              {
-                attribution:
-                  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: "abcd",
-                maxZoom: 19,
-              }
-            ).addTo(map);
-            console.warn(
-              "[v0] NEXT_PUBLIC_VIETMAP_API_KEY not set, using Carto tiles instead"
-            );
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+              attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              maxZoom: 19,
+            }).addTo(map);
           }
         } catch {
           console.log("[v0] Primary tile layer failed, using fallback");
@@ -1177,9 +1169,8 @@ export default function BranchMap() {
     const checkMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      // Auto-hide sidebar on mobile on initial load
       if (mobile) {
-        setShowSidebar(false);
+        setShowSidebar(true);
       }
     };
 
@@ -1561,11 +1552,11 @@ export default function BranchMap() {
             type="button"
             onClick={() => setShowSidebar(true)}
             className="branch-map-open-list"
-            title="Mở danh sách chi nhánh"
-            aria-label="Mở danh sách chi nhánh"
+            title="Mở danh sách cửa hàng"
+            aria-label="Mở danh sách cửa hàng"
           >
             <Menu className="h-4 w-4 shrink-0" aria-hidden="true" />
-            <span>Chi nhánh</span>
+            <span>Danh sách cửa hàng</span>
           </button>
         )}
 

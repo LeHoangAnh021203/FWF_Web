@@ -19,6 +19,10 @@ export default function FloatingActions() {
     return () => window.removeEventListener("scroll", update);
   }, []);
 
+  if (pathname === "/cua-hang") {
+    return null;
+  }
+
   const bookingHref =
     pathname === "/" ? "#dat-lich" : pathname === "/b2b" ? "#booking" : "/#dat-lich";
 
