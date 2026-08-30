@@ -4,6 +4,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Bell,
   Gift,
@@ -137,6 +138,14 @@ const footerColumnConfigs = [
 const resolveHomeAnchor = (href: string, home: boolean) => {
   if (!href.startsWith("#")) return href;
   return home ? href : `/${href}`;
+};
+
+const isMobileNavActive = (href: string, pathname: string) => {
+  const path = href.split("#")[0];
+  if (!path || path === "/") {
+    return false;
+  }
+  return pathname === path || pathname.startsWith(`${path}/`);
 };
 
 export function SocialLinks({ footer = false }: { footer?: boolean }) {
@@ -318,7 +327,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     <header
       className={`mono-header ${solidHeader ? "is-solid" : "is-transparent"}${
         pathname === "/cua-hang" ? " is-store" : ""
-      }`}
+      }${menuOpen ? " is-menu-open" : ""}`}
     >
       <div className="mono-nav-shell">
         <a className="mono-brand" href={brandHref}>
@@ -358,83 +367,90 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
         </div>
       </div>
 
-      {menuOpen ? (
-        <div className="mono-mobile-menu" role="dialog" aria-modal="true">
-          <div className="mono-mobile-menu-head">
-            <a className="mono-mobile-brand" href={brandHref} onClick={() => setMenuOpen(false)}>
-              <img src="/logo/fwf-orange.png" alt="Face Wash Fox" />
-            </a>
-            <button
-              type="button"
-              aria-label={t("nav.closeMenu")}
-              className="mono-mobile-close"
-              onClick={() => setMenuOpen(false)}
-            >
-              <X aria-hidden="true" />
-            </button>
-          </div>
-
-          <div className="mono-mobile-menu-body">
-            <div className="mono-mobile-main">
-              <div className="mono-mobile-language" aria-label={t("nav.language")}>
-                <div className="mono-mobile-language-list" role="tablist">
-                  {languageOptions.map((option) => {
-                    const isActive = language === option.id;
-                    return (
-                      <button
-                        key={option.id}
-                        type="button"
-                        role="tab"
-                        aria-selected={isActive}
-                        aria-label={option.label}
-                        title={option.label}
-                        className={`mono-language-chip${isActive ? " is-active" : ""}`}
-                        onClick={() => setLanguage(option.id)}
-                      >
-                        <img
-                          src={option.flagSrc}
-                          alt=""
-                          aria-hidden="true"
-                          className="mono-language-chip-flag"
-                        />
-                        <span className="mono-language-chip-label">{option.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
+      {menuOpen
+        ? createPortal(
+            <div className="mono-mobile-menu" role="dialog" aria-modal="true">
+              <div className="mono-mobile-menu-head">
+                <a className="mono-mobile-brand" href={brandHref} onClick={() => setMenuOpen(false)}>
+                  <img src="/logo/fwf-orange.png" alt="Face Wash Fox" />
+                </a>
+                <button
+                  type="button"
+                  aria-label={t("nav.closeMenu")}
+                  className="mono-mobile-close"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <X aria-hidden="true" />
+                </button>
               </div>
-              <nav className="mono-mobile-links" aria-label={t("nav.mobileNav")}>
-                {navItems.map(({ label, href }) => (
-                  <a
-                    key={href}
-                    className={href === "/cua-hang" ? "is-store" : undefined}
-                    href={resolveHomeAnchor(href, home)}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {label}
-                  </a>
-                ))}
-              </nav>
-            </div>
 
-            <aside className="mono-mobile-aside">
-              <a href={`tel:${hotline}`} onClick={() => setMenuOpen(false)}>
-                <Phone aria-hidden="true" />
-                <span>{displayHotline}</span>
-              </a>
-              <a href="mailto:info@facewashfox.com" onClick={() => setMenuOpen(false)}>
-                <Mail aria-hidden="true" />
-                <span>info@facewashfox.com</span>
-              </a>
-              <a href="/cua-hang" onClick={() => setMenuOpen(false)}>
-                <MapPin aria-hidden="true" />
-                <span>{t("nav.findStore")}</span>
-              </a>
-              <SocialLinks />
-            </aside>
-          </div>
-        </div>
-      ) : null}
+              <div className="mono-mobile-menu-body">
+                <div className="mono-mobile-main">
+                  <div className="mono-mobile-language" aria-label={t("nav.language")}>
+                    <div className="mono-mobile-language-list" role="tablist">
+                      {languageOptions.map((option) => {
+                        const isActive = language === option.id;
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            role="tab"
+                            aria-selected={isActive}
+                            aria-label={option.label}
+                            title={option.label}
+                            className={`mono-language-chip${isActive ? " is-active" : ""}`}
+                            onClick={() => setLanguage(option.id)}
+                          >
+                            <img
+                              src={option.flagSrc}
+                              alt=""
+                              aria-hidden="true"
+                              className="mono-language-chip-flag"
+                            />
+                            <span className="mono-language-chip-label">{option.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <nav className="mono-mobile-links" aria-label={t("nav.mobileNav")}>
+                    {navItems.map(({ label, href }) => {
+                      const isActive = isMobileNavActive(href, pathname);
+                      return (
+                        <a
+                          key={href}
+                          className={isActive ? "is-active" : undefined}
+                          href={resolveHomeAnchor(href, home)}
+                          aria-current={isActive ? "page" : undefined}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {label}
+                        </a>
+                      );
+                    })}
+                  </nav>
+                </div>
+
+                <aside className="mono-mobile-aside">
+                  <a href={`tel:${hotline}`} onClick={() => setMenuOpen(false)}>
+                    <Phone aria-hidden="true" />
+                    <span>{displayHotline}</span>
+                  </a>
+                  <a href="mailto:info@facewashfox.com" onClick={() => setMenuOpen(false)}>
+                    <Mail aria-hidden="true" />
+                    <span>info@facewashfox.com</span>
+                  </a>
+                  <a href="/cua-hang" onClick={() => setMenuOpen(false)}>
+                    <MapPin aria-hidden="true" />
+                    <span>{t("nav.findStore")}</span>
+                  </a>
+                  <SocialLinks />
+                </aside>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </header>
   );
 }
