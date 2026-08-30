@@ -316,7 +316,9 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
 
   return (
     <header
-      className={`mono-header ${solidHeader ? "is-solid" : "is-transparent"}`}
+      className={`mono-header ${solidHeader ? "is-solid" : "is-transparent"}${
+        pathname === "/cua-hang" ? " is-store" : ""
+      }`}
     >
       <div className="mono-nav-shell">
         <a className="mono-brand" href={brandHref}>
@@ -330,8 +332,13 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
           ))}
         </nav>
         <div className="mono-header-actions">
-          <a className="mono-header-pill mono-header-pill--ghost" href={desktopMapHref}>
-            {t("nav.map")}
+          <a
+            className="mono-header-pill mono-header-pill--ghost mono-header-map"
+            href={desktopMapHref}
+          >
+            <MapPin aria-hidden="true" />
+            <span className="mono-header-map-full">{t("nav.map")}</span>
+            <span className="mono-header-map-short">{t("nav.stores")}</span>
           </a>
           <a
             className="mono-header-pill mono-header-pill--cta"
@@ -370,25 +377,37 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
           <div className="mono-mobile-menu-body">
             <div className="mono-mobile-main">
               <div className="mono-mobile-language" aria-label={t("nav.language")}>
-                {languageOptions.map((option) => (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className={language === option.id ? "is-active" : undefined}
-                    aria-pressed={language === option.id}
-                    aria-label={option.label}
-                    title={option.label}
-                    onClick={() => setLanguage(option.id)}
-                  >
-                    <img src={option.flagSrc} alt="" aria-hidden="true" />
-                    <span>{option.short}</span>
-                  </button>
-                ))}
+                <div className="mono-mobile-language-list" role="tablist">
+                  {languageOptions.map((option) => {
+                    const isActive = language === option.id;
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        aria-label={option.label}
+                        title={option.label}
+                        className={`mono-language-chip${isActive ? " is-active" : ""}`}
+                        onClick={() => setLanguage(option.id)}
+                      >
+                        <img
+                          src={option.flagSrc}
+                          alt=""
+                          aria-hidden="true"
+                          className="mono-language-chip-flag"
+                        />
+                        <span className="mono-language-chip-label">{option.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
               <nav className="mono-mobile-links" aria-label={t("nav.mobileNav")}>
                 {navItems.map(({ label, href }) => (
                   <a
                     key={href}
+                    className={href === "/cua-hang" ? "is-store" : undefined}
                     href={resolveHomeAnchor(href, home)}
                     onClick={() => setMenuOpen(false)}
                   >
