@@ -16,6 +16,15 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        source: "/cua-hang",
+        headers: [
+          {
+            key: "Permissions-Policy",
+            value: 'geolocation=(self "https://cuahang.facewashfox.com")',
+          },
+        ],
+      },
     ];
   },
   images: {

@@ -62,8 +62,9 @@ export default function StoreMapSection() {
           title={t("home.map.title")}
           src={STORE_MAP_URL}
           className="store-map-iframe"
-          allow="geolocation; clipboard-write"
-          referrerPolicy="no-referrer-when-downgrade"
+          allow="geolocation https://cuahang.facewashfox.com; clipboard-write; fullscreen"
+          referrerPolicy="origin-when-cross-origin"
+          allowFullScreen
           loading="lazy"
           onLoad={() => setIsLoaded(true)}
         />

@@ -218,8 +218,23 @@ const Sidebar: React.FC<SidebarProps> = ({
       options?: { silent?: boolean }
     ) => {
       if (!vietmapApiKey) {
-        if (!options?.silent) setRouteError("Chưa cấu hình NEXT_PUBLIC_VIETMAP_API_KEY cho VietMap.");
-        return false;
+        const travelmode =
+          selectedVehicle === "foot"
+            ? "walking"
+            : selectedVehicle === "bike"
+              ? "bicycling"
+              : "driving";
+        const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin.lat},${origin.lng}&destination=${destination.lat},${destination.lng}&travelmode=${travelmode}`;
+        window.open(mapsUrl, "_blank", "noopener,noreferrer");
+        onPreviewRoute(origin, destination);
+        if (!options?.silent) {
+          setRouteError(null);
+          setRouteSummary({
+            distance: calculateDistanceMeters(origin.lat, origin.lng, destination.lat, destination.lng),
+            duration: null,
+          });
+        }
+        return true;
       }
 
       if (!options?.silent) {
