@@ -527,15 +527,37 @@ img {
   height: 18px;
 }
 
+.mono-header.is-menu-open {
+  transform: none;
+  will-change: auto;
+}
+
+html:has(.mono-mobile-menu),
+body:has(.mono-mobile-menu) {
+  overflow: hidden;
+  height: 100%;
+}
+
+body:has(.mono-mobile-menu) .floating-actions {
+  display: none;
+}
+
 .mono-mobile-menu {
   position: fixed;
-  inset: 0;
-  z-index: 95;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 200;
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
+  width: auto;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
   overflow: hidden;
-  background: var(--surface-1);
+  background: #fff8f2;
   color: var(--text-primary);
 }
 
@@ -699,23 +721,9 @@ img {
   color: var(--brand-orange-deep);
 }
 
-.mono-mobile-links a.is-store {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  margin: 6px 0 10px;
-  padding: 0 16px;
-  border-radius: 999px;
-  background: var(--brand-orange-deep);
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.mono-mobile-links a.is-store:hover,
-.mono-mobile-links a.is-store:focus-visible {
-  color: #ffffff;
-  background: var(--accent-strong);
+.mono-mobile-links a.is-active {
+  color: var(--brand-orange-deep);
+  box-shadow: inset 0 -2px 0 var(--brand-orange-deep);
 }
 
 .mono-mobile-aside {
@@ -1064,7 +1072,7 @@ img {
   height: 100vh;
   overflow: hidden;
   animation: fadeIn 700ms ease-out both;
-  background: #000;
+  background: #f0d7a8;
   opacity: calc(1 - (var(--hero-progress) * 0.22));
   transform: scale(calc(1 + (var(--hero-progress) * 0.08)));
   transform-origin: center;
@@ -1076,6 +1084,23 @@ img {
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+}
+
+.hero-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-frame > video.hero-video {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.hero-frame > video.hero-video.is-ready {
+  opacity: 1;
 }
 
 .hero-frame::after {
@@ -6363,10 +6388,6 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   .mono-mobile-links a {
     font-size: clamp(18px, 5vw, 22px);
     padding: 6px 0;
-  }
-
-  .mono-mobile-links a.is-store {
-    font-size: 15px;
   }
 
   .mono-hero {
