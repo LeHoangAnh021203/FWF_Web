@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-
 import { getLocalizedFoxNews } from "@/components/b2b/home-data";
+import { NewsCardTrack } from "@/components/news-card-track";
 import { useLanguage } from "@/i18n/language-context";
 
 export function FoxNewsSection() {
@@ -16,7 +14,7 @@ export function FoxNewsSection() {
       className="overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,196,112,0.18),transparent_26%),linear-gradient(180deg,#ffffff_0%,#fffaf3_52%,#ffffff_100%)] py-20 md:py-24"
     >
       <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-6 md:px-10 xl:px-12">
-        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
+        <NewsCardTrack items={items} badge={t("b2b.news.badge")}>
           <p className="mb-3 text-xl font-medium uppercase text-orange-400 md:text-[2rem]">
             {t("b2b.news.update")}
           </p>
@@ -25,41 +23,7 @@ export function FoxNewsSection() {
               Fox news
             </span>
           </h2>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-11">
-          {items.map((item) => (
-            <Link
-              key={item.slug}
-              href={`/tin-tuc/${item.slug}`}
-              className="group flex h-full w-full flex-col text-left transition-transform duration-300 hover:-translate-y-1"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </div>
-
-              <div className="flex flex-1 flex-col pt-5">
-                <div className="mb-4 flex min-h-[56px] flex-wrap items-center gap-3">
-                  <p className="text-[1.05rem] font-medium text-orange-400 md:text-[1.15rem]">
-                    {item.date}
-                  </p>
-                  <span className="inline-flex min-w-[132px] items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-7 py-1 text-[1.05rem] font-medium italic text-black md:text-[1.2rem]">
-                    {t("b2b.news.badge")}
-                  </span>
-                </div>
-                <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] text-[#ff6a3d] md:min-h-[168px] md:text-[22px]">
-                  {item.title}
-                </h3>
-              </div>
-            </Link>
-          ))}
-        </div>
+        </NewsCardTrack>
       </div>
     </section>
   );
