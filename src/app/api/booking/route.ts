@@ -159,9 +159,8 @@ export async function POST(request: Request) {
   try {
     // Prefer Sheets API (faster). Fall back to Apps Script if needed.
     if (sheetsApiReady) {
-      const sheetsResult = await appendWebBookingRow({ fullName, phone })
-      if (sheetsResult.ok) {
-        if (isQuote && !emailResult?.sent) {
+      if (isQuote) {
+        if (!emailResult?.sent) {
           return NextResponse.json(
             {
               error:
@@ -174,11 +173,25 @@ export async function POST(request: Request) {
         return NextResponse.json({
           ok: true,
           success: true,
+          emailSent: true,
+          emailTo: emailResult.to,
+        })
+      }
+
+      const sheetsResult = await appendWebBookingRow({
+        fullName,
+        phone,
+        email,
+        note,
+        branchName: payload.branchName?.trim() || "",
+      })
+      if (sheetsResult.ok) {
+        return NextResponse.json({
+          ok: true,
+          success: true,
           via: "sheets-api",
           tab: sheetsResult.tab,
           updatedRange: sheetsResult.updatedRange,
-          emailSent: Boolean(emailResult?.sent),
-          emailTo: emailResult?.to,
         })
       }
 

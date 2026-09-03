@@ -1,6 +1,6 @@
 /**
  * Google Apps Script — FWF Web (banner đặt lịch nhanh)
- * Chỉ ghi: Thời gian | Họ tên | SĐT
+ * Chỉ ghi tab map (cột A–I), cùng chỗ với đặt lịch cửa hàng.
  *
  * Setup:
  * 1. Sheet → Tiện ích → Apps Script → dán vào Code.gs
@@ -16,16 +16,14 @@
 var CONFIG = {
   // docs.google.com/spreadsheets/d/<SHEET_ID>/edit
   SHEET_ID: "1Q-FlAnp591WKhE9qJoKH-yI92yl7gY1zQrg-YqRkwyM",
-  SHEET_NAME: "Web",
+  MAP_SHEET_NAME: "map",
 };
-
-var HEADERS = ["Thời gian", "Họ tên", "SĐT"];
 
 function doGet() {
   return json_({
     ok: true,
     message: "FWF Web booking is running",
-    tab: CONFIG.SHEET_NAME,
+    tab: CONFIG.MAP_SHEET_NAME,
   });
 }
 
@@ -43,6 +41,12 @@ function doPost(e) {
     var phone = String(
       (data && (data.phone || data.customerPhone)) || ""
     ).trim();
+    var email = String((data && data.email) || "").trim();
+    var note = String((data && data.note) || "").trim();
+    var branchName = String(
+      (data && (data.branchName || data.branch)) || ""
+    ).trim();
+    var isQuote = String((data && data.requestType) || "") === "quote";
 
     if (!fullName || !phone) {
       return json_({
@@ -52,17 +56,29 @@ function doPost(e) {
       });
     }
 
-    var sheet = getOrCreateSheet_();
-    sheet.appendRow([new Date(), fullName, "'" + phone]);
+    if (isQuote) {
+      return json_({
+        ok: true,
+        success: true,
+        message: "Quote skipped sheet write",
+        tab: null,
+      });
+    }
 
-    var lastRow = sheet.getLastRow();
-    sheet.getRange(lastRow, 1).setNumberFormat("yyyy-mm-dd hh:mm:ss");
+    var lastRow = appendMapRow_(fullName, phone, email, note, branchName);
+    if (!lastRow) {
+      return json_({
+        ok: false,
+        success: false,
+        error: "Tab map not found",
+      });
+    }
 
     return json_({
       ok: true,
       success: true,
       message: "Saved",
-      tab: CONFIG.SHEET_NAME,
+      tab: CONFIG.MAP_SHEET_NAME,
       lastRow: lastRow,
     });
   } catch (err) {
@@ -70,20 +86,29 @@ function doPost(e) {
   }
 }
 
-function getOrCreateSheet_() {
+function appendMapRow_(fullName, phone, email, note, branchName) {
   var ss = SpreadsheetApp.openById(CONFIG.SHEET_ID);
-  var sheet = ss.getSheetByName(CONFIG.SHEET_NAME);
+  var sheet = ss.getSheetByName(CONFIG.MAP_SHEET_NAME);
+  if (!sheet) return null;
 
-  if (!sheet) {
-    sheet = ss.insertSheet(CONFIG.SHEET_NAME);
-  }
+  var now = new Date();
+  sheet.appendRow([
+    branchName || "Website",
+    fullName,
+    "'" + phone,
+    email || "",
+    Utilities.formatDate(now, "Asia/Ho_Chi_Minh", "yyyy-MM-dd"),
+    Utilities.formatDate(now, "Asia/Ho_Chi_Minh", "HH:mm"),
+    1,
+    note || "web",
+    now,
+  ]);
 
-  if (sheet.getLastRow() === 0) {
-    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
-    sheet.setFrozenRows(1);
-  }
-
-  return sheet;
+  var lastRow = sheet.getLastRow();
+  sheet.getRange(lastRow, 5).setNumberFormat("yyyy-mm-dd");
+  sheet.getRange(lastRow, 6).setNumberFormat("hh:mm");
+  sheet.getRange(lastRow, 9).setNumberFormat("yyyy-mm-dd hh:mm:ss");
+  return lastRow;
 }
 
 function json_(obj) {

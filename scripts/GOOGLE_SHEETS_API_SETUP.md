@@ -20,7 +20,7 @@ Dùng Sheets API thay Apps Script để ghi booking nhanh hơn (~0.5–1s).
 
 ```env
 GOOGLE_SHEETS_ID=1Q-FlAnp591WKhE9qJoKH-yI92yl7gY1zQrg-YqRkwyM
-GOOGLE_SHEETS_TAB=Web
+GOOGLE_SHEETS_MAP_TAB=map
 GOOGLE_SERVICE_ACCOUNT_EMAIL=your-sa@your-project.iam.gserviceaccount.com
 GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
@@ -38,3 +38,5 @@ npm run dev
 ## 5) Kiểm tra
 Gửi form banner → API trả `"via":"sheets-api"` là đang đi Sheets API.
 Nếu thiếu env, hệ thống tự fallback sang `BOOKING_APPS_SCRIPT_URL`.
+
+Đặt lịch từ website chỉ ghi tab `map`. Tin FAQ (`requestType: quote`) gửi email, không ghi sheet. `GOOGLE_SHEETS_TAB=Web` không còn dùng.
