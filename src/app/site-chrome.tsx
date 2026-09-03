@@ -163,6 +163,7 @@ export function SocialLinks({ footer = false }: { footer?: boolean }) {
 }
 
 export function VerticalMenu() {
+  const pathname = usePathname();
   const { language, setLanguage, t } = useLanguage();
   const [socialOpen, setSocialOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
@@ -187,6 +188,10 @@ export function VerticalMenu() {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [languageOpen]);
+
+  if (pathname === "/bang-gia-the-foxie-update-thang-08-2026") {
+    return null;
+  }
 
   return (
     <nav aria-label={t("nav.quickNav")} className="mono-vertical-menu">
@@ -280,7 +285,15 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const solidAtTopPages = ["/b2b", "/cua-hang", "/cookie-policy", "/dich-vu", "/tin-tuc", "/faq"];
+  const solidAtTopPages = [
+    "/b2b",
+    "/cua-hang",
+    "/cookie-policy",
+    "/dich-vu",
+    "/tin-tuc",
+    "/faq",
+    "/bang-gia-the-foxie-update-thang-08-2026",
+  ];
   const solidHeader =
     scrolled ||
     solidAtTopPages.includes(pathname) ||

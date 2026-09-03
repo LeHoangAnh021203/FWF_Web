@@ -19,7 +19,10 @@ export default function FloatingActions() {
     return () => window.removeEventListener("scroll", update);
   }, []);
 
-  if (pathname === "/cua-hang") {
+  if (
+    pathname === "/cua-hang" ||
+    pathname === "/bang-gia-the-foxie-update-thang-08-2026"
+  ) {
     return null;
   }
 
