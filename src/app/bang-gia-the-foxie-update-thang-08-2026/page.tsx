@@ -17,14 +17,16 @@ export default function BangGiaTheFoxiePage() {
   return (
     <main className="bang-gia-foxie-page min-h-screen bg-[#f7e0c7]">
       <SiteHeader />
-      <section className="px-0 pb-0 pt-[72px] md:pt-24">
+      <section className="px-4 pb-10 pt-[88px] md:px-8 md:pb-14 md:pt-28">
         <h1 className="sr-only">Quyền lợi thẻ Foxie</h1>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={POSTER_SRC}
-          alt="Quyền lợi thẻ Foxie: bảng voucher và ưu đãi thành viên Face Wash Fox"
-          className="mx-auto block h-auto w-full max-w-4xl bg-[#f6eadc]"
-        />
+        <div className="mx-auto w-full max-w-[320px] md:max-w-[360px] lg:max-w-[780px]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={POSTER_SRC}
+            alt="Quyền lợi thẻ Foxie: bảng voucher và ưu đãi thành viên Face Wash Fox"
+            className="block h-auto w-full bg-[#f6eadc]"
+          />
+        </div>
       </section>
       <SiteFooter />
     </main>
