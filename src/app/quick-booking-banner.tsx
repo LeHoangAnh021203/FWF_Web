@@ -6,6 +6,7 @@ import Image from "next/image";
 import { FormEvent, PointerEvent, useEffect, useRef, useState } from "react";
 
 import { useLanguage } from "@/i18n/language-context";
+import { PrivacyConsent } from "@/components/privacy-consent";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
 
@@ -22,6 +23,7 @@ export default function QuickBookingBanner() {
   const [expanded, setExpanded] = useState(false);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [privacyConsent, setPrivacyConsent] = useState(false);
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const nameRef = useRef<HTMLInputElement>(null);
@@ -84,6 +86,12 @@ export default function QuickBookingBanner() {
       return;
     }
 
+    if (!privacyConsent) {
+      setSubmitState("error");
+      setErrorMessage(t("consent.required"));
+      return;
+    }
+
     setSubmitState("loading");
 
     try {
@@ -107,6 +115,7 @@ export default function QuickBookingBanner() {
 
       setFullName("");
       setPhone("");
+      setPrivacyConsent(false);
       setExpanded(false);
       setSubmitState("success");
     } catch (error) {
@@ -202,6 +211,15 @@ export default function QuickBookingBanner() {
                   />
                 </label>
               </div>
+              <PrivacyConsent
+                id="quick-booking-consent"
+                checked={privacyConsent}
+                onChange={(checked) => {
+                  setPrivacyConsent(checked);
+                  resetStatus();
+                }}
+                className="quick-booking-consent text-[11px] leading-snug text-white/85"
+              />
             </div>
 
             <motion.button

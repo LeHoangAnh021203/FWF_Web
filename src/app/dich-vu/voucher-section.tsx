@@ -14,14 +14,14 @@ type VoucherCard = {
 };
 
 const voucherCards: VoucherCard[] = [
-  { id: "foxie-crown", nameKey: "svc.voucher.crown", price: 100000000, image: "/voucher/Asset 2@4x.png" },
-  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", price: 80000000, image: "/voucher/Asset 1@4x.png" },
-  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", price: 50000000, image: "/voucher/Asset 3@4x.png" },
-  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", price: 30000000, image: "/voucher/Asset 4@4x.png" },
-  { id: "foxie-gold", nameKey: "svc.voucher.gold", price: 20000000, image: "/voucher/Asset 8@4x.png" },
-  { id: "foxie-silver", nameKey: "svc.voucher.silver", price: 10000000, image: "/voucher/Asset 7@4x.png" },
-  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", price: 5000000, image: "/voucher/Asset 6@4x.png" },
   { id: "foxie-iron", nameKey: "svc.voucher.iron", price: 3000000, image: "/voucher/Asset 5@4x.png" },
+  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", price: 5000000, image: "/voucher/Asset 6@4x.png" },
+  { id: "foxie-silver", nameKey: "svc.voucher.silver", price: 10000000, image: "/voucher/Asset 7@4x.png" },
+  { id: "foxie-gold", nameKey: "svc.voucher.gold", price: 20000000, image: "/voucher/Asset 8@4x.png" },
+  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", price: 30000000, image: "/voucher/Asset 4@4x.png" },
+  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", price: 50000000, image: "/voucher/Asset 3@4x.png" },
+  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", price: 80000000, image: "/voucher/Asset 1@4x.png" },
+  { id: "foxie-crown", nameKey: "svc.voucher.crown", price: 100000000, image: "/voucher/Asset 2@4x.png" },
 ];
 
 const formatVnd = (value: number) =>

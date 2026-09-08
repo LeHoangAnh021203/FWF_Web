@@ -22,6 +22,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { DialogHeader, DialogTitle } from "./ui/dialog";
 import Sidebar from "./sidebar/Sidebar";
+import { PrivacyConsent } from "./privacy-consent";
+import { useLanguage } from "@/i18n/language-context";
 
 interface Branch {
   id: number;
@@ -1874,6 +1876,7 @@ function BookingForm({
   branch: Branch;
   onClose: () => void;
 }) {
+  const { t } = useLanguage();
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("");
@@ -1882,6 +1885,7 @@ function BookingForm({
   const [customerPhone, setCustomerPhone] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerNote, setCustomerNote] = useState("");
+  const [privacyConsent, setPrivacyConsent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Tạo time slots dựa trên giờ hoạt động của từng chi nhánh
@@ -2024,6 +2028,10 @@ function BookingForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!privacyConsent) {
+      alert(t("consent.required"));
+      return;
+    }
     setIsSubmitting(true);
 
     try {
@@ -2083,6 +2091,7 @@ function BookingForm({
     setCustomerPhone("");
     setCustomerEmail("");
     setCustomerNote("");
+    setPrivacyConsent(false);
 
     // Close dialog
     onClose();
@@ -2211,6 +2220,13 @@ function BookingForm({
           ))}
         </select>
       </div>
+
+      <PrivacyConsent
+        id={`map-booking-privacy-${branch.id}`}
+        checked={privacyConsent}
+        onChange={setPrivacyConsent}
+        className="text-xs text-gray-700 md:text-sm"
+      />
 
       <Button
         type="submit"

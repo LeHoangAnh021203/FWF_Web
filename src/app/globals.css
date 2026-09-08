@@ -1587,26 +1587,28 @@ body:has(.mono-mobile-menu) .floating-actions {
 }
 
 .store-section > a,
-.story-copy a,
+.story-copy .story-cta,
 .section-action a,
 .contact-section a {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
   justify-content: center;
+  border: 0;
   border-radius: 999px;
   background: var(--accent-primary);
   color: var(--brand-white);
   padding: 0 20px;
   font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
   transition:
     background-color 180ms ease,
     transform 180ms ease;
 }
 
 .store-section > a:hover,
-.story-copy a:hover,
+.story-copy .story-cta:hover,
 .section-action a:hover,
 .contact-section a:hover {
   background: var(--accent-strong);
@@ -3431,8 +3433,60 @@ body:has(.mono-mobile-menu) .floating-actions {
   line-height: 1.7;
 }
 
-.story-copy a {
+.story-copy .story-cta {
   margin-top: 10px;
+}
+
+.story-company {
+  display: grid;
+  gap: 6px;
+  max-width: 520px;
+  margin: 16px 0 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(238, 103, 48, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.story-company p {
+  margin: 0;
+  max-width: none;
+  color: var(--text);
+  font-size: clamp(13px, 1.2vw, 15px);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.story-company a {
+  display: inline;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #ee6730;
+  font-size: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transform: none;
+}
+
+.story-company a:hover {
+  background: transparent;
+  transform: none;
+  color: #d45520;
+}
+
+.story-bct-badge {
+  display: inline-flex !important;
+  margin-top: 8px;
+  text-decoration: none !important;
+}
+
+.story-bct-badge img {
+  display: block;
+  width: 150px;
+  height: auto;
 }
 
 .story-video {
@@ -4417,6 +4471,18 @@ body:has(.mono-mobile-menu) .floating-actions {
   line-height: 1.55;
 }
 
+.footer-legal {
+  display: grid;
+  gap: 6px;
+  max-width: 420px;
+}
+
+.footer-legal p {
+  font-size: clamp(12px, 0.9vw, 14px);
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
 .footer-brand strong {
   color: #ffffff;
   font-size: clamp(18px, 1.55vw, 26px);
@@ -4684,6 +4750,13 @@ body:has(.mono-mobile-menu) .floating-actions {
 
 .terms-content li {
   padding-left: 4px;
+  font-size: clamp(15px, 1.12vw, 18px);
+  font-weight: 500;
+  line-height: 1.75;
+}
+
+.terms-content p {
+  margin: 0;
   font-size: clamp(15px, 1.12vw, 18px);
   font-weight: 500;
   line-height: 1.75;

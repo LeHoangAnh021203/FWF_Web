@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 import { faqCategories } from "@/data/faq";
+import { PrivacyConsent } from "@/components/privacy-consent";
 import { useLanguage } from "@/i18n/language-context";
 
 type SubmitState = "idle" | "loading" | "success" | "error";
@@ -16,13 +17,21 @@ export default function FaqContactSection() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  const [privacyConsent, setPrivacyConsent] = useState(false);
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitState("loading");
     setErrorMessage("");
+
+    if (!privacyConsent) {
+      setSubmitState("error");
+      setErrorMessage(t("consent.required"));
+      return;
+    }
+
+    setSubmitState("loading");
 
     try {
       const response = await fetch("/api/booking", {
@@ -49,6 +58,7 @@ export default function FaqContactSection() {
       setEmail("");
       setPhone("");
       setMessage("");
+      setPrivacyConsent(false);
     } catch (error) {
       setSubmitState("error");
       setErrorMessage(
@@ -178,6 +188,13 @@ export default function FaqContactSection() {
               placeholder={t("faq.message")}
               value={message}
               onChange={(event) => setMessage(event.target.value)}
+            />
+
+            <PrivacyConsent
+              id="faq-consent"
+              checked={privacyConsent}
+              onChange={setPrivacyConsent}
+              className="text-sm text-[#374151]"
             />
 
             <button type="submit" disabled={submitState === "loading"}>

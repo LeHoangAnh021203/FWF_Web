@@ -114,8 +114,13 @@ export function WhyChooseSection() {
                   {t("b2b.experience")}
                 </p>
                 <h3 className="mt-2 text-2xl font-extrabold leading-tight text-orange-600">
-                  Fox SWAT in action
+                  {t("b2b.swatInAction")}
                 </h3>
+                {t("b2b.swatInActionEn") ? (
+                  <p className="mt-1 text-lg font-semibold text-orange-500/80">
+                    {t("b2b.swatInActionEn")}
+                  </p>
+                ) : null}
               </div>
             </div>
 

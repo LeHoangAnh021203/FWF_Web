@@ -45,7 +45,7 @@ export function NewsArticleView({ slug }: NewsArticleViewProps) {
               {article.date}
             </time>
             <span className="inline-flex min-w-[92px] items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-5 py-1 text-[15px] font-medium italic text-black">
-              {t("home.news.badge")}
+              {article.sponsored ? t("home.news.adLabel") : t("home.news.badge")}
             </span>
           </div>
 

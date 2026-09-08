@@ -6,6 +6,7 @@ import { branches } from "@/data/branches"
 import { Button } from "@/components/b2b/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/b2b/ui/dialog"
 import { useLanguage } from "@/i18n/language-context"
+import { PrivacyConsent } from "@/components/privacy-consent"
 
 export function BookingSection() {
   const { t } = useLanguage()
@@ -13,6 +14,7 @@ export function BookingSection() {
   const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
   const [note, setNote] = useState("")
+  const [privacyConsent, setPrivacyConsent] = useState(false)
   const [selectedBranchId] = useState(branches[0]?.id ?? 1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState("")
@@ -25,6 +27,11 @@ export function BookingSection() {
 
     if (!fullName.trim() || !phone.trim()) {
       setSubmitError(t("b2b.booking.required"))
+      return
+    }
+
+    if (!privacyConsent) {
+      setSubmitError(t("consent.required"))
       return
     }
 
@@ -64,6 +71,7 @@ export function BookingSection() {
       setPhone("")
       setEmail("")
       setNote("")
+      setPrivacyConsent(false)
     } catch {
       setSubmitError(t("b2b.booking.fail"))
     } finally {
@@ -132,6 +140,13 @@ export function BookingSection() {
                 className="w-full rounded-[14px] border border-orange-200 bg-orange-50 px-5 py-4 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-orange-400 md:text-[1.15rem]"
               />
             </div>
+
+            <PrivacyConsent
+              id="b2b-booking-consent"
+              checked={privacyConsent}
+              onChange={setPrivacyConsent}
+              className="text-sm text-[#374151] md:text-[15px]"
+            />
 
             {submitError ? <p className="text-[0.95rem] text-[#dc2626]">{submitError}</p> : null}
 

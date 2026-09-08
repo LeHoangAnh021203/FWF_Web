@@ -3,7 +3,7 @@ type Dict = Record<string, string>;
 
 const termsVi: Dict = {
   "terms.title": "Điều khoản & Điều kiện",
-  "terms.updated": "Cập nhật: 19/08/2026",
+  "terms.updated": "Cập nhật: 08/09/2026",
   "terms.intro":
     "Nội dung dưới đây quy định cách khách hàng truy cập website, đặt lịch, sử dụng dịch vụ, nhận ưu đãi và tương tác với hệ thống cửa hàng Face Wash Fox.",
   "terms.summaryAria": "Tóm tắt điều khoản",
@@ -26,20 +26,32 @@ const termsVi: Dict = {
     "Face Wash Fox có thể điều chỉnh thời gian phục vụ trong trường hợp cửa hàng quá tải, bảo trì thiết bị, sự kiện bất khả kháng hoặc phát sinh vận hành ngoài dự kiến.",
   "terms.s2.i3":
     "Khách hàng nên thông báo trước nếu cần đổi hoặc hủy lịch để cửa hàng có thể sắp xếp nhân sự và khung giờ phù hợp.",
-  "terms.s3.title": "3. Thẻ dịch vụ, voucher và ưu đãi",
+  "terms.s2.i4":
+    "Khách dưới 16 tuổi cần người giám hộ đi cùng và đồng ý trước khi sử dụng dịch vụ cũng như khi cung cấp dữ liệu cá nhân.",
+  "terms.s3.title": "3. Thẻ Foxie, voucher và ưu đãi",
   "terms.s3.i1":
-    "Thẻ dịch vụ, voucher và mã ưu đãi chỉ có giá trị trong thời hạn, phạm vi cửa hàng và điều kiện sử dụng được công bố kèm theo từng chương trình.",
+    "Thẻ thành viên Foxie là thẻ trả trước để hưởng giá thành viên tại hệ thống cửa hàng, khác với voucher/mã khuyến mãi. Hai hình thức này không áp dụng chung một quy chế.",
   "terms.s3.i2":
-    "Ưu đãi không tự động quy đổi thành tiền mặt, không hoàn tiền phần chưa sử dụng và không cộng dồn với chương trình khác, trừ khi Face Wash Fox có thông báo riêng.",
+    "Voucher và mã ưu đãi chỉ có giá trị trong thời hạn, phạm vi cửa hàng và điều kiện công bố kèm chương trình; không quy đổi thành tiền mặt và không hoàn tiền, trừ khi pháp luật bắt buộc hoặc Face Wash Fox có thông báo riêng.",
   "terms.s3.i3":
-    "Face Wash Fox có quyền từ chối áp dụng voucher hoặc ưu đãi nếu phát hiện thông tin không hợp lệ, hết hạn, bị chỉnh sửa hoặc sử dụng sai điều kiện.",
+    "Thẻ Foxie không phải phương tiện thanh toán không dùng tiền mặt, không phát hành dưới dạng tiền ảo và không tự động quy đổi thành tiền mặt.",
+  "terms.s3.i4":
+    "Thời hạn sử dụng thẻ Foxie là 36 tháng kể từ ngày kích hoạt, trừ khi điều kiện kèm theo thẻ ghi khác. Hết hạn, số dư chưa dùng không tự động gia hạn.",
+  "terms.s3.i5":
+    "Thẻ có thể được dùng chung với người thân hoặc bạn bè theo sự đồng ý của chủ thẻ. Việc dùng chung không làm thay đổi quyền sở hữu số dư và không biến thẻ thành phương tiện thanh toán giữa các bên.",
+  "terms.s3.i6":
+    "Nếu một cửa hàng đóng cửa, số dư còn lại được sử dụng tại cửa hàng khác trong hệ thống. Nếu toàn hệ thống ngừng hoạt động, số dư chưa sử dụng được hoàn theo quy định pháp luật bảo vệ người tiêu dùng.",
   "terms.s4.title": "4. Giá, thanh toán và hoàn hủy",
   "terms.s4.i1":
-    "Giá dịch vụ được niêm yết trên các kênh chính thức của Face Wash Fox và có thể thay đổi theo từng thời điểm, chi nhánh hoặc chương trình khuyến mãi.",
+    "Giá dịch vụ gồm hai mức: giá thành viên (chủ thẻ Foxie) và giá lẻ (khách chưa có thẻ). Giá được niêm yết trên kênh chính thức và có thể thay đổi theo thời điểm hoặc chương trình.",
   "terms.s4.i2":
     "Khách hàng cần kiểm tra kỹ thông tin dịch vụ, gói mua và số tiền thanh toán trước khi xác nhận giao dịch.",
   "terms.s4.i3":
-    "Chính sách hoàn hủy, đổi dịch vụ hoặc xử lý giao dịch phát sinh sẽ được xem xét theo tình trạng sử dụng thực tế, điều kiện của chương trình và quy định vận hành tại thời điểm yêu cầu.",
+    "Hủy lịch dịch vụ: trước giờ hẹn ít nhất 24 giờ — hoàn 100% phần buổi chưa dùng; trong khoảng 24 giờ đến trước 2 giờ — hoàn 50%; sát giờ hoặc không đến — không hoàn phần buổi đó.",
+  "terms.s4.i4":
+    "Số dư thẻ Foxie chưa sử dụng: khách gửi yêu cầu bằng văn bản qua email info@facewashfox.com hoặc hotline 0889 866 666. Face Wash Fox phản hồi trong 15 ngày làm việc và hoàn số dư chưa dùng theo quy chế thẻ, trừ chi phí hợp lý đã phát sinh (nếu có và được thông báo trước).",
+  "terms.s4.i5":
+    "Khiếu nại về thanh toán hoặc hoàn hủy được tiếp nhận bằng văn bản trong 30 ngày kể từ ngày phát sinh. Kết quả được thông báo bằng văn bản qua email hoặc số điện thoại đã đăng ký.",
   "terms.s5.title": "5. Trách nhiệm của khách hàng",
   "terms.s5.i1":
     "Khách hàng cần thông báo cho nhân viên nếu có tiền sử dị ứng, đang điều trị da liễu, đang dùng hoạt chất mạnh hoặc có tình trạng da cần lưu ý trước khi sử dụng dịch vụ.",
@@ -49,11 +61,11 @@ const termsVi: Dict = {
     "Khách hàng chịu trách nhiệm bảo mật thông tin cá nhân, thiết bị và tài khoản liên hệ của mình khi tương tác với các kênh trực tuyến của Face Wash Fox.",
   "terms.s6.title": "6. Bảo mật thông tin",
   "terms.s6.i1":
-    "Face Wash Fox thu thập và xử lý thông tin khách hàng nhằm xác nhận lịch hẹn, chăm sóc khách hàng, cải thiện dịch vụ và thực hiện các nghĩa vụ vận hành cần thiết.",
+    "Việc thu thập và xử lý dữ liệu cá nhân được quy định chi tiết tại Chính sách bảo vệ dữ liệu cá nhân, là một phần không tách rời của các điều khoản này.",
   "terms.s6.i2":
-    "Thông tin cá nhân được bảo vệ theo quy trình nội bộ và chỉ được chia sẻ cho bên liên quan khi cần thiết để cung cấp dịch vụ, tuân thủ pháp luật hoặc có sự đồng ý phù hợp.",
+    "Face Wash Fox chỉ xử lý dữ liệu khi có cơ sở pháp lý phù hợp, gồm sự đồng ý của khách hàng, thực hiện hợp đồng dịch vụ hoặc nghĩa vụ pháp luật.",
   "terms.s6.i3":
-    "Khách hàng có thể liên hệ Face Wash Fox để yêu cầu hỗ trợ về thông tin cá nhân đã cung cấp qua các kênh liên hệ chính thức.",
+    "Khách hàng thực hiện quyền truy cập, sửa, xóa, rút đồng ý hoặc khiếu nại qua email info@facewashfox.com hoặc hotline 0889 866 666.",
   "terms.s7.title": "7. Miễn trừ và giới hạn trách nhiệm",
   "terms.s7.i1":
     "Face Wash Fox nỗ lực duy trì thông tin chính xác trên website nhưng không cam kết mọi nội dung luôn không có sai sót kỹ thuật, lỗi hiển thị hoặc gián đoạn truy cập tạm thời.",
@@ -73,7 +85,7 @@ const termsVi: Dict = {
 
 const termsEn: Dict = {
   "terms.title": "Terms & Conditions",
-  "terms.updated": "Updated: 19/08/2026",
+  "terms.updated": "Updated: 08/09/2026",
   "terms.intro":
     "The content below sets out how customers access the website, book appointments, use services, receive offers, and interact with the Face Wash Fox store network.",
   "terms.summaryAria": "Terms summary",
@@ -96,20 +108,32 @@ const termsEn: Dict = {
     "Face Wash Fox may adjust service times in case of store overload, equipment maintenance, force majeure, or unexpected operations.",
   "terms.s2.i3":
     "Please notify us in advance if you need to change or cancel so the store can arrange staff and time slots.",
-  "terms.s3.title": "3. Service cards, vouchers, and offers",
+  "terms.s2.i4":
+    "Guests under 16 must be accompanied by a guardian who consents before service and before any personal data is provided.",
+  "terms.s3.title": "3. Foxie cards, vouchers, and offers",
   "terms.s3.i1":
-    "Service cards, vouchers, and promo codes are valid only within the period, store scope, and conditions stated for each program.",
+    "The Foxie membership card is a prepaid card for member pricing at stores. It is distinct from promotional vouchers/codes and is governed by a separate set of rules.",
   "terms.s3.i2":
-    "Offers are not automatically convertible to cash, unused portions are non-refundable, and they cannot be stacked with other programs unless Face Wash Fox states otherwise.",
+    "Vouchers and promo codes are valid only for the stated period, stores, and conditions. They are not convertible to cash and are non-refundable unless required by law or Face Wash Fox states otherwise.",
   "terms.s3.i3":
-    "Face Wash Fox may refuse vouchers or offers that are invalid, expired, altered, or used outside stated conditions.",
+    "Foxie cards are not an unlawful payment instrument, not a virtual currency, and are not automatically convertible to cash.",
+  "terms.s3.i4":
+    "Foxie cards are valid for 36 months from activation unless the card states otherwise. Unused value does not auto-renew after expiry.",
+  "terms.s3.i5":
+    "Cards may be shared with family or friends with the cardholder’s consent. Sharing does not transfer ownership of the remaining balance and does not make the card a payment instrument between parties.",
+  "terms.s3.i6":
+    "If a store closes, remaining value can be used at other Face Wash Fox stores. If the entire network ceases operation, unused value is refunded as required by consumer-protection law.",
   "terms.s4.title": "4. Pricing, payment, and cancellation",
   "terms.s4.i1":
-    "Service prices are listed on Face Wash Fox official channels and may change by time, branch, or promotion.",
+    "Services have two prices: member price (Foxie cardholders) and walk-in price. Prices are listed on official channels and may change by time or campaign.",
   "terms.s4.i2":
     "Please carefully check service details, packages, and amounts before confirming payment.",
   "terms.s4.i3":
-    "Cancellation, exchange, or dispute handling depends on actual usage, program conditions, and operating rules at the time of the request.",
+    "Appointment cancellation: at least 24 hours before — 100% refund of the unused session; between 24 hours and 2 hours before — 50%; within 2 hours or no-show — no refund for that session.",
+  "terms.s4.i4":
+    "Unused Foxie card balance: send a written request to info@facewashfox.com or hotline 0889 866 666. We respond within 15 business days and refund unused value under the card rules, minus any reasonable costs disclosed in advance.",
+  "terms.s4.i5":
+    "Payment or refund complaints are accepted in writing within 30 days of the event. The outcome is sent in writing to the registered email or phone number.",
   "terms.s5.title": "5. Customer responsibilities",
   "terms.s5.i1":
     "Tell staff about allergies, dermatology treatment, strong actives, or skin concerns before service.",
@@ -119,11 +143,11 @@ const termsEn: Dict = {
     "Customers are responsible for securing personal information, devices, and contact accounts when using Face Wash Fox online channels.",
   "terms.s6.title": "6. Information security",
   "terms.s6.i1":
-    "Face Wash Fox collects and processes customer information to confirm bookings, provide care, improve services, and meet operational obligations.",
+    "How personal data is collected and processed is set out in the Personal Data Protection Policy, which forms part of these terms.",
   "terms.s6.i2":
-    "Personal data is protected under internal processes and shared with relevant parties only when needed for service delivery, legal compliance, or with appropriate consent.",
+    "Face Wash Fox processes data only on a lawful basis, including customer consent, performing the service contract, or legal obligations.",
   "terms.s6.i3":
-    "Customers may contact Face Wash Fox via official channels for help regarding personal information they provided.",
+    "Customers may access, correct, delete, withdraw consent, or complain via info@facewashfox.com or hotline 0889 866 666.",
   "terms.s7.title": "7. Disclaimer and liability limits",
   "terms.s7.i1":
     "Face Wash Fox strives for accurate website information but does not guarantee content is always free of technical errors, display issues, or temporary outages.",
@@ -157,7 +181,7 @@ const termsZh: Dict = {
   "terms.sum.3.body": "Face Wash Fox 如何接收、使用并保护客户信息。",
   "terms.s1.title": "1. 适用范围",
   "terms.s2.title": "2. 预约与服务使用",
-  "terms.s3.title": "3. 服务卡、代金券与优惠",
+  "terms.s3.title": "3. Foxie 卡、代金券与优惠",
   "terms.s4.title": "4. 价格、支付与取消",
   "terms.s5.title": "5. 客户责任",
   "terms.s6.title": "6. 信息安全",
@@ -184,7 +208,7 @@ const termsJa: Dict = {
   "terms.sum.3.body": "Face Wash Fox が顧客情報を受け取り、利用、保護する方法。",
   "terms.s1.title": "1. 適用範囲",
   "terms.s2.title": "2. 予約とサービス利用",
-  "terms.s3.title": "3. サービスカード、バウチャー、特典",
+  "terms.s3.title": "3. Foxieカード、バウチャー、特典",
   "terms.s4.title": "4. 価格、支払い、キャンセル",
   "terms.s5.title": "5. お客様の責任",
   "terms.s6.title": "6. 情報セキュリティ",
@@ -211,7 +235,7 @@ const termsKo: Dict = {
   "terms.sum.3.body": "Face Wash Fox가 고객 정보를 수집·이용·보호하는 방식.",
   "terms.s1.title": "1. 적용 범위",
   "terms.s2.title": "2. 예약 및 서비스 이용",
-  "terms.s3.title": "3. 서비스 카드, 바우처, 혜택",
+  "terms.s3.title": "3. Foxie 카드, 바우처, 혜택",
   "terms.s4.title": "4. 가격, 결제, 취소",
   "terms.s5.title": "5. 고객 책임",
   "terms.s6.title": "6. 정보 보안",
@@ -238,7 +262,7 @@ const termsTh: Dict = {
   "terms.sum.3.body": "วิธีที่ Face Wash Fox รับ ใช้ และปกป้องข้อมูลลูกค้า",
   "terms.s1.title": "1. ขอบเขตการบังคับใช้",
   "terms.s2.title": "2. การจองและการใช้บริการ",
-  "terms.s3.title": "3. บัตรบริการ วอยเชอร์ และสิทธิพิเศษ",
+  "terms.s3.title": "3. บัตร Foxie วอยเชอร์ และสิทธิพิเศษ",
   "terms.s4.title": "4. ราคา การชำระเงิน และการยกเลิก",
   "terms.s5.title": "5. ความรับผิดชอบของลูกค้า",
   "terms.s6.title": "6. ความปลอดภัยของข้อมูล",
@@ -337,11 +361,85 @@ const cookiePageTh: Dict = {
     "คุณสามารถยอมรับหรือปฏิเสธคุกกี้ที่ไม่จำเป็นบนแบนเนอร์ และลบคุกกี้ในการตั้งค่าเบราว์เซอร์ได้",
 };
 
+const privacyVi: Dict = {
+  "privacy.title": "Chính sách bảo vệ dữ liệu cá nhân",
+  "privacy.updated": "Cập nhật: 08/09/2026",
+  "privacy.intro":
+    "Chính sách này giải thích cách Công ty Cổ phần FB Network (thương hiệu Face Wash Fox) thu thập, sử dụng, lưu trữ và bảo vệ dữ liệu cá nhân theo Luật Bảo vệ dữ liệu cá nhân số 91/2025/QH15.",
+  "privacy.contentAria": "Nội dung chính sách bảo vệ dữ liệu cá nhân",
+  "privacy.s1.title": "1. Bên kiểm soát dữ liệu",
+  "privacy.s1.body":
+    "Công ty Cổ phần FB Network, mã số thuế 0316806815, người đại diện pháp luật Ngô Thúy Hằng, địa chỉ Lầu 2, Số 2 Song Hành, Phường Bình Trưng, TP Hồ Chí Minh. Email: info@facewashfox.com. Hotline: 0889 866 666.",
+  "privacy.s2.title": "2. Mục đích xử lý",
+  "privacy.s2.body":
+    "Xác nhận đặt lịch, liên hệ chăm sóc khách hàng, kích hoạt và quản lý thẻ Foxie, xử lý yêu cầu hoàn hủy, cải thiện dịch vụ, tuân thủ nghĩa vụ pháp luật và gửi thông tin khi khách đã đồng ý.",
+  "privacy.s3.title": "3. Dữ liệu được thu thập",
+  "privacy.s3.body":
+    "Họ tên, số điện thoại, email, chi nhánh mong muốn, ghi chú về nhu cầu chăm sóc da, lịch sử đặt lịch/mua thẻ và dữ liệu kỹ thuật cần thiết để vận hành website (cookie theo Chính sách Cookie).",
+  "privacy.s4.title": "4. Thời gian lưu",
+  "privacy.s4.body":
+    "Dữ liệu đặt lịch và liên hệ được lưu tối đa 36 tháng kể từ lần tương tác gần nhất, hoặc lâu hơn nếu pháp luật yêu cầu (hóa đơn, khiếu nại, nghĩa vụ kế toán). Khi hết thời hạn, dữ liệu được xóa hoặc ẩn danh hóa.",
+  "privacy.s5.title": "5. Bên thứ ba nhận dữ liệu",
+  "privacy.s5.body":
+    "Dữ liệu có thể được chia sẻ với nhà cung cấp hệ thống đặt lịch, email, lưu trữ máy chủ, đơn vị thanh toán (nếu có) và cơ quan nhà nước khi pháp luật yêu cầu. Face Wash Fox không bán dữ liệu cá nhân.",
+  "privacy.s6.title": "6. Quyền của chủ thể dữ liệu",
+  "privacy.s6.body":
+    "Khách hàng có quyền được biết, đồng ý, truy cập, chỉnh sửa, xóa, hạn chế xử lý, phản đối, rút đồng ý và khiếu nại. Yêu cầu gửi tới info@facewashfox.com hoặc hotline 0889 866 666; phản hồi trong 15 ngày làm việc.",
+  "privacy.s7.title": "7. Trẻ em dưới 16 tuổi",
+  "privacy.s7.body":
+    "Đối với khách dưới 16 tuổi, Face Wash Fox chỉ xử lý dữ liệu khi có sự đồng ý của người giám hộ đi cùng. Người giám hộ chịu trách nhiệm về tính chính xác của sự đồng ý đó.",
+  "privacy.s8.title": "8. Chuyển dữ liệu ra nước ngoài",
+  "privacy.s8.body":
+    "Nếu nhà cung cấp công nghệ đặt máy chủ ngoài Việt Nam, việc chuyển dữ liệu (nếu có) được thực hiện theo quy định về chuyển dữ liệu cá nhân ra nước ngoài và chỉ ở phạm vi cần thiết để vận hành website.",
+  "privacy.s9.title": "9. Liên hệ",
+  "privacy.s9.body":
+    "Mọi yêu cầu về dữ liệu cá nhân gửi Công ty Cổ phần FB Network qua info@facewashfox.com, hotline 0889 866 666, hoặc tại cửa hàng Face Wash Fox.",
+  "privacy.contact.need": "Cần hỗ trợ về dữ liệu cá nhân?",
+  "privacy.contact.title": "Liên hệ Face Wash Fox",
+};
+
+const privacyEn: Dict = {
+  "privacy.title": "Personal Data Protection Policy",
+  "privacy.updated": "Updated: 08/09/2026",
+  "privacy.intro":
+    "This policy explains how FB Network Joint Stock Company (Face Wash Fox) collects, uses, stores, and protects personal data under Vietnam’s Personal Data Protection Law No. 91/2025/QH15.",
+  "privacy.contentAria": "Personal data protection policy content",
+  "privacy.s1.title": "1. Data controller",
+  "privacy.s1.body":
+    "FB Network Joint Stock Company, tax code 0316806815, legal representative Ngo Thuy Hang, address Floor 2, No. 2 Song Hanh, Binh Trung Ward, Ho Chi Minh City. Email: info@facewashfox.com. Hotline: 0889 866 666.",
+  "privacy.s2.title": "2. Purposes of processing",
+  "privacy.s2.body":
+    "Confirming bookings, customer care, activating and managing Foxie cards, handling refunds, improving services, meeting legal duties, and sending information when the customer has consented.",
+  "privacy.s3.title": "3. Data we collect",
+  "privacy.s3.body":
+    "Name, phone number, email, preferred store, notes about skincare needs, booking/card history, and technical data needed to run the website (cookies under the Cookie Policy).",
+  "privacy.s4.title": "4. Retention",
+  "privacy.s4.body":
+    "Booking and contact data are kept for up to 36 months after the last interaction, or longer if required by law (invoices, complaints, accounting). After that, data is deleted or anonymized.",
+  "privacy.s5.title": "5. Recipients",
+  "privacy.s5.body":
+    "Data may be shared with booking, email, hosting, and payment providers (if any), and with authorities when required by law. Face Wash Fox does not sell personal data.",
+  "privacy.s6.title": "6. Your rights",
+  "privacy.s6.body":
+    "You may be informed, consent, access, correct, delete, restrict, object, withdraw consent, and complain. Send requests to info@facewashfox.com or hotline 0889 866 666; we respond within 15 business days.",
+  "privacy.s7.title": "7. Children under 16",
+  "privacy.s7.body":
+    "For guests under 16, we process data only with the accompanying guardian’s consent. The guardian is responsible for the accuracy of that consent.",
+  "privacy.s8.title": "8. Cross-border transfer",
+  "privacy.s8.body":
+    "If a technology provider hosts servers outside Vietnam, any transfer is limited to what is needed to operate the website and follows rules on transferring personal data abroad.",
+  "privacy.s9.title": "9. Contact",
+  "privacy.s9.body":
+    "Send personal-data requests to FB Network Joint Stock Company at info@facewashfox.com, hotline 0889 866 666, or any Face Wash Fox store.",
+  "privacy.contact.need": "Need help with personal data?",
+  "privacy.contact.title": "Contact Face Wash Fox",
+};
+
 export const legalDictionaries: Record<SiteLanguage, Dict> = {
-  vi: { ...termsVi, ...cookiePageVi },
-  en: { ...termsEn, ...cookiePageEn },
-  zh: { ...termsZh, ...cookiePageZh },
-  ja: { ...termsJa, ...cookiePageJa },
-  ko: { ...termsKo, ...cookiePageKo },
-  th: { ...termsTh, ...cookiePageTh },
+  vi: { ...termsVi, ...cookiePageVi, ...privacyVi },
+  en: { ...termsEn, ...cookiePageEn, ...privacyEn },
+  zh: { ...termsZh, ...cookiePageZh, ...privacyEn },
+  ja: { ...termsJa, ...cookiePageJa, ...privacyEn },
+  ko: { ...termsKo, ...cookiePageKo, ...privacyEn },
+  th: { ...termsTh, ...cookiePageTh, ...privacyEn },
 };

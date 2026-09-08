@@ -6,7 +6,7 @@ import { TermsContent } from "./terms-content";
 export const metadata: Metadata = {
   title: "Điều khoản & Điều kiện Face Wash Fox",
   description:
-    "Điều khoản sử dụng website, đặt lịch, dịch vụ, voucher, thanh toán và bảo mật thông tin tại Face Wash Fox.",
+    "Điều khoản sử dụng website, đặt lịch, thẻ Foxie, voucher, thanh toán, hoàn hủy và bảo vệ dữ liệu cá nhân tại Face Wash Fox.",
 };
 
 export default function TermsPage() {

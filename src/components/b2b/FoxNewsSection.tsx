@@ -14,7 +14,7 @@ export function FoxNewsSection() {
       className="overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,196,112,0.18),transparent_26%),linear-gradient(180deg,#ffffff_0%,#fffaf3_52%,#ffffff_100%)] py-20 md:py-24"
     >
       <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-6 md:px-10 xl:px-12">
-        <NewsCardTrack items={items} badge={t("b2b.news.badge")}>
+        <NewsCardTrack items={items} badge={t("b2b.news.badge")} adLabel={t("home.news.adLabel")}>
           <p className="mb-3 text-xl font-medium uppercase text-orange-400 md:text-[2rem]">
             {t("b2b.news.update")}
           </p>

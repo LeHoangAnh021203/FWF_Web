@@ -80,6 +80,14 @@ export default function ComboIndepth() {
           <p className="text-[clamp(1.1rem,4.5vw,1.75rem)] font-medium md:pb-1 md:text-4xl">
             {t("svc.comboDeep.subtitle")}
           </p>
+          {t("svc.comboDeep.subtitleEn") ? (
+            <p className="mt-1 text-[clamp(0.8rem,3.3vw,1.3rem)] font-medium text-white/80 md:text-[1.6875rem]">
+              {t("svc.comboDeep.subtitleEn")}
+            </p>
+          ) : null}
+          <p className="mt-3 max-w-3xl text-sm font-medium leading-relaxed text-white/90 md:text-base">
+            {t("svc.comboDeep.disclaimer")}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -122,17 +130,20 @@ export default function ComboIndepth() {
 
                     <div className="mt-2 grid grid-cols-2 gap-2.5 leading-tight md:mt-3 md:gap-4">
                       <div>
-                        <p className="text-[10px] font-semibold text-white/70 md:text-xs">{t("svc.comboDeep.foxiePrice")}</p>
-                        <p className="text-[10px] text-white/60 md:text-xs">{t("svc.comboDeep.foxiePoint")}</p>
+                        <p className="text-[12px] font-semibold text-white/80 md:text-sm">{t("svc.comboDeep.foxiePrice")}</p>
+                        {t("svc.comboDeep.foxiePoint") ? (
+                          <p className="text-[9px] text-white/60 md:text-[10px]">{t("svc.comboDeep.foxiePoint")}</p>
+                        ) : null}
                         <p className="mt-1 text-[16px] font-extrabold leading-none text-[#ffb699] md:text-[20px]">
                           {formatPrice(item.foxiePrice)}
                         </p>
                       </div>
 
                       <div className="text-right">
-                        <p className="text-[12px] font-bold text-white/65 line-through md:text-[10px]">{formatPrice(item.oldPrice)}</p>
-                        <p className="text-[10px] font-semibold text-white/70 md:text-xs">{t("svc.comboDeep.listedPrice")}</p>
-                        <p className="text-[10px] text-white/60 md:text-xs">{t("svc.comboDeep.listedEn")}</p>
+                        <p className="text-[12px] font-semibold text-white/80 md:text-sm">{t("svc.comboDeep.listedPrice")}</p>
+                        {t("svc.comboDeep.listedEn") ? (
+                          <p className="text-[9px] text-white/60 md:text-[10px]">{t("svc.comboDeep.listedEn")}</p>
+                        ) : null}
                         <p className="mt-1 text-[14px] font-extrabold leading-none text-[#ffd08c] md:text-[15px]">
                           {formatPrice(item.listedPrice)}
                         </p>

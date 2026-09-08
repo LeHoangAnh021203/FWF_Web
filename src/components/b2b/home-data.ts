@@ -27,6 +27,7 @@ export type FoxNewsItem = {
   image: string;
   excerpt?: string;
   href?: string;
+  sponsored?: boolean;
   article?: {
     intro?: string;
     lead?: string;
@@ -104,6 +105,7 @@ export function getLocalizedFoxNews(language: SiteLanguage): FoxNewsItem[] {
       slug: source.slug,
       date: source.date,
       image: source.image,
+      sponsored: source.sponsored,
       title: locale.title,
       excerpt: locale.excerpt,
       article: {

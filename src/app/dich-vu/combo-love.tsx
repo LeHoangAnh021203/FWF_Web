@@ -108,6 +108,11 @@ export default function ComboLove() {
           <p className="mt-2 text-[clamp(1.1rem,4.5vw,1.75rem)] font-medium md:text-4xl">
             {t("svc.comboLove.subtitle")}
           </p>
+          {t("svc.comboLove.subtitleEn") ? (
+            <p className="mt-1 text-[clamp(0.8rem,3.3vw,1.3rem)] font-medium text-white/80 md:text-[1.6875rem]">
+              {t("svc.comboLove.subtitleEn")}
+            </p>
+          ) : null}
         </div>
 
         <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
@@ -146,17 +151,20 @@ export default function ComboLove() {
 
                     <div className="mt-3 grid grid-cols-2 gap-3 leading-tight md:gap-4">
                       <div>
-                        <p className="text-[10px] font-semibold text-white/70 md:text-xs">{t("svc.comboLove.foxiePrice")}</p>
-                        <p className="text-[10px] text-white/60 md:text-xs">{t("svc.comboLove.foxiePoint")}</p>
+                        <p className="text-[12px] font-semibold text-white/80 md:text-sm">{t("svc.comboLove.foxiePrice")}</p>
+                        {t("svc.comboLove.foxiePoint") ? (
+                          <p className="text-[9px] text-white/60 md:text-[10px]">{t("svc.comboLove.foxiePoint")}</p>
+                        ) : null}
                         <p className="mt-1 text-[15px] font-extrabold leading-none text-[#ffb699] md:text-[20px]">
                           {formatPrice(item.foxiePrice)}
                         </p>
                       </div>
 
                       <div className="text-right">
-                        <p className="text-[12px] font-bold text-white/65 line-through md:text-[10px]">{formatPrice(item.oldPrice)}</p>
-                        <p className="text-[10px] font-semibold text-white/70 md:text-xs">{t("svc.comboLove.listedPrice")}</p>
-                        <p className="text-[10px] text-white/60 md:text-xs">{t("svc.comboLove.listedEn")}</p>
+                        <p className="text-[12px] font-semibold text-white/80 md:text-sm">{t("svc.comboLove.listedPrice")}</p>
+                        {t("svc.comboLove.listedEn") ? (
+                          <p className="text-[9px] text-white/60 md:text-[10px]">{t("svc.comboLove.listedEn")}</p>
+                        ) : null}
                         <p className="mt-1 text-[14px] font-extrabold leading-none text-[#ffd08c] md:text-[15px]">
                           {formatPrice(item.listedPrice)}
                         </p>

@@ -318,23 +318,23 @@ function ExtraServicePriceCard({ item, isActive, dragOffset, index, currentIndex
                 <h3 className="text-[clamp(2rem,8vw,3.5rem)] font-extrabold leading-none text-[#212121] md:text-[56px]">{t(item.nameKey)}</h3>
                 <p className="mt-1 text-[clamp(1rem,4vw,1.5rem)] leading-none text-[#333333]/80 md:text-[24px]">{t(item.subKey)}</p>
 
-                <div className="mt-3 border-t-[3px] border-[#272727] pt-2">
-                    <p className="text-right text-[14px] font-bold leading-none text-[#d1937a] line-through md:text-[18px]">
-                        {formatPrice(item.comparePrice)}
-                    </p>
-                </div>
+                <div className="mt-3 border-t-[3px] border-[#272727] pt-2" />
 
                 <div className="mt-2 grid grid-cols-2 gap-2 sm:gap-3">
                     <div className="min-w-0">
                         <p className="text-[14px] font-extrabold leading-tight text-[#191919] sm:text-[18px] md:text-[19px]">{t("svc.gallery.foxiePrice")}</p>
-                        <p className="text-[11px] leading-none text-[#1f1f1f]/75 md:text-[13px]">{t("svc.gallery.foxiePoint")}</p>
+                        {t("svc.gallery.foxiePoint") ? (
+                            <p className="text-[10px] leading-none text-[#1f1f1f]/75 md:text-[13px]">{t("svc.gallery.foxiePoint")}</p>
+                        ) : null}
                         <p className="mt-1 whitespace-nowrap text-[15px] font-extrabold leading-none text-[#19b6bf] sm:text-[18px] md:text-[20px]">
                             {formatPrice(item.foxiePrice)}
                         </p>
                     </div>
                     <div className="min-w-0 text-right">
                         <p className="text-[14px] font-extrabold leading-tight text-[#191919] sm:text-[18px] md:text-[19px]">{t("svc.gallery.listedPrice")}</p>
-                        <p className="text-[11px] leading-none text-[#1f1f1f]/75 md:text-[13px]">{t("svc.gallery.listedEn")}</p>
+                        {t("svc.gallery.listedEn") ? (
+                            <p className="text-[10px] leading-none text-[#1f1f1f]/75 md:text-[13px]">{t("svc.gallery.listedEn")}</p>
+                        ) : null}
                         <p className="mt-1 whitespace-nowrap text-[15px] font-extrabold leading-none text-[#f7941d] sm:text-[18px] md:text-[20px]">
                             {formatPrice(item.listedPrice)}
                         </p>

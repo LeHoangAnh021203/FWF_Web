@@ -10,15 +10,17 @@ export type NewsCard = {
   date: string;
   title: string;
   image: string;
+  sponsored?: boolean;
 };
 
 type NewsCardTrackProps = {
   items: NewsCard[];
   badge: string;
+  adLabel?: string;
   children: ReactNode;
 };
 
-export function NewsCardTrack({ items, badge, children }: NewsCardTrackProps) {
+export function NewsCardTrack({ items, badge, adLabel, children }: NewsCardTrackProps) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef({
     pointerId: -1,
@@ -171,7 +173,7 @@ export function NewsCardTrack({ items, badge, children }: NewsCardTrackProps) {
                   {item.date}
                 </p>
                 <span className="inline-flex min-w-[132px] items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-7 py-1 text-[1.05rem] font-medium italic text-black md:text-[1.2rem]">
-                  {badge}
+                  {item.sponsored && adLabel ? adLabel : badge}
                 </span>
               </div>
               <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] text-[#ff6a3d] md:min-h-[120px] md:text-[22px]">

@@ -108,7 +108,7 @@ const svnPoppins = localFont({
 export const metadata: Metadata = {
   title: "Face Wash Fox - Chuỗi cửa hàng rửa mặt công nghệ",
   description:
-    "Face Wash Fox là chuỗi cửa hàng rửa mặt công nghệ, chăm sóc da chuyên nghiệp lần đầu xuất hiện tại Việt Nam.",
+    "Face Wash Fox là chuỗi cửa hàng rửa mặt công nghệ, chăm sóc da chuyên nghiệp tại Việt Nam.",
 };
 
 export const viewport = {

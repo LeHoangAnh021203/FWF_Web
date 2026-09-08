@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { useLanguage } from "@/i18n/language-context";
 
-const SECTION_ITEM_COUNTS = [2, 3, 3, 3, 3, 3, 3, 2] as const;
+const SECTION_ITEM_COUNTS = [2, 4, 6, 5, 3, 3, 3, 2] as const;
 
 export function TermsContent() {
   const { t } = useLanguage();
@@ -65,6 +65,7 @@ export function TermsContent() {
           <a href="tel:0889866666">0889 866 666</a>
           <a href="mailto:info@facewashfox.com">info@facewashfox.com</a>
           <Link href="/cua-hang">{t("terms.contact.findStore")}</Link>
+          <Link href="/chinh-sach-bao-ve-du-lieu-ca-nhan">{t("footer.privacy")}</Link>
         </div>
       </section>
     </>

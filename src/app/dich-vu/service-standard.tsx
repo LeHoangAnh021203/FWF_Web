@@ -8,6 +8,7 @@ import {
 } from "react";
 import { branches } from "@/data/branches";
 import { useLanguage } from "@/i18n/language-context";
+import { PrivacyConsent } from "@/components/privacy-consent";
 import { serviceImages } from "./service-images";
 
 const centerImage = serviceImages.standardsCenter;
@@ -129,6 +130,7 @@ export default function ServiceStandard() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
+  const [privacyConsent, setPrivacyConsent] = useState(false);
 
   const [selectedBranchId, setSelectedBranchId] = useState<number>(
     branches[0]?.id ?? 0,
@@ -234,6 +236,11 @@ export default function ServiceStandard() {
       return;
     }
 
+    if (!privacyConsent) {
+      setSubmitError(t("consent.required"));
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/booking", {
@@ -270,6 +277,7 @@ export default function ServiceStandard() {
       setPhone("");
       setEmail("");
       setNote("");
+      setPrivacyConsent(false);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : t("svc.book.errGeneric");
@@ -480,6 +488,13 @@ export default function ServiceStandard() {
                 className="w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 py-3 text-base text-[#111827] outline-none placeholder:text-[#8b96a5] focus:border-[#a855f7]/50 sm:px-5 sm:py-4 sm:text-[1.05rem] md:text-[1.15rem]"
               />
             </div>
+
+            <PrivacyConsent
+              id="svc-booking-consent"
+              checked={privacyConsent}
+              onChange={setPrivacyConsent}
+              className="text-sm text-[#374151] sm:text-[0.95rem]"
+            />
 
             {submitError ? (
               <p className="text-sm text-[#dc2626] sm:text-[0.95rem]">{submitError}</p>

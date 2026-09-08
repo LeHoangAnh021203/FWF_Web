@@ -19,6 +19,7 @@ export type FoxNewsSource = {
   slug: string;
   date: string;
   image: string;
+  sponsored?: boolean;
   locales: Record<SiteLanguage, LocalizedNewsFields>;
 };
 
@@ -40,10 +41,10 @@ export const foxNewsSources: FoxNewsSource[] = [
     date: '29 May 2025',
     image: '/news/press/brand-tp-3.jpg',
     locales: copyLocales({
-      title: 'Face Wash Fox - Hành trình từ ý tưởng đến thương hiệu tiên phong',
+      title: 'Face Wash Fox - Hành trình từ ý tưởng đến thương hiệu chăm sóc da công nghệ',
       excerpt: 'Chuỗi cửa hàng rửa mặt công nghệ đầu tiên tại các trung tâm thương mại lớn, mở ra một thị trường ngách đầy tiềm năng.',
       intro: 'Trong bối cảnh công nghệ ngày càng len lỏi vào mọi mặt đời sống, ngành làm đẹp cũng không nằm ngoài xu hướng chuyển mình mạnh mẽ.',
-      lead: 'Một trong những điểm sáng tiên phong tại Việt Nam chính là Face Wash Fox – chuỗi cửa hàng rửa mặt công nghệ đầu tiên và duy nhất có mặt tại các trung tâm thương mại lớn, mở ra một thị trường ngách đầy tiềm năng.',
+      lead: 'Một trong những điểm sáng tại Việt Nam chính là Face Wash Fox – chuỗi cửa hàng rửa mặt công nghệ có mặt tại các trung tâm thương mại lớn, mở ra một thị trường ngách đầy tiềm năng.',
       paragraphs: [
         p('Từ ý tưởng nhỏ đến bước đi lớn'),
         p('Xuất phát từ câu hỏi: "Làm sao để việc rửa mặt không còn là bước bị xem nhẹ trong chu trình skincare?", những người sáng lập Face Wash Fox đã mang tới một giải pháp hiện đại – rửa mặt công nghệ. Thay vì chỉ là rửa mặt truyền thống, khách hàng được trải nghiệm liệu trình làm sạch sâu kết hợp công nghệ máy móc cao cấp Hydra Facial cùng dược mỹ phẩm chuyên biệt.'),
@@ -51,8 +52,8 @@ export const foxNewsSources: FoxNewsSource[] = [
         p('Không gian hiện đại, quy trình chuyên nghiệp và hiệu quả thấy rõ sau 30-40 phút – đây là những điểm khiến khách hàng quay lại, đặc biệt trong một xã hội coi trọng tính nhanh, tiện, và kết quả thực.'),
         p('Định hình hệ sinh thái rửa mặt công nghệ'),
         p('Chỉ sau thời gian ngắn hoạt động, Face Wash Fox đã mở rộng độ phủ với loạt chi nhánh tại TP.HCM, Hà Nội và Nha Trang. Xuất hiện tại các “siêu mall” như Saigon Centre, Landmark 81, Aeon Mall, Crescent Mall…, thương hiệu này nhanh chóng thu hút sự chú ý của giới trẻ và dân văn phòng – những người có nhu cầu cao về chăm sóc da nhưng ít thời gian.'),
-        img('/news/press/brand-tp-3.jpg', 'Face Wash Fox tiên phong mang công nghệ làm sạch và chăm sóc da mặt chuyên sâu về Việt Nam'),
-        p('Không chỉ là “cửa hàng rửa mặt”, Face Wash Fox xây dựng mô hình facial washing bar – nơi khách hàng được tư vấn kỹ lưỡng, trải nghiệm máy móc tiên tiến và thư giãn như tại spa cao cấp, nhưng với mức giá dễ tiếp cận.'),
+        img('/news/press/brand-tp-3.jpg', 'Face Wash Fox mang công nghệ làm sạch và chăm sóc da mặt chuyên sâu về Việt Nam'),
+        p('Không chỉ là “cửa hàng rửa mặt”, Face Wash Fox xây dựng mô hình facial washing bar – nơi khách hàng được tư vấn kỹ lưỡng, trải nghiệm máy móc hiện đại và thư giãn trong không gian chăm sóc da, với mức giá dễ tiếp cận.'),
         img('/news/press/brand-tn-2.jpg', 'Không gian cửa hàng Face Wash Fox được thiết kế mới mẻ, năng động'),
         p('Tầm nhìn xa và sự khác biệt'),
         p('Giữa hàng loạt mô hình làm đẹp nở rộ, điều giúp Face Wash Fox tạo dấu ấn chính là sự nghiêm túc trong vận hành: quy trình chuẩn hóa toàn hệ thống, đội ngũ kỹ thuật viên được đào tạo bài bản, sản phẩm rõ nguồn gốc và dịch vụ không ngừng đổi mới.'),
@@ -71,6 +72,7 @@ export const foxNewsSources: FoxNewsSource[] = [
     slug: 'tiktoker-anh-mat-vuong-tro-thanh-dai-su-thuong-hieu-cua-face-wash-fox',
     date: '11 April 2026',
     image: '/news/press/amv-dt-cover.jpg',
+    sponsored: true,
     locales: copyLocales({
       title: 'TikToker “Anh Mặt Vuông” trở thành đại sứ thương hiệu của Face Wash Fox',
       excerpt: 'Không phải gương mặt hoàn hảo, cũng không phải làn da không tì vết, nhưng đó chính xác là lý do Face Wash Fox chọn TikToker “Anh Mặt Vuông” làm đại sứ thương hiệu năm 2026.',
@@ -93,7 +95,7 @@ export const foxNewsSources: FoxNewsSource[] = [
         p('Hành trình phía trước'),
         p('Trong vai trò đại sứ thương hiệu năm 2026, “Anh Mặt Vuông” sẽ đồng hành cùng Face Wash Fox qua các hoạt động truyền thông, nội dung sáng tạo và các sự kiện trải nghiệm theo đúng cách anh vẫn làm mọi thứ: chân thật, gần gũi và không cố tạo hình ảnh.'),
         img('/news/press/amv-dt-cover.jpg', 'Đại sứ thương hiệu Face Wash Fox năm 2026 - “Anh Mặt Vuông”'),
-        p('Face Wash Fox hiện có hơn 50 cửa hàng trên toàn quốc, với quy trình chăm sóc da ứng dụng công nghệ AI soi da, mang đến trải nghiệm cá nhân hóa cho từng khách hàng, bất kể giới tính hay loại da.'),
+        p('Face Wash Fox hiện có gần 50 cửa hàng trên toàn quốc, với quy trình chăm sóc da ứng dụng công nghệ AI soi da, mang đến trải nghiệm cá nhân hóa cho từng khách hàng, bất kể giới tính hay loại da. Kết quả soi da mang tính tham khảo, không thay thế chẩn đoán y khoa.'),
         p('Và có lẽ đó chính là điểm chung giữa Face Wash Fox và “Anh Mặt Vuông”, cả hai đều tin rằng thứ gì thật mới đáng để giữ lại lâu dài.'),
       ],
       bullets: [],
@@ -107,12 +109,12 @@ export const foxNewsSources: FoxNewsSource[] = [
     image: '/news/press/brand-tn-3.jpg',
     locales: copyLocales({
       title: 'Face Wash Fox và hành trình kiến tạo văn hóa doanh nghiệp: Tận tâm, chất lượng và hiện đại',
-      excerpt: 'Không chỉ là thương hiệu tiên phong trong mô hình rửa mặt công nghệ, Face Wash Fox khẳng định vị thế bằng văn hóa doanh nghiệp.',
-      intro: 'Không chỉ là một thương hiệu tiên phong trong mô hình rửa mặt công nghệ.',
+      excerpt: 'Không chỉ là thương hiệu trong mô hình rửa mặt công nghệ, Face Wash Fox khẳng định vị thế bằng văn hóa doanh nghiệp.',
+      intro: 'Không chỉ là một thương hiệu trong mô hình rửa mặt công nghệ.',
       lead: 'Face Wash Fox đang từng bước khẳng định vị thế bằng chính văn hóa doanh nghiệp - nơi chất lượng dịch vụ, sự tận tâm của đội ngũ và phong cách vận hành hiện đại hòa quyện tạo nên sức mạnh phát triển bền vững.',
       paragraphs: [
         p('Lấy con người làm trung tâm'),
-        p('Được biết đến như chuỗi chăm sóc da mặt công nghệ tiên phong đầu tiên tại Việt Nam, ít ai biết rằng phía sau những mô hình "facial washing bar" hiện đại là đội ngũ kỹ thuật viên được đào tạo bài bản, thường xuyên cập nhật công nghệ và kỹ năng. Tại Face Wash Fox, mỗi nhân sự là một “đại sứ thương hiệu” - người truyền tải giá trị tận tâm tới khách hàng bằng chính thái độ làm việc chuyên nghiệp và kỹ thuật chính xác.'),
+        p('Được biết đến như chuỗi chăm sóc da mặt công nghệ tại Việt Nam, ít ai biết rằng phía sau những mô hình "facial washing bar" hiện đại là đội ngũ kỹ thuật viên được đào tạo bài bản, thường xuyên cập nhật công nghệ và kỹ năng. Tại Face Wash Fox, mỗi nhân sự là một “đại sứ thương hiệu” - người truyền tải giá trị tận tâm tới khách hàng bằng chính thái độ làm việc chuyên nghiệp và kỹ thuật chính xác.'),
         img('/news/press/brand-tn-3.jpg', 'Kỹ thuật viên tại Face Wash Fox'),
         p('“Chúng tôi không chỉ tuyển người có kỹ năng, mà quan trọng hơn là người có tâm với nghề,” đại diện doanh nghiệp chia sẻ. Triết lý này chính là nền móng để thương hiệu xây dựng một đội ngũ ổn định, có chiều sâu.'),
         p('Khách hàng là trung tâm của mọi quy trình'),
@@ -137,6 +139,7 @@ export const foxNewsSources: FoxNewsSource[] = [
     slug: 'anh-mat-vuong-tung-khong-nghi-co-mot-ngay-minh-noi-ve-cham-da',
     date: '14 April 2026',
     image: '/news/press/amv-vtv-cover.jpg',
+    sponsored: true,
     locales: copyLocales({
       title: 'Anh Mặt Vuông từng không nghĩ có một ngày mình nói về chăm da',
       excerpt: 'Không phải thương hiệu đầu tiên tìm đến anh. Nhưng là thương hiệu anh chọn ở lại.',
@@ -204,6 +207,7 @@ export const foxNewsSources: FoxNewsSource[] = [
     slug: 'mot-ngay-cua-anh-mat-vuong-tai-face-wash-fox-hau-truong',
     date: '16 April 2026',
     image: '/news/press/amv-tp-2.jpg',
+    sponsored: true,
     locales: copyLocales({
       title: 'Một ngày của “Anh Mặt Vuông” tại Face Wash Fox - hậu trường mà không ai nghĩ anh sẽ kể',
       excerpt: 'Ít ai biết, giữa những buổi quay dày đặc, Dương Minh Tân thường nằm ở Face Wash Fox. Không phải thử cho biết, mà là thói quen từ trước khi làm đại sứ.',
@@ -219,7 +223,7 @@ export const foxNewsSources: FoxNewsSource[] = [
         p('Quy trình nhanh gọn - hiệu quả thật'),
         p('Content creator không có nhiều thời gian. Lịch quay, lịch họp, lịch di chuyển - một buổi chăm da dài dòng là thứ Dương Minh Tân không thể cho phép trong ngày làm việc.'),
         p('Đó chính xác là thứ anh tìm thấy ở Face Wash Fox.'),
-        p('Mỗi buổi bắt đầu bằng soi da AI - phân tích chính xác tình trạng da thật: mụn ẩn, vùng dầu, độ ẩm, tuổi da. Không đoán mò, không tư vấn chung chung. Chỉ mất vài phút - nhưng toàn bộ quy trình sau đó được cá nhân hóa theo đúng kết quả đó.'),
+        p('Mỗi buổi bắt đầu bằng soi da AI - phân tích tình trạng da: vùng dầu, độ ẩm, bề mặt da. Kết quả mang tính tham khảo, không thay thế chẩn đoán y khoa. Chỉ mất vài phút - quy trình sau đó được cá nhân hóa theo kết quả đó.'),
         img('/news/press/amv-tp-3.jpg', 'Quy trình chăm sóc da công nghệ tại Face Wash Fox'),
         p('Tiếp theo là các bước chăm sóc bằng đầu máy công nghệ cao - làm sạch sâu, hút mụn, đưa dưỡng chất vào da bằng sóng âm, khóa ẩm bằng điện di lạnh. Từng bước tác động đúng vào đúng vấn đề da đang có - không làm thừa, không bỏ sót.'),
         p('"Khi thường xuyên chăm da tại Face Wash Fox, da mặt mình thay đổi hẳn mà không mất nhiều thời gian. Đó là thứ mình cần," Anh Mặt Vuông chia sẻ.'),
@@ -270,6 +274,7 @@ export const foxNewsSources: FoxNewsSource[] = [
     slug: 'nam-gioi-viet-cham-soc-da-dep-trai-khong-phai-chuyen-ngai-ngung',
     date: '18 April 2026',
     image: '/news/press/amv-cf-1.jpg',
+    sponsored: true,
     locales: copyLocales({
       title: 'Nam giới Việt chăm sóc da - "đẹp trai" không phải chuyện ngại ngùng',
       excerpt: 'Vài năm trước, một anh chàng bước vào tiệm chăm da còn bị nhìn với ánh mắt lạ. Năm 2026, điều đó không còn đúng nữa.',
@@ -288,7 +293,7 @@ export const foxNewsSources: FoxNewsSource[] = [
         p('Face Wash Fox và góc nhìn không phân biệt'),
         p('Khi Face Wash Fox chọn Anh Mặt Vuông làm đại sứ thương hiệu năm 2026, đây không đơn thuần là quyết định marketing. Đây là tuyên ngôn - rằng chăm da là chuyện của tất cả mọi người, bất kể giới tính, bất kể tuổi tác, bất kể xuất phát điểm.'),
         img('/news/press/amv-cf-3.jpg', 'Face Wash Fox phục vụ khách hàng không phân biệt giới tính'),
-        p('Tại hơn 50 cửa hàng trên toàn quốc, Face Wash Fox phục vụ khách hàng từ học sinh, nhân viên văn phòng đến các anh chị cô chú lớn tuổi lần đầu bước vào tiệm chăm da vì được con cái rủ đi. Quy trình soi da AI cá nhân hóa cho từng người - không có công thức chung, không đại trà. Máy móc công nghệ làm tốt phần chăm sóc còn lại của quy trình chăm sóc da, nhanh gọn và hiệu quả.'),
+        p('Tại gần 50 cửa hàng trên toàn quốc, Face Wash Fox phục vụ khách hàng từ học sinh, nhân viên văn phòng đến các anh chị cô chú lớn tuổi lần đầu bước vào tiệm chăm da vì được con cái rủ đi. Quy trình soi da AI cá nhân hóa cho từng người - không có công thức chung, không đại trà. Kết quả soi da mang tính tham khảo, không thay thế chẩn đoán y khoa. Máy móc công nghệ hỗ trợ phần chăm sóc còn lại của quy trình, nhanh gọn.'),
         p('Đó cũng là cách Anh Mặt Vuông làm nội dung - quan sát từng chi tiết nhỏ trong đời thường, tìm thứ người xem thấy mình trong đó, rồi kể lại theo cách của riêng anh.'),
         img('/news/press/amv-cf-4.jpg', 'Chăm da không cần lý do đặc biệt'),
         p('Xu hướng chăm sóc bản thân ở nam giới Việt Nam không đến từ một chiến dịch truyền thông hay một influencer duy nhất. Nó đến từ sự thay đổi âm thầm trong cách một thế hệ nhìn nhận bản thân - rằng trông tốt hơn, cảm thấy tốt hơn, tự tin hơn không phải đặc quyền của ai.'),
@@ -304,13 +309,13 @@ export const foxNewsSources: FoxNewsSource[] = [
     date: '7 June 2025',
     image: '/news/press/brand-pn-cover.jpg',
     locales: copyLocales({
-      title: 'Face Wash Fox - Tiên phong trong lĩnh vực chăm sóc da công nghệ cao',
-      excerpt: 'Face Wash Fox trở thành một trong những thương hiệu dẫn đầu trong lĩnh vực chăm sóc da công nghệ cao.',
+      title: 'Face Wash Fox - Chăm sóc da công nghệ tại Việt Nam',
+      excerpt: 'Face Wash Fox trở thành một trong những thương hiệu chăm sóc da công nghệ tại Việt Nam.',
       intro: 'Làm đẹp thời công nghệ số không chỉ là nhu cầu thiết yếu mà còn là cách thể hiện phong cách sống hiện đại.',
-      lead: 'Face Wash Fox đã nhanh chóng ghi dấu ấn, trở thành một trong những thương hiệu dẫn đầu trong lĩnh vực chăm sóc da công nghệ cao, mang đến cho khách hàng những trải nghiệm mới mẻ, tiện ích và hiệu quả vượt trội.',
+      lead: 'Face Wash Fox đã nhanh chóng ghi dấu ấn trong lĩnh vực chăm sóc da công nghệ, mang đến cho khách hàng những trải nghiệm mới mẻ và tiện ích.',
       paragraphs: [
-        p('Khẳng định vị thế tiên phong'),
-        p('Giữa lúc xu hướng làm đẹp công nghệ cao đang trở thành tâm điểm chú ý của thị trường, Face Wash Fox đã mạnh dạn khẳng định vị thế tiên phong. Thương hiệu này không ngừng ứng dụng những công nghệ chăm sóc da tiên tiến nhất, giúp khách hàng tiết kiệm thời gian làm đẹp mà vẫn đạt được hiệu quả vượt trội, nâng tầm trải nghiệm chăm sóc da lên một mức độ mới, chuyên nghiệp hơn.'),
+        p('Khẳng định vị thế trên thị trường'),
+        p('Giữa lúc xu hướng làm đẹp công nghệ đang trở thành tâm điểm chú ý của thị trường, Face Wash Fox đã mạnh dạn khẳng định vị thế. Thương hiệu này không ngừng ứng dụng những công nghệ chăm sóc da hiện đại, giúp khách hàng tiết kiệm thời gian làm đẹp và nâng tầm trải nghiệm chăm sóc da lên mức chuyên nghiệp hơn.'),
         img('/news/press/brand-pn-1.jpg', 'Khách hàng được chăm sóc da tại Face Wash Fox'),
         p('Tại chuỗi cửa hàng theo mô hình facial washing bar, Face Wash Fox mang đến các liệu trình làm sạch da được thiết kế bài bản, đảm bảo sự thoải mái và tiện lợi cho khách hàng ở từng bước nhỏ.'),
         img('/news/press/brand-pn-2.jpg', 'Không gian cửa hàng Face Wash Fox'),
@@ -319,7 +324,7 @@ export const foxNewsSources: FoxNewsSource[] = [
         p('Công nghệ làm đẹp: Tâm điểm tạo nên sự khác biệt'),
         p('Sức hút của Face Wash Fox nằm ở sự đổi mới không ngừng trong việc ứng dụng công nghệ vào chăm sóc da. Thay vì chỉ dừng lại ở các phương pháp truyền thống, thương hiệu này sử dụng các thiết bị làm sạch sâu hiện đại, kết hợp với công nghệ Hydra Facial và những đầu máy tối tân khác. Các thiết bị này giúp loại bỏ bụi bẩn, dầu thừa và tế bào chết một cách hiệu quả, đồng thời cung cấp độ ẩm cần thiết để làn da luôn mềm mịn.'),
         img('/news/press/brand-pn-4.jpg', 'Máy rửa mặt công nghệ cao tại Face Wash Fox'),
-        p('Không chỉ dừng lại ở việc làm sạch, Face Wash Fox còn chú trọng đến các liệu trình phục hồi chuyên sâu, như liệu trình Meso không xâm lấn hay Burnt Skin dành riêng cho da cháy nắng – một vấn đề mà nhiều người gặp phải sau những chuyến đi biển hay hoạt động ngoài trời kéo dài. Những liệu trình này không chỉ giúp làm dịu da tức thì mà còn hỗ trợ tái tạo, cấp ẩm, giúp làn da nhanh chóng lấy lại vẻ mịn màng, khỏe mạnh.'),
+        p('Không chỉ dừng lại ở việc làm sạch, Face Wash Fox còn chú trọng đến các liệu trình chăm sóc chuyên sâu, như điện di dưỡng chất không kim, không xâm lấn hay Burnt Skin dành riêng cho da cháy nắng – một vấn đề mà nhiều người gặp phải sau những chuyến đi biển hay hoạt động ngoài trời kéo dài. Những liệu trình này giúp làm dịu da và hỗ trợ cấp ẩm, giúp làn da lấy lại vẻ mịn màng.'),
         img('/news/press/brand-pn-5.jpg', 'Khách hàng trải nghiệm liệu trình chuyên sâu tại Face Wash Fox'),
         p('Trong bối cảnh năm 2025, khi xu hướng làm đẹp chú trọng đến việc tối ưu hóa thời gian cho những người bận rộn, Face Wash Fox cam kết mang đến các giải pháp chăm sóc da hiện đại, vừa nhanh gọn vừa đạt hiệu quả cao. Thương hiệu này không chỉ dừng lại ở việc đáp ứng nhu cầu làm đẹp mà còn hướng đến việc tạo nên một phong cách sống mới, nơi mỗi khách hàng đều cảm thấy tự tin và thoải mái với làn da của mình.'),
       ],
@@ -332,6 +337,7 @@ export const foxNewsSources: FoxNewsSource[] = [
     slug: 'mot-ngay-cua-anh-mat-vuong-tai-face-wash-fox',
     date: '20 April 2026',
     image: '/news/press/amv-tp-1.jpg',
+    sponsored: true,
     locales: copyLocales({
       title: 'Một ngày của Anh Mặt Vuông tại Face Wash Fox',
       excerpt: 'Khán giả quen thấy Dương Minh Tân trên set quay. Ít ai biết rằng giữa những buổi quay dày đặc — anh đang nằm ở giường chăm da tại Face Wash Fox.',
@@ -349,7 +355,7 @@ export const foxNewsSources: FoxNewsSource[] = [
         p('Quy trình nhanh gọn — hiệu quả thật'),
         p('Content creator không có nhiều thời gian. Lịch quay, lịch họp, lịch di chuyển — một buổi chăm da dài dòng là thứ Dương Minh Tân không thể cho phép trong ngày làm việc.'),
         p('Đó chính xác là thứ anh tìm thấy ở Face Wash Fox.'),
-        p('Mỗi buổi bắt đầu bằng soi da AI — phân tích chính xác tình trạng da thật: mụn ẩn, vùng dầu, độ ẩm, tuổi da. Không đoán mò, không tư vấn chung chung. Chỉ mất vài phút — nhưng toàn bộ quy trình sau đó được cá nhân hóa theo đúng kết quả đó.'),
+        p('Mỗi buổi bắt đầu bằng soi da AI — phân tích tình trạng da: vùng dầu, độ ẩm, bề mặt da. Kết quả mang tính tham khảo, không thay thế chẩn đoán y khoa. Chỉ mất vài phút — quy trình sau đó được cá nhân hóa theo kết quả đó.'),
         img('/news/press/amv-tp-3.jpg', 'Soi da AI và quy trình cá nhân hóa tại Face Wash Fox'),
         p('Tiếp theo là các bước chăm sóc bằng đầu máy công nghệ cao — làm sạch sâu, hút mụn, đưa dưỡng chất vào da bằng sóng âm, khóa ẩm bằng điện di lạnh. Từng bước tác động đúng vào đúng vấn đề da đang có — không làm thừa, không bỏ sót.'),
         p('"Khi thường xuyên chăm da tại Face Wash Fox, da mặt mình thay đổi hẳn mà không mất nhiều thời gian. Đó là thứ mình cần," Anh Mặt Vuông chia sẻ.'),

@@ -131,6 +131,7 @@ const footerColumnConfigs = [
     links: [
       { labelKey: "nav.faq", href: "/faq" },
       { labelKey: "footer.terms", href: "/dieu-khoan-dieu-kien" },
+      { labelKey: "footer.privacy", href: "/chinh-sach-bao-ve-du-lieu-ca-nhan" },
     ],
   },
 ] as const;
@@ -292,6 +293,8 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     "/dich-vu",
     "/tin-tuc",
     "/faq",
+    "/dieu-khoan-dieu-kien",
+    "/chinh-sach-bao-ve-du-lieu-ca-nhan",
     "/bang-gia-the-foxie-update-thang-08-2026",
   ];
   const solidHeader =
