@@ -1772,11 +1772,12 @@ body:has(.mono-mobile-menu) .floating-actions {
   margin: 0;
   color: #111111;
   font-family: var(--font-poppins), "SVN Poppins", sans-serif;
-  font-size: clamp(40px, 5.4vw, 72px);
+  font-size: clamp(28px, 3.6vw, 48px);
   font-style: italic;
   font-weight: 500;
   letter-spacing: -0.03em;
-  line-height: 0.95;
+  line-height: 1.05;
+  white-space: nowrap;
 }
 
 .city-timeline-copy p {
@@ -6301,9 +6302,10 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   }
 
   .city-timeline-copy h3 {
-    font-size: clamp(24px, 7vw, 32px);
-    overflow-wrap: anywhere;
-    line-height: 1.1;
+    font-size: clamp(18px, 5vw, 26px);
+    white-space: nowrap;
+    overflow-wrap: normal;
+    line-height: 1.15;
   }
 
   .city-timeline-copy p {
