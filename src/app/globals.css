@@ -4438,8 +4438,8 @@ body:has(.mono-mobile-menu) .floating-actions {
 
 .footer-main {
   display: grid;
-  grid-template-columns: minmax(220px, 1.1fr) minmax(0, 2.2fr) minmax(240px, 1fr);
-  gap: clamp(36px, 5vw, 72px);
+  grid-template-columns: minmax(200px, 1fr) minmax(0, 2.6fr) minmax(220px, 0.95fr);
+  gap: clamp(28px, 4vw, 56px);
   align-items: start;
   width: min(1420px, 100%);
   margin: 0 auto;
@@ -4493,9 +4493,17 @@ body:has(.mono-mobile-menu) .floating-actions {
 
 .footer-link-columns {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px clamp(20px, 3vw, 40px);
+  grid-template-columns: minmax(7rem, 0.85fr) minmax(7rem, 0.85fr) minmax(14rem, 1.55fr);
+  gap: 24px clamp(16px, 2.4vw, 32px);
   align-items: start;
+}
+
+.footer-link-columns > :last-child {
+  min-width: 0;
+}
+
+.footer-link-columns > :last-child a {
+  white-space: nowrap;
 }
 
 .mono-footer h3 {
@@ -6397,6 +6405,10 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   .footer-link-columns {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px 16px;
+  }
+
+  .footer-link-columns > :last-child a {
+    white-space: normal;
   }
 
   .footer-bottom {
