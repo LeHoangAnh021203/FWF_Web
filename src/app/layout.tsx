@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 
 import CookiePolicyBanner from "./cookie-policy-banner";
 import FloatingActions from "./floating-actions";
 import AppProviders from "./providers";
 import { VerticalMenu } from "./site-chrome";
 import "./globals.css";
+
+const GA_MEASUREMENT_ID = "G-QKBM8WTLC7";
 
 const svnPoppins = localFont({
   src: [
@@ -129,6 +132,18 @@ export default function RootLayout({
         <link rel="preload" href="/fwf-hero-poster.webp" as="image" type="image/webp" />
       </head>
       <body className={`${svnPoppins.className} antialiased`}>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         <AppProviders>
           <VerticalMenu />
           {children}
