@@ -282,6 +282,7 @@ export default function NewsHub() {
 
   return (
     <div className="news-hub">
+      <h1 className="sr-only">{t("news.title")}</h1>
       <div className="news-hub-topics" aria-label={t("news.topicsLabel")}>
         <div className="news-hub-topics-inner">
           <p>{t("news.topicsLabel")}</p>
@@ -294,14 +295,6 @@ export default function NewsHub() {
           </nav>
         </div>
       </div>
-
-      <header className="news-hub-banner">
-        <div className="news-hub-banner-inner">
-          <p>{t("news.eyebrow")}</p>
-          <h1>{t("news.title")}</h1>
-          <span>{t("news.subtitle")}</span>
-        </div>
-      </header>
 
       <div className="news-hub-content">
         <div className="news-hub-content-inner">
