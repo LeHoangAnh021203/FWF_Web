@@ -20,7 +20,10 @@ export function PrivacyConsent({
   const { t } = useLanguage();
 
   return (
-    <label htmlFor={id} className={`flex items-start gap-2 text-left ${className}`}>
+    <label
+      htmlFor={id}
+      className={`privacy-consent flex items-start gap-2 text-left ${className}`}
+    >
       <input
         id={id}
         name="privacyConsent"

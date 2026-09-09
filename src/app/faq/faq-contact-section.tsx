@@ -194,7 +194,6 @@ export default function FaqContactSection() {
               id="faq-consent"
               checked={privacyConsent}
               onChange={setPrivacyConsent}
-              className="text-sm text-[#374151]"
             />
 
             <button type="submit" disabled={submitState === "loading"}>

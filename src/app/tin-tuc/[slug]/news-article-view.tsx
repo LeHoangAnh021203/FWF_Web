@@ -31,7 +31,7 @@ export function NewsArticleView({ slug }: NewsArticleViewProps) {
           {t("nav.home")}
         </Link>
         <span aria-hidden="true">/</span>
-        <Link href="/#news" className="transition-colors hover:text-[#ff6a3d]">
+        <Link href="/tin-tuc" className="transition-colors hover:text-[#ff6a3d]">
           {t("home.news.breadcrumb")}
         </Link>
         <span aria-hidden="true">/</span>

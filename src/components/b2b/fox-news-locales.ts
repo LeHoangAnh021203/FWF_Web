@@ -371,4 +371,34 @@ export const foxNewsSources: FoxNewsSource[] = [
       cta: 'Nguồn: Tienphong.vn — Hotline tư vấn: 08898 66666 — Website: https://facewashfox.com',
     }),
   },
+  {
+    slug: 'gift-voucher-da-sach-sau-rang-ro-ngay-tu-lan-dau',
+    date: '21 October 2025',
+    image: '/voucher/voucher 1.png',
+    locales: copyLocales({
+      title: 'GIFT VOUCHER - DA SẠCH SÂU, RẠNG RỠ NGAY TỪ LẦN ĐẦU!',
+      excerpt:
+        'Chương trình gift voucher với nhiều ưu đãi dành cho khách muốn trải nghiệm rửa mặt công nghệ tại Face Wash Fox.',
+      intro:
+        'Face Wash Fox mang đến chương trình gift voucher với nhiều ưu đãi dành cho khách hàng muốn trải nghiệm dịch vụ rửa mặt công nghệ và chăm sóc da tại cửa hàng.',
+      lead: 'Ưu đãi áp dụng theo điều kiện chương trình tại hệ thống cửa hàng Face Wash Fox.',
+      paragraphs: [
+        p('Mua 1 tặng 1'),
+        p(
+          'Khi sử dụng dịch vụ từ 399.000 đồng, khách hàng nhận thêm một buổi trải nghiệm dịch vụ rửa mặt công nghệ Deep Clean tại Face Wash Fox.',
+        ),
+        p('Deal chồng deal'),
+        p(
+          'Giảm 5% combo hoặc dịch vụ chăm da trên giá niêm yết khi đặt lịch và sử dụng dịch vụ tại cửa hàng. Giảm 2% khi mua thẻ Foxie. Nhận set mini sample Elravie Pro khi check-in tại cửa hàng và tag Face Wash Fox trên Facebook.',
+        ),
+        p('Điều kiện áp dụng'),
+        p(
+          'Chương trình áp dụng theo thời hạn công bố. Voucher không quy đổi thành tiền mặt. Không áp dụng đồng thời với một số chương trình khuyến mãi khác và dịch vụ Aqua Peel. Khuyến khích đặt lịch trước qua hotline 08898 66666.',
+        ),
+      ],
+      bullets: [],
+      quote: '',
+      cta: 'Hotline: 08898 66666',
+    }),
+  },
 ];

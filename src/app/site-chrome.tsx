@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   Bell,
+  Download,
   Gift,
   Globe,
   Mail,
@@ -29,7 +30,7 @@ const navItemConfigs = [
   { key: "nav.about", href: "#story", Icon: Users },
   { key: "nav.contact", href: "#home-contact-info", Icon: Phone },
   { key: "nav.promo", href: "#news", Icon: Gift },
-  { key: "nav.news", href: "/#news", Icon: Bell },
+  { key: "nav.news", href: "/tin-tuc", Icon: Bell },
   { key: "nav.b2b", href: "/b2b", Icon: Users },
   { key: "nav.faq", href: "/faq", Icon: Bell },
 ] as const;
@@ -38,7 +39,7 @@ const desktopNavItemConfigs = [
   { key: "nav.services", href: "/dich-vu" },
   { key: "nav.b2b", href: "/b2b" },
   { key: "nav.stores", href: "/cua-hang" },
-  { key: "nav.news", href: "/#news" },
+  { key: "nav.news", href: "/tin-tuc" },
   { key: "nav.faq", href: "/faq" },
 ] as const;
 
@@ -122,7 +123,7 @@ const footerColumnConfigs = [
     titleKey: "footer.links",
     links: [
       { labelKey: "nav.services", href: "/dich-vu" },
-      { labelKey: "footer.news", href: "/#news" },
+      { labelKey: "footer.news", href: "/tin-tuc" },
       { labelKey: "nav.stores", href: "/cua-hang" },
     ],
   },
@@ -243,6 +244,15 @@ export function VerticalMenu() {
           })}
         </div>
       </div>
+
+      <a
+        href="/app-fwf/"
+        aria-label={t("nav.downloadApp")}
+        title={t("nav.downloadApp")}
+      >
+        <Download aria-hidden="true" />
+        <span>{t("nav.downloadApp")}</span>
+      </a>
 
       <i aria-hidden="true" />
       <div className={`mono-social-popover ${socialOpen ? "is-open" : ""}`}>

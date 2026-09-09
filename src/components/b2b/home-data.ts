@@ -1,4 +1,8 @@
 import type { SiteLanguage } from "@/i18n/dictionaries";
+import {
+  getNewsCategoryId,
+  type NewsCategoryId,
+} from "@/data/news-categories";
 
 import {
   type ArticleBlock,
@@ -28,6 +32,7 @@ export type FoxNewsItem = {
   excerpt?: string;
   href?: string;
   sponsored?: boolean;
+  categoryId: NewsCategoryId;
   article?: {
     intro?: string;
     lead?: string;
@@ -106,6 +111,7 @@ export function getLocalizedFoxNews(language: SiteLanguage): FoxNewsItem[] {
       date: source.date,
       image: source.image,
       sponsored: source.sponsored,
+      categoryId: getNewsCategoryId(source.slug),
       title: locale.title,
       excerpt: locale.excerpt,
       article: {
