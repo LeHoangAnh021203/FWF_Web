@@ -18,8 +18,8 @@ export default function ServicePage() {
     <main className="service-page">
       <SiteHeader />
       <ServiceSection />
-      <ComboIndepth />
       <ComboLove />
+      <ComboIndepth />
       <div
         id="art-gallery-slider"
         className="h-[100svh] w-full max-w-[100vw] overflow-hidden bg-black"

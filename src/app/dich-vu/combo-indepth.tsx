@@ -1,15 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { useLanguage } from "@/i18n/language-context";
 import useSharedCart from "./hooks/use-shared-cart";
 
 type ComboIndepthItem = {
   serviceId: string;
-  image: string;
+  displayNo: number;
   titleKey: string;
-  subKey: string;
+  itemKey?: string;
+  subKey?: string;
+  minutes: number;
   foxiePrice: number;
   listedPrice: number;
   oldPrice: number;
@@ -19,26 +20,71 @@ type ComboIndepthItem = {
 const comboIndepthItems: ComboIndepthItem[] = [
   {
     serviceId: "deep-1",
-    image: "/Intensive/MS Bri.png",
+    displayNo: 1,
     titleKey: "svc.comboDeep.i1.title",
-    subKey: "svc.comboDeep.i1.sub",
+    minutes: 60,
     foxiePrice: 999000,
-    listedPrice: 1490000,
-    oldPrice: 2990000,
+    listedPrice: 1590000,
+    oldPrice: 2999000,
     liked: true,
   },
   {
     serviceId: "deep-2",
-    image: "/Intensive/MS PDRN.png",
+    displayNo: 2,
     titleKey: "svc.comboDeep.i2.title",
-    subKey: "svc.comboDeep.i2.sub",
+    minutes: 60,
     foxiePrice: 999000,
-    listedPrice: 1490000,
-    oldPrice: 2990000,
+    listedPrice: 1590000,
+    oldPrice: 2999000,
+  },
+  {
+    serviceId: "deep-3",
+    displayNo: 3,
+    titleKey: "svc.comboDeep.i3.title",
+    itemKey: "svc.comboDeep.i3.item",
+    subKey: "svc.comboDeep.i3.sub",
+    minutes: 70,
+    foxiePrice: 2290000,
+    listedPrice: 2990000,
+    oldPrice: 5490000,
+  },
+  {
+    serviceId: "deep-4",
+    displayNo: 4,
+    titleKey: "svc.comboDeep.i4.title",
+    itemKey: "svc.comboDeep.i4.item",
+    subKey: "svc.comboDeep.i4.sub",
+    minutes: 70,
+    foxiePrice: 2290000,
+    listedPrice: 2990000,
+    oldPrice: 4990000,
+  },
+  {
+    serviceId: "deep-5",
+    displayNo: 5,
+    titleKey: "svc.comboDeep.i5.title",
+    itemKey: "svc.comboDeep.i5.item",
+    subKey: "svc.comboDeep.i5.sub",
+    minutes: 70,
+    foxiePrice: 2290000,
+    listedPrice: 2990000,
+    oldPrice: 5990000,
+    liked: true,
+  },
+  {
+    serviceId: "deep-6",
+    displayNo: 6,
+    titleKey: "svc.comboDeep.i6.title",
+    itemKey: "svc.comboDeep.i6.item",
+    subKey: "svc.comboDeep.i6.sub",
+    minutes: 70,
+    foxiePrice: 999000,
+    listedPrice: 1590000,
+    oldPrice: 2749000,
   },
 ];
 
-const formatPrice = (value: number) => `${value.toLocaleString("en-US")}đ`;
+const formatPrice = (value: number) => `${value.toLocaleString("vi-VN")}đ`;
 
 export default function ComboIndepth() {
   const { t } = useLanguage();
@@ -59,9 +105,12 @@ export default function ComboIndepth() {
   const confirmAddToCart = () => {
     if (!selectedItem) return;
 
+    const itemName = selectedItem.itemKey ? t(selectedItem.itemKey) : "";
+    const fullName = [t(selectedItem.titleKey), itemName].filter(Boolean).join(" ");
+
     addItem({
       id: `service-${selectedItem.serviceId}`,
-      name: t(selectedItem.titleKey),
+      name: fullName,
       price: selectedItem.foxiePrice,
       quantity,
       type: "service",
@@ -71,114 +120,62 @@ export default function ComboIndepth() {
   };
 
   return (
-    <section className="w-full overflow-x-hidden bg-[#f7941d] px-4 pb-8 pt-4 md:px-8 md:pb-10">
+    <section
+      id="combo-deep"
+      className="scroll-mt-20 w-full overflow-x-hidden bg-[#f7941d] px-4 pb-8 pt-10 md:px-8 md:pb-10 md:pt-14"
+    >
       <div className="mx-auto w-full max-w-[1320px]">
-        <div className="mb-4 flex flex-col gap-1 text-white sm:mb-6 sm:flex-row sm:items-end sm:gap-3">
-          <h2 className="text-[clamp(1.75rem,7vw,3rem)] font-extrabold uppercase leading-none md:text-5xl">
+        <div className="mb-5 text-white md:mb-7">
+          <h2 className="whitespace-nowrap text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:text-5xl">
             {t("svc.comboDeep.title")}
           </h2>
-          <p className="text-[clamp(1.1rem,4.5vw,1.75rem)] font-medium md:pb-1 md:text-4xl">
-            {t("svc.comboDeep.subtitle")}
-          </p>
-          {t("svc.comboDeep.subtitleEn") ? (
-            <p className="mt-1 text-[clamp(0.8rem,3.3vw,1.3rem)] font-medium text-white/80 md:text-[1.6875rem]">
-              {t("svc.comboDeep.subtitleEn")}
-            </p>
-          ) : null}
-          <p className="mt-3 max-w-3xl text-sm font-medium leading-relaxed text-white/90 md:text-base">
-            {t("svc.comboDeep.disclaimer")}
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {comboIndepthItems.map((item, index) => (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:gap-4">
+          {comboIndepthItems.map((item) => (
             <article
-              key={`${item.titleKey}-${index}`}
-              className="group overflow-hidden rounded-[22px] bg-white p-1 shadow-[0_8px_20px_rgba(0,0,0,0.12)] md:rounded-[24px]"
+              key={item.serviceId}
+              className="relative flex min-h-[190px] flex-col justify-between rounded-[18px] bg-white px-4 pb-4 pt-5 shadow-[0_8px_20px_rgba(0,0,0,0.1)] md:min-h-[210px] md:rounded-[22px] md:px-5 md:pb-5 md:pt-6"
             >
-              <div className="relative aspect-square overflow-hidden rounded-[18px] bg-[#f5f5f5]">
-                <Image
-                  src={item.image}
-                  alt={t(item.titleKey)}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 33vw"
-                  className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
-                />
-
-                <div className="absolute right-2 top-2 z-10 min-w-9 rounded-full border-2 border-white bg-[#ff6a36] px-2.5 py-1 text-center text-xs font-extrabold text-white shadow-[0_6px_16px_rgba(0,0,0,0.25)] md:right-3 md:top-3 md:min-w-10 md:px-3 md:text-sm">
-                  {String(index + 1).padStart(2, "0")}
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0 flex-1 pr-2">
+                  <h3 className="text-[28px] font-extrabold leading-tight text-[#2bb8c9] md:text-[34px]">
+                    {t(item.titleKey)}
+                  </h3>
+                  {item.itemKey && t(item.itemKey) ? (
+                    <p className="mt-1 text-[18px] font-extrabold leading-snug text-[#1a1a1a] md:text-[22px]">
+                      {t(item.itemKey)}
+                    </p>
+                  ) : null}
+                  
                 </div>
 
-              {item.liked ? (
-                  <div className="absolute left-2 top-2 z-10 grid h-10 w-10 place-items-center overflow-hidden rounded-full border-2 border-white bg-white shadow-[0_6px_16px_rgba(0,0,0,0.25)] md:left-3 md:top-3 md:h-11 md:w-11">
-                  <Image
-                    src="/images/Cao like@4x.png"
-                    alt={t("svc.comboDeep.likeAlt")}
-                      width={34}
-                      height={34}
-                      className="h-8 w-8 object-contain"
-                    />
+                <div className="flex shrink-0 flex-col items-end gap-1.5">
+                  
+                  <p className="text-right text-[12px] font-extrabold uppercase leading-tight tracking-wide text-[#333] md:text-[23px]">
+                    {item.minutes} {t("svc.comboDeep.minutes")}
+                  </p>
+                </div>
+              </div>
+
+              <div className=" border-t border-[#ece7e2] pt-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <p className="text-[11px] font-semibold text-[#666] md:text-xs">
+                      {t("svc.comboDeep.foxiePrice")}
+                    </p>
+                    <p className=" text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
+                      {formatPrice(item.foxiePrice)}
+                    </p>
                   </div>
-              ) : null}
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent opacity-100 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100" />
-
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 p-3 opacity-100 transition-all duration-300 md:translate-y-6 md:p-4 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-                  <div className="rounded-2xl border border-white/20 bg-black/30 p-3 text-white backdrop-blur-[1px] md:bg-black/20 md:p-4">
-                    <p className="text-[11px] leading-tight text-white/85 md:text-sm">{t(item.subKey)}</p>
-                    <h3 className="mt-1 text-[16px] font-extrabold leading-tight md:text-[20px]">{t(item.titleKey)}</h3>
-
-                    <div className="mt-2 grid grid-cols-2 gap-2.5 leading-tight md:mt-3 md:gap-4">
-                      <div>
-                        <p className="text-[12px] font-semibold text-white/80 md:text-sm">{t("svc.comboDeep.foxiePrice")}</p>
-                        {t("svc.comboDeep.foxiePoint") ? (
-                          <p className="text-[9px] text-white/60 md:text-[10px]">{t("svc.comboDeep.foxiePoint")}</p>
-                        ) : null}
-                        <p className="mt-1 text-[16px] font-extrabold leading-none text-[#ffb699] md:text-[20px]">
-                          {formatPrice(item.foxiePrice)}
-                        </p>
-                      </div>
-
-                      <div className="text-right">
-                        <p className="text-[12px] font-semibold text-white/80 md:text-sm">{t("svc.comboDeep.listedPrice")}</p>
-                        {t("svc.comboDeep.listedEn") ? (
-                          <p className="text-[9px] text-white/60 md:text-[10px]">{t("svc.comboDeep.listedEn")}</p>
-                        ) : null}
-                        <p className="mt-1 text-[14px] font-extrabold leading-none text-[#ffd08c] md:text-[15px]">
-                          {formatPrice(item.listedPrice)}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-2 flex items-center justify-end gap-2 md:mt-3">
-                      <button
-                        type="button"
-                        className="pointer-events-auto rounded-full border border-white/45 bg-white/12 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/20 md:text-sm"
-                      >
-                        {t("svc.comboDeep.detail")}
-                      </button>
-                      <button
-                        type="button"
-                        aria-label={t("svc.comboDeep.addCartAria")}
-                        onClick={() => openAddCartModal(item)}
-                        className="pointer-events-auto grid h-9 w-9 place-items-center rounded-full border border-white/45 bg-[#ff6a36] text-white transition hover:bg-[#f45c28] md:h-10 md:w-10"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="h-4 w-4 md:h-5 md:w-5"
-                        >
-                          <circle cx="9" cy="20" r="1" />
-                          <circle cx="17" cy="20" r="1" />
-                          <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 7H7" />
-                        </svg>
-                      </button>
-                    </div>
+                  <div className="text-right">
+                    <p className="text-[11px] font-semibold text-[#666] md:text-xs">
+                      {t("svc.comboDeep.listedPrice")}
+                    </p>
+                  
+                    <p className=" text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
+                      {formatPrice(item.listedPrice)}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -191,7 +188,11 @@ export default function ComboIndepth() {
         <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#151515] p-5 text-white">
             <h3 className="text-lg font-semibold">{t("svc.comboDeep.modalTitle")}</h3>
-            <p className="mt-1 text-sm text-white/70">{t(selectedItem.titleKey)}</p>
+            <p className="mt-1 text-sm text-white/70">
+              {[t(selectedItem.titleKey), selectedItem.itemKey ? t(selectedItem.itemKey) : ""]
+                .filter(Boolean)
+                .join(" ")}
+            </p>
             <p className="mt-2 text-sm text-[#ffb699]">{formatPrice(selectedItem.foxiePrice)}</p>
 
             <div className="mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3">
