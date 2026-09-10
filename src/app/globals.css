@@ -2959,7 +2959,7 @@ body:has(.mono-mobile-menu) .floating-actions {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 32px;
-}
+}image.png
 
 .model-card {
   min-width: 0;

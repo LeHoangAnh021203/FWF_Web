@@ -101,14 +101,14 @@ export default function ComboLove() {
         {comboItems.map((item) => (
           <article key={item.serviceId} data-combo-card className={comboMobileCardClassName}>
             <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0 flex-1 pr-2">
+              <div className="grid min-w-0 flex-1 grid-rows-[auto_minmax(0.55em,auto)_auto] gap-1.5 pr-2">
                 <span className="text-[32px] font-extrabold leading-none text-[#2bb8c9] md:text-[40px]">
                   Combo {item.displayNo}
                 </span>
-                <h3 className="pt-2 text-[14px] font-extrabold uppercase leading-snug text-[#1a1a1a] md:text-[16px]">
+                <h3 className="text-[14px] font-extrabold uppercase leading-snug text-[#1a1a1a] md:text-[16px]">
                   {t(item.titleKey)}
                 </h3>
-                <p className="mt-1.5 text-[12px] font-medium leading-snug text-[#777] md:text-[13px]">
+                <p className="text-[12px] font-medium leading-snug text-[#777] md:text-[13px]">
                   {t(item.descKey)}
                 </p>
               </div>
@@ -129,13 +129,13 @@ export default function ComboLove() {
               </div>
             </div>
 
-            <div className="border-t border-[#ece7e2] pt-3">
+            <div className=" border-t border-[#ece7e2] pt-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <p className="text-[11px] font-semibold text-[#666] md:text-xs">
                     {t("svc.comboLove.foxiePrice")}
                   </p>
-                  <p className="mt-1 whitespace-nowrap text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
+                  <p className="mt-[-4] whitespace-nowrap text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
                     {formatPrice(item.foxiePrice)}
                   </p>
                 </div>
@@ -143,7 +143,7 @@ export default function ComboLove() {
                   <p className="text-[11px] font-semibold text-[#666] md:text-xs">
                     {t("svc.comboLove.listedPrice")}
                   </p>
-                  <p className="mt-1 whitespace-nowrap text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
+                  <p className="mt-[-4] whitespace-nowrap text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
                     {formatPrice(item.listedPrice)}
                   </p>
                 </div>

@@ -11,7 +11,6 @@ import FeedbackCarousel from "./feedback-carousel";
 import HeroBanner from "./hero-banner";
 import LoadingOverlay from "./loading-overlay";
 import NewsShowcase from "./news-showcase";
-import QuickBookingBanner from "./quick-booking-banner";
 import ScrollEffects from "./scroll-effects";
 import { SiteFooter, SiteHeader } from "./site-chrome";
 
@@ -112,8 +111,6 @@ export default function HomePage() {
       <section id="hero" className="mono-hero">
         <HeroBanner />
       </section>
-
-      <QuickBookingBanner />
 
       <section id="our-picks" className="models-section">
         <div className="section-heading">

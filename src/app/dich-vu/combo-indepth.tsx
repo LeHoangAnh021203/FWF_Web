@@ -122,7 +122,7 @@ export default function ComboIndepth() {
   };
 
   return (
-    <div id="combo-deep" className="scroll-mt-20">
+    <div id="combo-deep" className="scroll-mt-20 mt-10">
       <div className="mb-5 text-[#1a1a1a] md:mb-7">
         <h2 className="text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:whitespace-nowrap md:text-5xl">
           {t("svc.comboDeep.title")}
@@ -157,7 +157,7 @@ export default function ComboIndepth() {
                   <p className="text-[11px] font-semibold text-[#666] md:text-xs">
                     {t("svc.comboDeep.foxiePrice")}
                   </p>
-                  <p className="mt-1 whitespace-nowrap text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
+                  <p className="mt-[-4] whitespace-nowrap text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
                     {formatPrice(item.foxiePrice)}
                   </p>
                 </div>
@@ -165,7 +165,7 @@ export default function ComboIndepth() {
                   <p className="text-[11px] font-semibold text-[#666] md:text-xs">
                     {t("svc.comboDeep.listedPrice")}
                   </p>
-                  <p className="mt-1 whitespace-nowrap text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
+                  <p className="mt-[-4] whitespace-nowrap text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
                     {formatPrice(item.listedPrice)}
                   </p>
                 </div>

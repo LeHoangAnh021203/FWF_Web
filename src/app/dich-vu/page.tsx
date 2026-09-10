@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import QuickBookingBanner from "../quick-booking-banner";
 import { SiteFooter, SiteHeader } from "../site-chrome";
 import ComboSections from "./combo-sections";
 import ServiceSection from "./service-section";
@@ -15,6 +16,7 @@ export default function ServicePage() {
     <main className="service-page">
       <SiteHeader />
       <ServiceSection />
+      <QuickBookingBanner />
       <ComboSections />
       {/* Temporarily hidden: ArtGallerySlider (Dịch vụ cơ bản) */}
       <VoucherSection />
