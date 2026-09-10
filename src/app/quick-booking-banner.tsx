@@ -94,7 +94,6 @@ export default function QuickBookingBanner() {
     <section
       id="dat-lich"
       className="quick-booking-section"
-      id="dat-lich"
       aria-labelledby="quick-booking-heading"
     >
       <div className="quick-booking-stage">
