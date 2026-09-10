@@ -4,9 +4,9 @@
 
 import { getLocalizedFoxNews } from "@/components/b2b/home-data";
 import { useLanguage } from "@/i18n/language-context";
-import { useState } from "react";
 
 import CityTimeline from "./city-timeline";
+import ExperienceOffers from "./experience-offers";
 import FeedbackCarousel from "./feedback-carousel";
 import HeroBanner from "./hero-banner";
 import LoadingOverlay from "./loading-overlay";
@@ -25,7 +25,6 @@ const testimonialImages = [
 
 export default function HomePage() {
   const { language, t } = useLanguage();
-  const [showCompanyInfo, setShowCompanyInfo] = useState(false);
   const foxNews = getLocalizedFoxNews(language);
 
   const testimonials = testimonialImages.map((image, index) => {
@@ -121,7 +120,7 @@ export default function HomePage() {
           <h2>{t("home.servicesTitle")}</h2>
           <p>{t("home.servicesSubtitle")}</p>
         </div>
-        {/* Temporarily hidden: ServiceCarousel */}
+        <ExperienceOffers />
       </section>
 
       <section className="store-section">
@@ -153,36 +152,6 @@ export default function HomePage() {
           <p>&quot;{t("home.storyQuote")}&quot;</p>
           <h2 className="text-12">{t("home.storyTitle")}</h2>
           <p>{t("home.storyBody")}</p>
-          <button
-            type="button"
-            className="story-cta"
-            aria-expanded={showCompanyInfo}
-            aria-controls="thong-tin-cong-ty"
-            onClick={() => setShowCompanyInfo((open) => !open)}
-          >
-            {t("home.storyCta")}
-          </button>
-          {showCompanyInfo ? (
-            <div className="story-company" id="thong-tin-cong-ty">
-              <p>{t("footer.companyName")}</p>
-              <p>{t("footer.legalRep")}</p>
-              <p>{t("footer.taxId")}</p>
-              <a
-                className="story-bct-badge"
-                href="https://online.gov.vn/nen-tang/1ac4ac87-056b-41b4-a9bb-703eb10b9eaa"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/bct/da-thong-bao.png"
-                  alt={t("footer.ecommerceBadgeAlt")}
-                  width={150}
-                  height={56}
-                />
-              </a>
-            </div>
-          ) : null}
         </div>
         <div className="video-panel story-video">
           <video

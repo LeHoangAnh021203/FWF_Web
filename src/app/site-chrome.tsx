@@ -297,6 +297,7 @@ export function VerticalMenu() {
 export function SiteHeader({ home = false }: { home?: boolean }) {
   const { language, setLanguage, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const solidAtTopPages = [
@@ -325,18 +326,42 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
   }));
 
   useEffect(() => {
-    const updateScrolled = () => setScrolled(window.scrollY > 24);
-    updateScrolled();
-    window.addEventListener("scroll", updateScrolled, { passive: true });
+    let lastY = window.scrollY;
 
-    return () => window.removeEventListener("scroll", updateScrolled);
-  }, []);
+    const updateOnScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+
+      if (menuOpen) {
+        setHeaderHidden(false);
+        lastY = y;
+        return;
+      }
+
+      const delta = y - lastY;
+      if (y < 48) {
+        setHeaderHidden(false);
+      } else if (delta > 6) {
+        setHeaderHidden(true);
+      } else if (delta < -6) {
+        setHeaderHidden(false);
+      }
+
+      lastY = y;
+    };
+
+    updateOnScroll();
+    window.addEventListener("scroll", updateOnScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", updateOnScroll);
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    setHeaderHidden(false);
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMenuOpen(false);
@@ -356,7 +381,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     <header
       className={`mono-header ${solidHeader ? "is-solid" : "is-transparent"}${
         pathname === "/cua-hang" ? " is-store" : ""
-      }${menuOpen ? " is-menu-open" : ""}`}
+      }${menuOpen ? " is-menu-open" : ""}${headerHidden ? " is-hidden" : ""}`}
     >
       <div className="mono-nav-shell">
         <a className="mono-brand" href={brandHref}>
@@ -493,6 +518,20 @@ export function SiteFooter({ home = false }: { home?: boolean }) {
         <div className="footer-brand">
           <strong>{t("footer.tagline")}</strong>
           <p>{t("footer.about")}</p>
+          <a
+            className="footer-bct-badge"
+            href="https://online.gov.vn/nen-tang/1ac4ac87-056b-41b4-a9bb-703eb10b9eaa"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/bct/da-thong-bao.png"
+              alt={t("footer.ecommerceBadgeAlt")}
+              width={150}
+              height={56}
+            />
+          </a>
         </div>
 
         <div className="footer-link-columns">
