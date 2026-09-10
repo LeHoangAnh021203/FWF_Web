@@ -11,15 +11,15 @@ type VoucherCard = {
 
 /** Sorted low → high by recharge value */
 const voucherCards: VoucherCard[] = [
-  { id: "foxie-trial", nameKey: "svc.voucher.trial", image: "/voucher/foxie-cards/foxie-0-trial.jpg" },
-  { id: "foxie-iron", nameKey: "svc.voucher.iron", image: "/voucher/foxie-cards/foxie-1-iron.jpg" },
-  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", image: "/voucher/foxie-cards/foxie-2-bronze.jpg" },
-  { id: "foxie-silver", nameKey: "svc.voucher.silver", image: "/voucher/foxie-cards/foxie-3-silver.jpg" },
-  { id: "foxie-gold", nameKey: "svc.voucher.gold", image: "/voucher/foxie-cards/foxie-4-gold.jpg" },
-  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", image: "/voucher/foxie-cards/foxie-5-diamond.jpg" },
-  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", image: "/voucher/foxie-cards/foxie-6-platinum.jpg" },
-  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", image: "/voucher/foxie-cards/foxie-7-crystal.jpg" },
-  { id: "foxie-crown", nameKey: "svc.voucher.crown", image: "/voucher/foxie-cards/foxie-8-crown.jpg" },
+  { id: "foxie-trial", nameKey: "svc.voucher.trial", image: "/voucher/foxie-cards/foxie-0-trial.png" },
+  { id: "foxie-iron", nameKey: "svc.voucher.iron", image: "/voucher/foxie-cards/foxie-1-iron.png" },
+  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", image: "/voucher/foxie-cards/foxie-2-bronze.png" },
+  { id: "foxie-silver", nameKey: "svc.voucher.silver", image: "/voucher/foxie-cards/foxie-3-silver.png" },
+  { id: "foxie-gold", nameKey: "svc.voucher.gold", image: "/voucher/foxie-cards/foxie-4-gold.png" },
+  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", image: "/voucher/foxie-cards/foxie-5-diamond.png" },
+  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", image: "/voucher/foxie-cards/foxie-6-platinum.png" },
+  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", image: "/voucher/foxie-cards/foxie-7-crystal.png" },
+  { id: "foxie-crown", nameKey: "svc.voucher.crown", image: "/voucher/foxie-cards/foxie-8-crown.png" },
 ];
 
 export default function VoucherSection() {
@@ -42,18 +42,18 @@ export default function VoucherSection() {
           </p>
         </div>
 
-        <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:mx-auto lg:max-w-4xl lg:grid-cols-3">
+        <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
           {voucherCards.map((voucher, index) => (
             <div
               key={voucher.id}
-              className="relative aspect-square min-w-[70%] max-w-[280px] snap-center overflow-hidden rounded-3xl bg-[#f4dcc2] shadow-[0_14px_36px_rgba(244,116,29,0.18)] sm:min-w-[52%] md:max-w-none md:min-w-0"
+              className="relative aspect-[1672/941] min-w-[78%] max-w-[320px] snap-center overflow-hidden rounded-[28px] bg-transparent sm:min-w-[58%] md:max-w-none md:min-w-0"
             >
               <Image
                 src={voucher.image}
                 alt={t(voucher.nameKey)}
                 fill
                 className="object-contain object-center"
-                sizes="(max-width: 640px) 70vw, (max-width: 1024px) 45vw, 280px"
+                sizes="(max-width: 640px) 78vw, (max-width: 1024px) 45vw, 360px"
                 priority={index < 3}
               />
             </div>

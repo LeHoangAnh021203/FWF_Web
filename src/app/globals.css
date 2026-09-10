@@ -1229,7 +1229,7 @@ body:has(.mono-mobile-menu) .floating-actions {
 
 .quick-booking-section {
   padding: 0;
-  background: linear-gradient(90deg, #fff8f2 0%, #ffe8d6 48%, #ffd8c0 100%);
+  background: none;
   scroll-margin-top: 88px;
 }
 
@@ -1902,6 +1902,14 @@ body:has(.mono-mobile-menu) .floating-actions {
   background: #ece7e1;
   color: #171717;
   overflow-x: hidden;
+}
+
+.service-booking-combo {
+  background: radial-gradient(circle at top, #ffe0c4 0%, #fff7ef 32%, #ffffff 100%);
+}
+
+.service-booking-combo .quick-booking-section {
+  background: none;
 }
 
 /* Keep combo cards clear of fixed chrome (left rail + right FABs) */
@@ -2836,7 +2844,7 @@ body:has(.mono-mobile-menu) .floating-actions {
 .experience-offers-track {
   display: flex;
   justify-content: flex-start;
-  gap: 14px;
+  gap: 8px;
   width: 100%;
   overflow-x: auto;
   padding: 4px 4px 10px;
@@ -2880,10 +2888,9 @@ body:has(.mono-mobile-menu) .floating-actions {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   margin-top: auto;
-  min-height: 188px;
-  padding: 16px 16px 34px;
+  padding: 12px 14px 14px;
   border-radius: 22px 0 0 0;
   background: rgba(234, 88, 12, 0.72);
   backdrop-filter: blur(6px);
@@ -2895,7 +2902,7 @@ body:has(.mono-mobile-menu) .floating-actions {
   margin: 0;
   display: -webkit-box;
   overflow: hidden;
-  min-height: 2.5em;
+  min-height: 2lh;
   font-size: clamp(1.05rem, 2.8vw, 1.25rem);
   font-weight: 800;
   line-height: 1.25;
@@ -2904,18 +2911,34 @@ body:has(.mono-mobile-menu) .floating-actions {
   -webkit-line-clamp: 2;
 }
 
-.experience-offer-price-line,
 .experience-offer-benefits {
   margin: 0;
   display: -webkit-box;
   overflow: hidden;
-  min-height: 2.7em;
+  min-height: 2lh;
   font-size: clamp(0.72rem, 1.9vw, 0.82rem);
   font-weight: 500;
   line-height: 1.35;
   color: rgba(255, 255, 255, 0.95);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.experience-offer-price-line {
+  margin: 0;
+  min-height: 1.35em;
+  font-size: clamp(0.72rem, 1.9vw, 0.82rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.experience-offer-price-line strong {
+  display: inline;
+  font-size: 1.12em;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: #ffffff;
 }
 
 .experience-offer-pill {
@@ -2934,20 +2957,23 @@ body:has(.mono-mobile-menu) .floating-actions {
 
 @media (min-width: 900px) {
   .experience-offers-track {
-    gap: 16px;
-    justify-content: center;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    overflow: visible;
+    padding: 0;
   }
 
   .experience-offer-card {
-    flex: 0 0 250px;
-    width: 250px;
+    flex: none;
+    width: auto;
+    min-width: 0;
+    scroll-snap-align: unset;
   }
 
   .experience-offer-panel {
-    min-height: 200px;
-    padding: 16px 18px 10px;
-    gap: 7px;
+    padding: 12px 16px 14px;
+    gap: 4px;
   }
 }
 

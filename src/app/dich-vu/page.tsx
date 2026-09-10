@@ -16,8 +16,10 @@ export default function ServicePage() {
     <main className="service-page">
       <SiteHeader />
       <ServiceSection />
-      <QuickBookingBanner />
-      <ComboSections />
+      <div className="service-booking-combo">
+        <QuickBookingBanner />
+        <ComboSections />
+      </div>
       {/* Temporarily hidden: ArtGallerySlider (Dịch vụ cơ bản) */}
       <VoucherSection />
       <SiteFooter />
