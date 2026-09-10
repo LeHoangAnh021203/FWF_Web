@@ -10,6 +10,7 @@ import {
   Download,
   Gift,
   Globe,
+  Home,
   Mail,
   MapPin,
   Menu,
@@ -25,22 +26,24 @@ import { languageOptions } from "@/i18n/dictionaries";
 import { useLanguage } from "@/i18n/language-context";
 
 const navItemConfigs = [
+  { key: "nav.home", href: "/", Icon: Home },
   { key: "nav.stores", href: "/cua-hang", Icon: Store },
   { key: "nav.services", href: "/dich-vu", Icon: Sparkles },
   { key: "nav.about", href: "#story", Icon: Users },
   { key: "nav.contact", href: "#home-contact-info", Icon: Phone },
   { key: "nav.promo", href: "#news", Icon: Gift },
   { key: "nav.news", href: "/tin-tuc", Icon: Bell },
-  { key: "nav.b2b", href: "/b2b", Icon: Users },
   { key: "nav.faq", href: "/faq", Icon: Bell },
+  { key: "nav.b2b", href: "/b2b", Icon: Users },
 ] as const;
 
 const desktopNavItemConfigs = [
+  { key: "nav.home", href: "/" },
   { key: "nav.services", href: "/dich-vu" },
-  { key: "nav.b2b", href: "/b2b" },
   { key: "nav.stores", href: "/cua-hang" },
   { key: "nav.news", href: "/tin-tuc" },
   { key: "nav.faq", href: "/faq" },
+  { key: "nav.b2b", href: "/b2b" },
 ] as const;
 
 const hotline = "0889866666";

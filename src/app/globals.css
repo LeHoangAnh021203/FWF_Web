@@ -1774,6 +1774,22 @@ body:has(.mono-mobile-menu) .floating-actions {
   overflow-x: hidden;
 }
 
+/* Keep combo cards clear of fixed chrome (left rail + right FABs) */
+#combo-love,
+#combo-deep {
+  padding-right: max(1rem, 4.75rem);
+  padding-bottom: max(2.5rem, 6.5rem);
+}
+
+@media (min-width: 981px) {
+  #combo-love,
+  #combo-deep {
+    padding-left: max(1.5rem, 4.75rem);
+    padding-right: max(1.5rem, 5.75rem);
+    padding-bottom: max(2.5rem, 3.5rem);
+  }
+}
+
 .service-page .text-muted {
   color: #6f6f6f;
 }

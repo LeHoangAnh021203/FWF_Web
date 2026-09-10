@@ -84,10 +84,10 @@ export default function ComboLove() {
   return (
     <section
       id="combo-love"
-      className="scroll-mt-20 w-full overflow-x-hidden bg-[#f7941d] px-4 pb-8 pt-10 md:px-8 md:pb-10 md:pt-14"
+      className="scroll-mt-20 w-full overflow-x-hidden bg-[radial-gradient(circle_at_top,#ffe0c4_0%,#fff7ef_42%,#ffffff_100%)] px-4 pb-10 pt-10 sm:px-6 md:px-10 md:pb-12 md:pt-14 lg:px-[5.5rem] xl:px-24"
     >
       <div className="mx-auto w-full max-w-[1320px]">
-        <div className="mb-5 flex items-center gap-3 text-white md:mb-7 md:gap-4">
+        <div className="mb-5 flex items-center gap-3 text-[#1a1a1a] md:mb-7 md:gap-4">
           <h2 className="whitespace-nowrap text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:text-5xl">
             {t("svc.comboLove.title1")} {t("svc.comboLove.title2")}
           </h2>
@@ -104,7 +104,7 @@ export default function ComboLove() {
           {comboItems.map((item) => (
             <article
               key={item.serviceId}
-              className="relative flex min-h-[190px] flex-col justify-between rounded-[18px] bg-white px-4 pb-4 pt-5 shadow-[0_8px_20px_rgba(0,0,0,0.1)] md:min-h-[210px] md:rounded-[22px] md:px-5 md:pb-5 md:pt-6"
+              className="relative flex min-h-[190px] flex-col justify-between rounded-[22px] border border-[#f0e4d8] bg-white px-4 pb-4 pt-5 shadow-[0_10px_28px_rgba(244,116,29,0.12)] md:min-h-[210px] md:rounded-[26px] md:px-5 md:pb-5 md:pt-6"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1 pr-2">
