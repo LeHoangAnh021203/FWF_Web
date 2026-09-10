@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../site-chrome";
 import ComboSections from "./combo-sections";
 import ServiceSection from "./service-section";
-import ServiceStandard from "./service-standard";
 import VoucherSection from "./voucher-section";
 
 export const metadata: Metadata = {
@@ -19,7 +18,6 @@ export default function ServicePage() {
       <ComboSections />
       {/* Temporarily hidden: ArtGallerySlider (Dịch vụ cơ bản) */}
       <VoucherSection />
-      <ServiceStandard />
       <SiteFooter />
     </main>
   );

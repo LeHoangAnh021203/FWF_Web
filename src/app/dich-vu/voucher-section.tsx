@@ -1,59 +1,29 @@
 "use client";
 
 import Image from "next/image";
-import { ShoppingCart } from "lucide-react";
-import { useState } from "react";
 import { useLanguage } from "@/i18n/language-context";
-import useSharedCart from "./hooks/use-shared-cart";
 
 type VoucherCard = {
   id: string;
   nameKey: string;
-  price: number;
   image: string;
 };
 
 /** Sorted low → high by recharge value */
 const voucherCards: VoucherCard[] = [
-  { id: "foxie-trial", nameKey: "svc.voucher.trial", price: 1500000, image: "/voucher/foxie-cards/foxie-0-trial.jpg" },
-  { id: "foxie-iron", nameKey: "svc.voucher.iron", price: 3000000, image: "/voucher/foxie-cards/foxie-1-iron.jpg" },
-  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", price: 5000000, image: "/voucher/foxie-cards/foxie-2-bronze.jpg" },
-  { id: "foxie-silver", nameKey: "svc.voucher.silver", price: 10000000, image: "/voucher/foxie-cards/foxie-3-silver.jpg" },
-  { id: "foxie-gold", nameKey: "svc.voucher.gold", price: 20000000, image: "/voucher/foxie-cards/foxie-4-gold.jpg" },
-  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", price: 30000000, image: "/voucher/foxie-cards/foxie-5-diamond.jpg" },
-  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", price: 50000000, image: "/voucher/foxie-cards/foxie-6-platinum.jpg" },
-  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", price: 80000000, image: "/voucher/foxie-cards/foxie-7-crystal.jpg" },
-  { id: "foxie-crown", nameKey: "svc.voucher.crown", price: 100000000, image: "/voucher/foxie-cards/foxie-8-crown.jpg" },
+  { id: "foxie-trial", nameKey: "svc.voucher.trial", image: "/voucher/foxie-cards/foxie-0-trial.jpg" },
+  { id: "foxie-iron", nameKey: "svc.voucher.iron", image: "/voucher/foxie-cards/foxie-1-iron.jpg" },
+  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", image: "/voucher/foxie-cards/foxie-2-bronze.jpg" },
+  { id: "foxie-silver", nameKey: "svc.voucher.silver", image: "/voucher/foxie-cards/foxie-3-silver.jpg" },
+  { id: "foxie-gold", nameKey: "svc.voucher.gold", image: "/voucher/foxie-cards/foxie-4-gold.jpg" },
+  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", image: "/voucher/foxie-cards/foxie-5-diamond.jpg" },
+  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", image: "/voucher/foxie-cards/foxie-6-platinum.jpg" },
+  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", image: "/voucher/foxie-cards/foxie-7-crystal.jpg" },
+  { id: "foxie-crown", nameKey: "svc.voucher.crown", image: "/voucher/foxie-cards/foxie-8-crown.jpg" },
 ];
-
-const formatVnd = (value: number) =>
-  new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value);
 
 export default function VoucherSection() {
   const { t } = useLanguage();
-  const { addItem } = useSharedCart();
-  const [quantities, setQuantities] = useState<Record<string, number>>(
-    Object.fromEntries(voucherCards.map((voucher) => [voucher.id, 1])),
-  );
-  const [activeCardId, setActiveCardId] = useState<string | null>(null);
-
-  const updateQuantity = (id: string, delta: number) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: Math.max(1, (prev[id] ?? 1) + delta),
-    }));
-  };
-
-  const handleAddVoucher = (voucher: VoucherCard) => {
-    const quantity = quantities[voucher.id] ?? 1;
-    addItem({
-      id: `voucher-${voucher.id}`,
-      name: t(voucher.nameKey),
-      price: voucher.price,
-      quantity,
-      type: "voucher",
-    });
-  };
 
   return (
     <section className="w-full overflow-x-hidden bg-[#f7e0c7] px-4 py-10 md:px-8 md:py-14">
@@ -68,91 +38,26 @@ export default function VoucherSection() {
           <p className="mx-auto mt-3 max-w-4xl text-sm font-medium leading-relaxed text-[#222] md:mt-4 md:text-2xl">
             {t("svc.voucher.body1")}{" "}
             <span className="font-bold">{t("svc.voucher.bodySave")}</span> {t("svc.voucher.body2")}{" "}
-            <span className="font-bold">
-              {t("svc.voucher.bodyShare")}
-            </span>
-            .
+            <span className="font-bold">{t("svc.voucher.bodyShare")}</span>.
           </p>
         </div>
 
-        <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4">
-          {voucherCards.map((voucher, index) => {
-            const isActive = activeCardId === voucher.id;
-
-            return (
-              <div
-                key={voucher.id}
-                className="group relative aspect-square min-w-[78%] snap-center overflow-hidden rounded-3xl bg-[#f4dcc2] shadow-sm sm:min-w-[62%] md:min-w-0"
-                onClick={() =>
-                  setActiveCardId((prev) => (prev === voucher.id ? null : voucher.id))
-                }
-              >
-                <Image
-                  src={voucher.image}
-                  alt={t(voucher.nameKey)}
-                  fill
-                  className="object-contain object-center"
-                  sizes="(max-width: 640px) 80vw, (max-width: 1024px) 50vw, 25vw"
-                  priority={index < 2}
-                />
-
-                <div
-                  className={`pointer-events-none absolute inset-0 bg-black/40 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100 ${
-                    isActive ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-                <div
-                  className={`absolute inset-x-3 bottom-3 rounded-2xl bg-black/75 p-2 text-white transition-all duration-300 md:pointer-events-none md:translate-y-4 md:opacity-0 md:group-hover:pointer-events-auto md:group-hover:translate-y-0 md:group-hover:opacity-100 ${
-                    isActive
-                      ? "pointer-events-auto translate-y-0 opacity-100"
-                      : "pointer-events-none translate-y-4 opacity-0"
-                  }`}
-                >
-                  <div className="mb-2 flex items-center justify-between gap-2">
-                    <p className="text-xs font-semibold text-[#ffb699]">
-                      {formatVnd(voucher.price)}
-                    </p>
-                    <div className="flex items-center gap-1 rounded-full bg-white/10 px-1 py-1">
-                      <button
-                        type="button"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          updateQuantity(voucher.id, -1);
-                        }}
-                        className="grid h-7 w-7 place-items-center rounded-full bg-white/15 text-sm hover:bg-white/25"
-                      >
-                        -
-                      </button>
-                      <span className="min-w-6 text-center text-xs font-semibold">
-                        {quantities[voucher.id] ?? 1}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          updateQuantity(voucher.id, 1);
-                        }}
-                        className="grid h-7 w-7 place-items-center rounded-full bg-white/15 text-sm hover:bg-white/25"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      handleAddVoucher(voucher);
-                    }}
-                    className="flex h-9 w-full items-center justify-center gap-2 rounded-xl bg-[#ff6a36] text-sm font-semibold text-white hover:bg-[#f45c28]"
-                  >
-                    <ShoppingCart className="h-4 w-4" />
-                    {t("svc.voucher.addCart")}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+        <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:mx-auto lg:max-w-4xl lg:grid-cols-3">
+          {voucherCards.map((voucher, index) => (
+            <div
+              key={voucher.id}
+              className="relative aspect-square min-w-[70%] max-w-[280px] snap-center overflow-hidden rounded-3xl bg-[#f4dcc2] shadow-[0_14px_36px_rgba(244,116,29,0.18)] sm:min-w-[52%] md:max-w-none md:min-w-0"
+            >
+              <Image
+                src={voucher.image}
+                alt={t(voucher.nameKey)}
+                fill
+                className="object-contain object-center"
+                sizes="(max-width: 640px) 70vw, (max-width: 1024px) 45vw, 280px"
+                priority={index < 3}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

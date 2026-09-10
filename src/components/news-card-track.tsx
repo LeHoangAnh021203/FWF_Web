@@ -66,7 +66,7 @@ export function NewsCardTrack({ items, badge, adLabel, children }: NewsCardTrack
 
   return (
     <div>
-      <div className="mb-5 text-center md:mb-6">{children}</div>
+      <div className="mb-3 text-center md:mb-4">{children}</div>
       {items.length > 3 ? (
         <div className="mb-4 flex justify-end gap-1.5 md:mb-5">
           <button

@@ -131,6 +131,7 @@ export default function HeroBanner() {
                   alt={slide.alt}
                   width={1400}
                   height={645}
+                  sizes="100vw"
                   fetchPriority={slideIndex === 0 ? "high" : "auto"}
                   decoding={slideIndex === 0 ? "sync" : "async"}
                   draggable={false}

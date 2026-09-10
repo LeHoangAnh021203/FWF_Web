@@ -1,6 +1,12 @@
 "use client";
 
 import { useLanguage } from "@/i18n/language-context";
+import {
+  ComboMobileNav,
+  comboMobileCardClassName,
+  comboMobileTrackClassName,
+  useComboMobileScroll,
+} from "./combo-mobile-scroll";
 
 const extraItems = [
   {
@@ -9,7 +15,6 @@ const extraItems = [
     subKey: "svc.gallery.extra1.sub",
     foxiePrice: 199000,
     listedPrice: 299000,
-    oldPrice: 599000,
   },
   {
     id: "extra-2",
@@ -17,7 +22,6 @@ const extraItems = [
     subKey: "svc.gallery.extra2.sub",
     foxiePrice: 199000,
     listedPrice: 299000,
-    oldPrice: 599000,
   },
   {
     id: "extra-3",
@@ -25,7 +29,6 @@ const extraItems = [
     subKey: "svc.gallery.extra3.sub",
     foxiePrice: 199000,
     listedPrice: 299000,
-    oldPrice: 599000,
   },
   {
     id: "extra-4",
@@ -33,7 +36,6 @@ const extraItems = [
     subKey: "svc.gallery.extra4.sub",
     foxiePrice: 199000,
     listedPrice: 299000,
-    oldPrice: 599000,
   },
   {
     id: "extra-5",
@@ -41,7 +43,6 @@ const extraItems = [
     subKey: "svc.gallery.extra5.sub",
     foxiePrice: 199000,
     listedPrice: 299000,
-    oldPrice: 599000,
   },
   {
     id: "extra-6",
@@ -49,7 +50,6 @@ const extraItems = [
     subKey: "svc.gallery.extra6.sub",
     foxiePrice: 199000,
     listedPrice: 299000,
-    oldPrice: 599000,
   },
 ] as const;
 
@@ -57,6 +57,7 @@ const formatPrice = (value: number) => `${value.toLocaleString("vi-VN")}đ`;
 
 export default function ExtraServices() {
   const { t } = useLanguage();
+  const { trackRef, scrollByCard } = useComboMobileScroll();
 
   return (
     <div id="dich-vu-cong-them" className="scroll-mt-20">
@@ -66,49 +67,55 @@ export default function ExtraServices() {
         </h2>
       </div>
 
-      <div className="-mx-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 md:-mx-10 md:px-10 lg:mx-0 lg:overflow-visible lg:px-0">
-        <div className="grid w-max grid-cols-6 gap-3 lg:w-full lg:gap-3 xl:gap-4">
-          {extraItems.map((item) => (
-            <article
-              key={item.id}
-              className="relative flex w-[min(42vw,190px)] min-h-[200px] flex-col justify-between rounded-[18px] border border-[#f0e4d8] bg-white px-3 pb-3 pt-4 shadow-[0_10px_28px_rgba(244,116,29,0.12)] sm:w-[170px] md:w-[180px] md:rounded-[20px] md:px-3.5 md:pb-3.5 md:pt-4 lg:w-auto lg:min-h-[210px] lg:rounded-[22px]"
-            >
-              <div className="min-w-0">
-                <h3 className="whitespace-nowrap text-[15px] font-extrabold leading-tight text-[#2bb8c9] sm:text-[16px] xl:text-[18px]">
-                  {t(item.nameKey)}
-                </h3>
-                <p className="mt-1 text-[13px] font-bold leading-snug text-[#1a1a1a] sm:text-[14px] xl:text-[15px]">
-                  {t(item.subKey)}
-                </p>
-              </div>
+      <div
+        ref={trackRef}
+        className={`${comboMobileTrackClassName} md:grid-cols-2 lg:grid-cols-3`}
+      >
+        {extraItems.map((item) => (
+          <article
+            key={item.id}
+            data-combo-card
+            className={`${comboMobileCardClassName} shadow-[0_14px_36px_rgba(244,116,29,0.22)]`}
+          >
+            <div className="min-w-0">
+              <h3 className="whitespace-nowrap text-[22px] font-extrabold leading-tight text-[#2bb8c9] md:text-[28px]">
+                {t(item.nameKey)}
+              </h3>
+              <p className="mt-1 text-[16px] font-extrabold leading-snug text-[#1a1a1a] md:text-[20px]">
+                {t(item.subKey)}
+              </p>
+            </div>
 
-              <div className="mt-3 border-t border-[#ece7e2] pt-2.5">
-                <p className="mb-2 text-right text-[11px] font-semibold leading-none text-[#f7941d] line-through sm:text-[12px]">
-                  {formatPrice(item.oldPrice)}
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="min-w-0">
-                    <p className="text-[10px] font-semibold leading-tight text-[#666] xl:text-[11px]">
-                      {t("svc.gallery.foxiePrice")}
-                    </p>
-                    <p className="mt-1 text-[15px] font-extrabold leading-none text-[#2bb8c9] xl:text-[17px]">
-                      {formatPrice(item.foxiePrice)}
-                    </p>
-                  </div>
-                  <div className="min-w-0 text-right">
-                    <p className="text-[10px] font-semibold leading-tight text-[#666] xl:text-[11px]">
-                      {t("svc.gallery.listedPrice")}
-                    </p>
-                    <p className="mt-1 text-[15px] font-extrabold leading-none text-[#f7941d] xl:text-[17px]">
-                      {formatPrice(item.listedPrice)}
-                    </p>
-                  </div>
+            <div className="mt-4 border-t border-[#ece7e2] pt-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="min-w-0">
+                  <p className="text-[11px] font-semibold text-[#666] md:text-xs">
+                    {t("svc.gallery.foxiePrice")}
+                  </p>
+                  <p className="mt-1 whitespace-nowrap text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
+                    {formatPrice(item.foxiePrice)}
+                  </p>
+                </div>
+                <div className="min-w-0 text-right">
+                  <p className="text-[11px] font-semibold text-[#666] md:text-xs">
+                    {t("svc.gallery.listedPrice")}
+                  </p>
+                  <p className="mt-1 whitespace-nowrap text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
+                    {formatPrice(item.listedPrice)}
+                  </p>
                 </div>
               </div>
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
       </div>
+
+      <ComboMobileNav
+        onPrev={() => scrollByCard(-1)}
+        onNext={() => scrollByCard(1)}
+        prevLabel="Previous extra service"
+        nextLabel="Next extra service"
+      />
     </div>
   );
 }

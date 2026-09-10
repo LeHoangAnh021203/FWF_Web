@@ -156,6 +156,14 @@ export default function HomePage() {
 
       <QuickBookingBanner />
 
+      <section id="our-picks" className="models-section">
+        <div className="section-heading">
+          <h2>{t("home.servicesTitle")}</h2>
+          <p>{t("home.servicesSubtitle")}</p>
+        </div>
+        <ServiceCarousel services={services} />
+      </section>
+
       <section className="store-section">
         <h2 className="store-title">{t("home.presenceTitle")}</h2>
         <div className="store-stats">
@@ -178,14 +186,6 @@ export default function HomePage() {
           </article>
         </div>
         <CityTimeline cities={presenceCities} />
-      </section>
-
-      <section id="our-picks" className="models-section">
-        <div className="section-heading">
-          <h2>{t("home.servicesTitle")}</h2>
-          <p>{t("home.servicesSubtitle")}</p>
-        </div>
-        <ServiceCarousel services={services} />
       </section>
 
       <section id="story" className="story-section">
