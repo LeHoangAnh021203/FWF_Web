@@ -111,7 +111,7 @@ function CategoryTrack({
     const scroller = scrollerRef.current;
     if (!scroller) return;
     const card = scroller.querySelector<HTMLElement>(".news-hub-card");
-    const step = card ? card.offsetWidth + 18 : scroller.clientWidth * 0.8;
+    const step = card ? card.offsetWidth + 36 : scroller.clientWidth * 0.8;
     scroller.scrollBy({ left: direction * step, behavior: "smooth" });
   }, []);
 

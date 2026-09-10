@@ -88,9 +88,9 @@ const vi: Dict = {
   "home.presenceScaleLabel": "Quy mô",
   "home.presenceScaleValue": "gần 50",
   "home.presenceScaleText": "Chi nhánh trên toàn quốc",
-  "home.servicesTitle": "Trải nghiệm các ưu đãi tại Face Wash Fox",
+  "home.servicesTitle": "Ưu đãi trải nghiệm lần đầu tại Face Wash Fox",
   "home.servicesSubtitle":
-    "Những liệu trình rửa mặt chăm sóc da chuyên sâu được mọi người ưa chuộng.",
+    "Áp dụng cho khách hàng lần đầu sử dụng dịch vụ, Giá chưa bao gồm VAT",
   "home.storyQuote": "Da đẹp bắt đầu từ việc rửa mặt",
   "home.storyTitle": "Câu chuyện dịch vụ",
   "home.storyBody":
@@ -280,9 +280,9 @@ const en: Dict = {
   "home.presenceScaleLabel": "Scale",
   "home.presenceScaleValue": "nearly 50",
   "home.presenceScaleText": "Branches nationwide",
-  "home.servicesTitle": "Experience offers at Face Wash Fox",
+  "home.servicesTitle": "First-visit offer at Face Wash Fox",
   "home.servicesSubtitle":
-    "In-depth facial cleansing treatments loved by our customers.",
+    "For first-time customers. Price excludes VAT.",
   "home.storyQuote": "Beautiful skin starts with cleansing",
   "home.storyTitle": "Our service story",
   "home.storyBody":
@@ -463,8 +463,8 @@ const zh: Dict = {
   "home.presenceYearText": "自 2023 年末至 2024 年初正式广泛推出",
   "home.presenceScaleLabel": "规模",
   "home.presenceScaleText": "全国门店",
-  "home.servicesTitle": "精选服务",
-  "home.servicesSubtitle": "深受顾客喜爱的深层洁面护理疗程。",
+  "home.servicesTitle": "Face Wash Fox 首次体验优惠",
+  "home.servicesSubtitle": "适用于首次使用服务的顾客，价格不含增值税。",
   "home.storyQuote": "美丽肌肤，从洁面开始",
   "home.storyTitle": "服务故事",
   "home.storyBody":
@@ -622,8 +622,8 @@ const ja: Dict = {
   "home.presenceYearText": "2023年末〜2024年初に正式ローンチ",
   "home.presenceScaleLabel": "規模",
   "home.presenceScaleText": "全国の店舗",
-  "home.servicesTitle": "おすすめサービス",
-  "home.servicesSubtitle": "お客様に人気のディープクレンジング施術。",
+  "home.servicesTitle": "Face Wash Fox 初回体験キャンペーン",
+  "home.servicesSubtitle": "初めてサービスをご利用のお客様向け。価格は税別です。",
   "home.storyQuote": "美しい肌は洗顔から始まる",
   "home.storyTitle": "サービスストーリー",
   "home.storyBody":
@@ -781,8 +781,8 @@ const ko: Dict = {
   "home.presenceYearText": "2023년 말~2024년 초 정식 론칭",
   "home.presenceScaleLabel": "규모",
   "home.presenceScaleText": "전국 매장",
-  "home.servicesTitle": "인기 서비스",
-  "home.servicesSubtitle": "고객이 사랑하는 딥클렌징 트리트먼트.",
+  "home.servicesTitle": "Face Wash Fox 첫 방문 체험 혜택",
+  "home.servicesSubtitle": "첫 이용 고객 대상, 가격은 부가세 별도입니다.",
   "home.storyQuote": "아름다운 피부는 세안부터",
   "home.storyTitle": "서비스 스토리",
   "home.storyBody":
@@ -940,8 +940,8 @@ const th: Dict = {
   "home.presenceYearText": "เปิดตัวอย่างเป็นทางการปลายปี 2023 - ต้นปี 2024",
   "home.presenceScaleLabel": "ขนาด",
   "home.presenceScaleText": "สาขาทั่วประเทศ",
-  "home.servicesTitle": "บริการแนะนำ",
-  "home.servicesSubtitle": "ทรีตเมนต์ล้างหน้าเชิงลึกที่ลูกค้าชื่นชอบ",
+  "home.servicesTitle": "โปรโมชันทดลองครั้งแรกที่ Face Wash Fox",
+  "home.servicesSubtitle": "สำหรับลูกค้าใช้บริการครั้งแรก ราคายังไม่รวม VAT",
   "home.storyQuote": "ผิวสวยเริ่มต้นที่การล้างหน้า",
   "home.storyTitle": "เรื่องราวบริการ",
   "home.storyBody":

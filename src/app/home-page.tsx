@@ -13,7 +13,6 @@ import LoadingOverlay from "./loading-overlay";
 import NewsShowcase from "./news-showcase";
 import QuickBookingBanner from "./quick-booking-banner";
 import ScrollEffects from "./scroll-effects";
-import ServiceCarousel from "./service-carousel";
 import { SiteFooter, SiteHeader } from "./site-chrome";
 
 const testimonialImages = [
@@ -37,45 +36,6 @@ export default function HomePage() {
       image,
     };
   });
-
-  const services = [
-    {
-      name: "Aqua Peel Cleanse",
-      description: t("home.service.aqua.desc"),
-      price: "299.000 đ",
-      image: "/services/aqua-peel-clean.png",
-    },
-    {
-      name: "Lumiglow Cleanse",
-      description: t("home.service.lumiglow.desc"),
-      price: "519.000 đ",
-      image: "/services/lumiglow.png",
-    },
-    {
-      name: "Gymming Cleanse",
-      description: t("home.service.gymming.desc"),
-      price: "519.000 đ",
-      image: "/services/gymming.png",
-    },
-    {
-      name: "Cryo Cleanse",
-      description: t("home.service.cryo.desc"),
-      price: "519.000 đ",
-      image: "/services/cryo.png",
-    },
-    {
-      name: "Deep Cleanse",
-      description: t("home.service.deep.desc"),
-      price: "489.000 đ",
-      image: "/services/deep-cleanse.png",
-    },
-    {
-      name: "Eye-Revive Cleanse",
-      description: t("home.service.eye.desc"),
-      price: "519.000 đ",
-      image: "/services/eye-revive.png",
-    },
-  ];
 
   const presenceCities = [
     {
@@ -161,7 +121,7 @@ export default function HomePage() {
           <h2>{t("home.servicesTitle")}</h2>
           <p>{t("home.servicesSubtitle")}</p>
         </div>
-        <ServiceCarousel services={services} />
+        {/* Temporarily hidden: ServiceCarousel */}
       </section>
 
       <section className="store-section">
