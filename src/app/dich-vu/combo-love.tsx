@@ -4,6 +4,12 @@ import Image from "next/image";
 import { useState } from "react";
 import { useLanguage } from "@/i18n/language-context";
 import useSharedCart from "./hooks/use-shared-cart";
+import {
+  ComboMobileNav,
+  comboMobileCardClassName,
+  comboMobileTrackClassName,
+  useComboMobileScroll,
+} from "./combo-mobile-scroll";
 
 const comboItems = [
   {
@@ -19,7 +25,6 @@ const comboItems = [
   {
     serviceId: "popular-7",
     displayNo: 7,
-
     titleKey: "svc.comboLove.i7.title",
     descKey: "svc.comboLove.i7.desc",
     minutes: 50,
@@ -54,13 +59,9 @@ const formatPrice = (value: number) => `${value.toLocaleString("vi-VN")}đ`;
 export default function ComboLove() {
   const { t } = useLanguage();
   const { addItem } = useSharedCart();
+  const { trackRef, scrollByCard } = useComboMobileScroll();
   const [selectedItem, setSelectedItem] = useState<(typeof comboItems)[number] | null>(null);
   const [quantity, setQuantity] = useState(1);
-
-  const openAddCartModal = (item: (typeof comboItems)[number]) => {
-    setSelectedItem(item);
-    setQuantity(1);
-  };
 
   const closeAddCartModal = () => {
     setSelectedItem(null);
@@ -82,85 +83,82 @@ export default function ComboLove() {
   };
 
   return (
-    <section
-      id="combo-love"
-      className="scroll-mt-20 w-full overflow-x-hidden bg-[radial-gradient(circle_at_top,#ffe0c4_0%,#fff7ef_42%,#ffffff_100%)] px-4 pb-10 pt-10 sm:px-6 md:px-10 md:pb-12 md:pt-14 lg:px-[5.5rem] xl:px-24"
-    >
-      <div className="mx-auto w-full max-w-[1320px]">
-        <div className="mb-5 flex items-center gap-3 text-[#1a1a1a] md:mb-7 md:gap-4">
-          <h2 className="whitespace-nowrap text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:text-5xl">
-            {t("svc.comboLove.title1")} {t("svc.comboLove.title2")}
-          </h2>
-          <Image
-            src="/images/README.png"
-            alt={t("svc.comboLove.likeAlt")}
-            width={88}
-            height={88}
-            className="h-14 w-14 shrink-0 object-contain md:h-[88px] md:w-[88px]"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:gap-4">
-          {comboItems.map((item) => (
-            <article
-              key={item.serviceId}
-              className="relative flex min-h-[190px] flex-col justify-between rounded-[22px] border border-[#f0e4d8] bg-white px-4 pb-4 pt-5 shadow-[0_10px_28px_rgba(244,116,29,0.12)] md:min-h-[210px] md:rounded-[26px] md:px-5 md:pb-5 md:pt-6"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0 flex-1 pr-2">
-                  <span className="text-[32px] font-extrabold leading-none text-[#2bb8c9] md:text-[40px]">
-                    Combo {item.displayNo}
-                  </span>
-                  <h3 className="pt-2 text-[14px] font-extrabold uppercase leading-snug text-[#1a1a1a] md:text-[16px]">
-                    {t(item.titleKey)}
-                  </h3>
-                  <p className="mt-1.5 text-[12px] font-medium leading-snug text-[#777] md:text-[13px]">
-                    {t(item.descKey)}
-                  </p>
-                </div>
-
-                <div className="flex shrink-0 flex-col items-end gap-1.5">
-                  {item.liked ? (
-                    <Image
-                      src="/images/README.png"
-                      alt={t("svc.comboLove.likeAlt")}
-                      width={40}
-                      height={40}
-                      className="h-8 w-8 object-contain md:h-10 md:w-10"
-                    />
-                  ) : null}
-                  <p className="text-right text-[12px] font-extrabold uppercase leading-tight tracking-wide text-[#333] md:text-[23px]">
-                    {item.minutes} {t("svc.comboLove.minutes")}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-4 border-t border-[#ece7e2] pt-3">
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <p className="text-[11px] font-semibold text-[#666] md:text-xs">
-                      {t("svc.comboLove.foxiePrice")}
-                    </p>
-                    <p className=" text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[34px]">
-                      {formatPrice(item.foxiePrice)}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[11px] font-semibold text-[#666] md:text-xs">
-                      {t("svc.comboLove.listedPrice")}
-                    </p>
-                    <p className=" text-[18px] font-extrabold leading-none text-[#ff6a36] md:text-[34px]">
-                      {formatPrice(item.listedPrice)}
-                    </p>
-                  </div>
-                </div>
-
-
-              </div>
-            </article>
-          ))}
-        </div>
+    <div>
+      <div className="mb-5 flex items-center gap-3 text-[#1a1a1a] md:mb-7 md:gap-4">
+        <h2 className="text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:whitespace-nowrap md:text-5xl">
+          {t("svc.comboLove.title1")} {t("svc.comboLove.title2")}
+        </h2>
+        <Image
+          src="/images/README.png"
+          alt={t("svc.comboLove.likeAlt")}
+          width={88}
+          height={88}
+          className="h-14 w-14 shrink-0 object-contain md:h-[88px] md:w-[88px]"
+        />
       </div>
+
+      <div ref={trackRef} className={comboMobileTrackClassName}>
+        {comboItems.map((item) => (
+          <article key={item.serviceId} data-combo-card className={comboMobileCardClassName}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1 pr-2">
+                <span className="text-[32px] font-extrabold leading-none text-[#2bb8c9] md:text-[40px]">
+                  Combo {item.displayNo}
+                </span>
+                <h3 className="pt-2 text-[14px] font-extrabold uppercase leading-snug text-[#1a1a1a] md:text-[16px]">
+                  {t(item.titleKey)}
+                </h3>
+                <p className="mt-1.5 text-[12px] font-medium leading-snug text-[#777] md:text-[13px]">
+                  {t(item.descKey)}
+                </p>
+              </div>
+
+              <div className="flex shrink-0 flex-col items-end gap-1.5">
+                {item.liked ? (
+                  <Image
+                    src="/images/README.png"
+                    alt={t("svc.comboLove.likeAlt")}
+                    width={40}
+                    height={40}
+                    className="h-8 w-8 object-contain md:h-10 md:w-10"
+                  />
+                ) : null}
+                <p className="text-right text-[12px] font-extrabold uppercase leading-tight tracking-wide text-[#333] md:text-[23px]">
+                  {item.minutes} {t("svc.comboLove.minutes")}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t border-[#ece7e2] pt-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <p className="text-[11px] font-semibold text-[#666] md:text-xs">
+                    {t("svc.comboLove.foxiePrice")}
+                  </p>
+                  <p className="mt-1 whitespace-nowrap text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
+                    {formatPrice(item.foxiePrice)}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[11px] font-semibold text-[#666] md:text-xs">
+                    {t("svc.comboLove.listedPrice")}
+                  </p>
+                  <p className="mt-1 whitespace-nowrap text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
+                    {formatPrice(item.listedPrice)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <ComboMobileNav
+        onPrev={() => scrollByCard(-1)}
+        onNext={() => scrollByCard(1)}
+        prevLabel="Previous combo"
+        nextLabel="Next combo"
+      />
 
       {selectedItem ? (
         <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
@@ -209,6 +207,6 @@ export default function ComboLove() {
           </div>
         </div>
       ) : null}
-    </section>
+    </div>
   );
 }

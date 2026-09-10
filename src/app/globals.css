@@ -307,8 +307,10 @@ img {
   left: 0;
   right: 0;
   z-index: 90;
+  display: flex;
+  justify-content: center;
   width: 100%;
-  padding: 10px clamp(16px, 2.8vw, 32px);
+  padding: 12px clamp(12px, 2vw, 24px);
   color: var(--text-primary);
   transition:
     background-color 260ms ease,
@@ -327,9 +329,9 @@ img {
 }
 
 .mono-header.is-solid {
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 18px 40px -34px rgba(15, 23, 42, 0.28);
-  backdrop-filter: blur(16px);
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .mono-header.is-transparent {
@@ -338,11 +340,25 @@ img {
 }
 
 .mono-nav-shell {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
   align-items: center;
-  gap: clamp(12px, 2vw, 28px);
-  width: 100%;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.mono-header.is-solid .mono-nav-shell {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .mono-brand {
@@ -357,7 +373,7 @@ img {
 }
 
 .mono-brand img {
-  width: clamp(72px, 6.2vw, 96px);
+  width: clamp(64px, 5.2vw, 84px);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 8px 18px rgba(234, 88, 12, 0.18));
@@ -367,10 +383,10 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 2px;
   min-width: 0;
   width: fit-content;
-  margin: 0 auto;
+  margin: 0;
   border: 1.5px solid rgba(251, 146, 60, 0.55);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.94);
@@ -385,13 +401,13 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
+  min-height: 36px;
   border-radius: 999px;
   color: #374151;
-  font-size: clamp(14px, 1.05vw, 16px);
+  font-size: clamp(13px, 1vw, 15px);
   font-weight: 600;
   line-height: 1;
-  padding: 0 clamp(14px, 1.4vw, 22px);
+  padding: 0 clamp(10px, 1.1vw, 16px);
   transition:
     color 180ms ease,
     background-color 180ms ease,
@@ -408,7 +424,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 8px;
 }
 
 .mono-header-map {
@@ -430,14 +446,14 @@ img {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
+  min-height: 36px;
   border: 1.5px solid rgba(251, 146, 60, 0.55);
   border-radius: 999px;
   color: #374151;
-  font-size: clamp(14px, 1.05vw, 16px);
+  font-size: clamp(13px, 1vw, 15px);
   font-weight: 600;
   line-height: 1;
-  padding: 0 clamp(18px, 1.6vw, 26px);
+  padding: 0 clamp(14px, 1.3vw, 20px);
   white-space: nowrap;
   transition:
     background-color 180ms ease,
@@ -449,8 +465,8 @@ img {
 
 .mono-header-pill--ghost {
   background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 14px 32px -24px rgba(234, 88, 12, 0.28);
-  backdrop-filter: blur(12px);
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .mono-header-pill--ghost:hover {
@@ -467,7 +483,7 @@ img {
   font-weight: 700;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.38),
-    0 16px 28px -18px rgba(255, 122, 0, 0.85);
+    0 12px 22px -16px rgba(255, 122, 0, 0.85);
 }
 
 .mono-header-pill--cta::after {
@@ -500,8 +516,8 @@ img {
 
 .mono-menu-trigger {
   display: none;
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   place-items: center;
   border: 1.5px solid rgba(251, 146, 60, 0.55);
   border-radius: 999px;
@@ -1030,7 +1046,7 @@ body:has(.mono-mobile-menu) .floating-actions {
 .mono-hero {
   position: relative;
   display: flex;
-  min-height: 100vh;
+  min-height: 0;
   align-items: stretch;
   justify-content: center;
   overflow: hidden;
@@ -1069,7 +1085,8 @@ body:has(.mono-mobile-menu) .floating-actions {
   position: relative;
   z-index: 2;
   width: 100%;
-  height: 100vh;
+  height: auto;
+  aspect-ratio: 1400 / 645;
   overflow: hidden;
   animation: fadeIn 700ms ease-out both;
   background: #f0d7a8;
@@ -1079,10 +1096,42 @@ body:has(.mono-mobile-menu) .floating-actions {
   transition: opacity 120ms linear;
 }
 
+.hero-banner {
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.hero-banner:active {
+  cursor: grabbing;
+}
+
+.hero-banner-track {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-banner-slide {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 550ms ease;
+}
+
+.hero-banner-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.hero-banner-image,
 .hero-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   pointer-events: none;
 }
 
@@ -1103,14 +1152,56 @@ body:has(.mono-mobile-menu) .floating-actions {
   opacity: 1;
 }
 
-.hero-frame::after {
-  content: "";
+.hero-banner-dots {
   position: absolute;
-  inset: 0;
-  z-index: 2;
-  background:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0) 48%, rgba(0, 0, 0, 0.64)),
-    linear-gradient(to top, rgba(0, 0, 0, 0) 70%, rgba(255, 255, 255, 0.12));
+  left: 50%;
+  bottom: 1rem;
+  z-index: 4;
+  display: flex;
+  transform: translateX(-50%);
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+}
+
+.hero-banner-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: width 200ms ease, background-color 200ms ease;
+}
+
+.hero-banner-dot.is-active {
+  width: 1.25rem;
+  background: #fff;
+}
+
+.hero-frame::after {
+  content: none;
+}
+
+@media (max-width: 768px) {
+  .mono-hero {
+    min-height: 0;
+    height: auto;
+  }
+
+  .hero-frame {
+    height: auto;
+    aspect-ratio: 941 / 1672;
+    max-height: 100dvh;
+  }
+
+  .hero-banner-dots {
+    bottom: 0.75rem;
+  }
 }
 
 .quick-booking-section {
@@ -1775,15 +1866,13 @@ body:has(.mono-mobile-menu) .floating-actions {
 }
 
 /* Keep combo cards clear of fixed chrome (left rail + right FABs) */
-#combo-love,
-#combo-deep {
+#combo-love {
   padding-right: max(1rem, 4.75rem);
   padding-bottom: max(2.5rem, 6.5rem);
 }
 
 @media (min-width: 981px) {
-  #combo-love,
-  #combo-deep {
+  #combo-love {
     padding-left: max(1.5rem, 4.75rem);
     padding-right: max(1.5rem, 5.75rem);
     padding-bottom: max(2.5rem, 3.5rem);
@@ -5930,7 +6019,7 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   }
 
   .mono-header {
-    padding: 6px 12px;
+    padding: 8px 12px;
   }
 
   .mono-brand img {
@@ -5938,8 +6027,13 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   }
 
   .mono-nav-shell {
-    grid-template-columns: 1fr auto;
+    width: 100%;
+    justify-content: space-between;
     gap: 8px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
   }
 
   .mono-nav-main {
@@ -6361,12 +6455,14 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   }
 
   .mono-hero {
-    min-height: 100dvh;
-    height: 100dvh;
+    min-height: 0;
+    height: auto;
   }
 
   .hero-frame {
-    height: 100dvh;
+    height: auto;
+    aspect-ratio: 941 / 1672;
+    max-height: 100dvh;
   }
 
   .hero-title {

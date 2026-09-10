@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { SiteFooter, SiteHeader } from "../site-chrome";
-import { ArtGallerySlider } from "./art-gallery-slider";
-import ComboIndepth from "./combo-indepth";
-import ComboLove from "./combo-love";
+import ComboSections from "./combo-sections";
 import ServiceSection from "./service-section";
 import ServiceStandard from "./service-standard";
 import VoucherSection from "./voucher-section";
@@ -18,18 +16,11 @@ export default function ServicePage() {
     <main className="service-page">
       <SiteHeader />
       <ServiceSection />
-      <ComboLove />
-      <ComboIndepth />
-      <div
-        id="art-gallery-slider"
-        className="h-[100svh] w-full max-w-[100vw] overflow-hidden bg-black"
-      >
-        <ArtGallerySlider />
-      </div>
+      <ComboSections />
+      {/* Temporarily hidden: ArtGallerySlider (Dịch vụ cơ bản) */}
       <VoucherSection />
       <ServiceStandard />
       <SiteFooter />
     </main>
   );
 }
-

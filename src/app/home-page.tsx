@@ -8,7 +8,7 @@ import { useState } from "react";
 
 import CityTimeline from "./city-timeline";
 import FeedbackCarousel from "./feedback-carousel";
-import HeroVideo from "./hero-video";
+import HeroBanner from "./hero-banner";
 import LoadingOverlay from "./loading-overlay";
 import NewsShowcase from "./news-showcase";
 import QuickBookingBanner from "./quick-booking-banner";
@@ -151,12 +151,7 @@ export default function HomePage() {
       <SiteHeader home />
 
       <section id="hero" className="mono-hero">
-        <div className="hero-title" aria-hidden="true">
-          <span>F</span>
-          <span>W</span>
-          <span>F</span>
-        </div>
-        <HeroVideo />
+        <HeroBanner />
       </section>
 
       <QuickBookingBanner />

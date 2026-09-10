@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { useLanguage } from "@/i18n/language-context";
 import useSharedCart from "./hooks/use-shared-cart";
+import {
+  ComboMobileNav,
+  comboMobileCardClassName,
+  comboMobileTrackClassName,
+  useComboMobileScroll,
+} from "./combo-mobile-scroll";
 
 type ComboIndepthItem = {
   serviceId: string;
@@ -89,13 +95,9 @@ const formatPrice = (value: number) => `${value.toLocaleString("vi-VN")}đ`;
 export default function ComboIndepth() {
   const { t } = useLanguage();
   const { addItem } = useSharedCart();
+  const { trackRef, scrollByCard } = useComboMobileScroll();
   const [selectedItem, setSelectedItem] = useState<ComboIndepthItem | null>(null);
   const [quantity, setQuantity] = useState(1);
-
-  const openAddCartModal = (item: ComboIndepthItem) => {
-    setSelectedItem(item);
-    setQuantity(1);
-  };
 
   const closeAddCartModal = () => {
     setSelectedItem(null);
@@ -120,69 +122,65 @@ export default function ComboIndepth() {
   };
 
   return (
-    <section
-      id="combo-deep"
-      className="scroll-mt-20 w-full overflow-x-hidden bg-[radial-gradient(circle_at_top,#ffe0c4_0%,#fff7ef_42%,#ffffff_100%)] px-4 pb-10 pt-10 sm:px-6 md:px-10 md:pb-12 md:pt-14 lg:px-[5.5rem] xl:px-24"
-    >
-      <div className="mx-auto w-full max-w-[1320px]">
-        <div className="mb-5 text-[#1a1a1a] md:mb-7">
-          <h2 className="whitespace-nowrap text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:text-5xl">
-            {t("svc.comboDeep.title")}
-          </h2>
-        </div>
+    <div id="combo-deep" className="scroll-mt-20">
+      <div className="mb-5 text-[#1a1a1a] md:mb-7">
+        <h2 className="text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:whitespace-nowrap md:text-5xl">
+          {t("svc.comboDeep.title")}
+        </h2>
+      </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:gap-4">
-          {comboIndepthItems.map((item) => (
-            <article
-              key={item.serviceId}
-              className="relative flex min-h-[190px] flex-col justify-between rounded-[22px] border border-[#f0e4d8] bg-white px-4 pb-4 pt-5 shadow-[0_10px_28px_rgba(244,116,29,0.12)] md:min-h-[210px] md:rounded-[26px] md:px-5 md:pb-5 md:pt-6"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0 flex-1 pr-2">
-                  <h3 className="text-[28px] font-extrabold leading-tight text-[#2bb8c9] md:text-[34px]">
-                    {t(item.titleKey)}
-                  </h3>
-                  {item.itemKey && t(item.itemKey) ? (
-                    <p className="mt-1 text-[18px] font-extrabold leading-snug text-[#1a1a1a] md:text-[22px]">
-                      {t(item.itemKey)}
-                    </p>
-                  ) : null}
-                  
+      <div ref={trackRef} className={comboMobileTrackClassName}>
+        {comboIndepthItems.map((item) => (
+          <article key={item.serviceId} data-combo-card className={comboMobileCardClassName}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0 flex-1 pr-2">
+                <h3 className="text-[28px] font-extrabold leading-tight text-[#2bb8c9] md:text-[34px]">
+                  {t(item.titleKey)}
+                </h3>
+                {item.itemKey && t(item.itemKey) ? (
+                  <p className="mt-1 text-[18px] font-extrabold leading-snug text-[#1a1a1a] md:text-[22px]">
+                    {t(item.itemKey)}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="flex shrink-0 flex-col items-end gap-1.5">
+                <p className="text-right text-[12px] font-extrabold uppercase leading-tight tracking-wide text-[#333] md:text-[23px]">
+                  {item.minutes} {t("svc.comboDeep.minutes")}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-t border-[#ece7e2] pt-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <p className="text-[11px] font-semibold text-[#666] md:text-xs">
+                    {t("svc.comboDeep.foxiePrice")}
+                  </p>
+                  <p className="mt-1 whitespace-nowrap text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
+                    {formatPrice(item.foxiePrice)}
+                  </p>
                 </div>
-
-                <div className="flex shrink-0 flex-col items-end gap-1.5">
-                  
-                  <p className="text-right text-[12px] font-extrabold uppercase leading-tight tracking-wide text-[#333] md:text-[23px]">
-                    {item.minutes} {t("svc.comboDeep.minutes")}
+                <div className="text-right">
+                  <p className="text-[11px] font-semibold text-[#666] md:text-xs">
+                    {t("svc.comboDeep.listedPrice")}
+                  </p>
+                  <p className="mt-1 whitespace-nowrap text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
+                    {formatPrice(item.listedPrice)}
                   </p>
                 </div>
               </div>
-
-              <div className=" border-t border-[#ece7e2] pt-3">
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <p className="text-[11px] font-semibold text-[#666] md:text-xs">
-                      {t("svc.comboDeep.foxiePrice")}
-                    </p>
-                    <p className=" text-[20px] font-extrabold leading-none text-[#2bb8c9] md:text-[28px]">
-                      {formatPrice(item.foxiePrice)}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[11px] font-semibold text-[#666] md:text-xs">
-                      {t("svc.comboDeep.listedPrice")}
-                    </p>
-                  
-                    <p className=" text-[18px] font-extrabold leading-none text-[#f7941d] md:text-[24px]">
-                      {formatPrice(item.listedPrice)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
       </div>
+
+      <ComboMobileNav
+        onPrev={() => scrollByCard(-1)}
+        onNext={() => scrollByCard(1)}
+        prevLabel="Previous combo"
+        nextLabel="Next combo"
+      />
 
       {selectedItem ? (
         <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
@@ -235,6 +233,6 @@ export default function ComboIndepth() {
           </div>
         </div>
       ) : null}
-    </section>
+    </div>
   );
 }
