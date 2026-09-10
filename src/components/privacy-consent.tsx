@@ -9,6 +9,9 @@ type PrivacyConsentProps = {
   checked: boolean;
   onChange: (checked: boolean) => void;
   className?: string;
+  /** HTML required — set false when the control is hidden so native validation cannot block submit */
+  required?: boolean;
+  disabled?: boolean;
 };
 
 export function PrivacyConsent({
@@ -16,6 +19,8 @@ export function PrivacyConsent({
   checked,
   onChange,
   className = "",
+  required = true,
+  disabled = false,
 }: PrivacyConsentProps) {
   const { t } = useLanguage();
 
@@ -28,7 +33,8 @@ export function PrivacyConsent({
         id={id}
         name="privacyConsent"
         type="checkbox"
-        required
+        required={required && !disabled}
+        disabled={disabled}
         checked={checked}
         onChange={(event) => onChange(event.target.checked)}
         className="mt-1 h-4 w-4 shrink-0 accent-[#ff6a36]"

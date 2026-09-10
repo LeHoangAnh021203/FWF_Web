@@ -195,7 +195,7 @@ const vi: Dict = {
     "Chúng tôi chỉ tập trung vào việc rửa mặt để mang lại làn da đẹp cho khách hàng",
 
   "booking.open": "Mở form đặt lịch nhanh",
-  "booking.namePlaceholder": "Họ tên",
+  "booking.namePlaceholder": "Họ và tên",
   "booking.phonePlaceholder": "Số điện thoại",
   "booking.submit": "Gửi thông tin",
   "booking.sending": "Đang gửi...",
