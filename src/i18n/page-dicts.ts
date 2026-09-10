@@ -1150,6 +1150,7 @@ const servicesVi: Dict = {
   "svc.voucher.gold": "Foxie Gold 20 triệu",
   "svc.voucher.silver": "Foxie Silver 10 triệu",
   "svc.voucher.bronze": "Foxie Bronze 5 triệu",
+  "svc.voucher.trial": "Thẻ Trải nghiệm Foxie 1.5 triệu",
   "svc.voucher.iron": "Foxie Iron 3 triệu",
 };
 
@@ -1306,6 +1307,7 @@ const servicesEn: Dict = {
   "svc.voucher.gold": "Foxie Gold 20 million",
   "svc.voucher.silver": "Foxie Silver 10 million",
   "svc.voucher.bronze": "Foxie Bronze 5 million",
+  "svc.voucher.trial": "Foxie Trial Card 1.5 million",
   "svc.voucher.iron": "Foxie Iron 3 million",
 };
 
@@ -1457,7 +1459,8 @@ const servicesZh: Dict = {
   "svc.voucher.gold": "Foxie Gold 2000 万",
   "svc.voucher.silver": "Foxie Silver 1000 万",
   "svc.voucher.bronze": "Foxie Bronze 500 万",
-  "svc.voucher.iron": "Foxie Iron 3 million",
+  "svc.voucher.trial": "Foxie Trial Card 150 万",
+  "svc.voucher.iron": "Foxie Iron 300 万",
 };
 
 const servicesJa: Dict = {
@@ -1608,6 +1611,7 @@ const servicesJa: Dict = {
   "svc.voucher.gold": "Foxie Gold 2000万",
   "svc.voucher.silver": "Foxie Silver 1000万",
   "svc.voucher.bronze": "Foxie Bronze 500万",
+  "svc.voucher.trial": "Foxie Trial Card 150万",
   "svc.voucher.iron": "Foxie Iron 300万",
 };
 
@@ -1759,6 +1763,7 @@ const servicesKo: Dict = {
   "svc.voucher.gold": "Foxie Gold 2000만",
   "svc.voucher.silver": "Foxie Silver 1000만",
   "svc.voucher.bronze": "Foxie Bronze 500만",
+  "svc.voucher.trial": "Foxie Trial Card 150만",
   "svc.voucher.iron": "Foxie Iron 300만",
 };
 
@@ -1912,6 +1917,7 @@ const servicesTh: Dict = {
   "svc.voucher.gold": "Foxie Gold 20 ล้าน",
   "svc.voucher.silver": "Foxie Silver 10 ล้าน",
   "svc.voucher.bronze": "Foxie Bronze 5 ล้าน",
+  "svc.voucher.trial": "Foxie Trial Card 1.5 ล้าน",
   "svc.voucher.iron": "Foxie Iron 3 ล้าน",
 };
 

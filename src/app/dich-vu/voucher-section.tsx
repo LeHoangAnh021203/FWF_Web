@@ -13,15 +13,17 @@ type VoucherCard = {
   image: string;
 };
 
+/** Sorted low → high by recharge value */
 const voucherCards: VoucherCard[] = [
-  { id: "foxie-iron", nameKey: "svc.voucher.iron", price: 3000000, image: "/voucher/Asset 5@4x.png" },
-  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", price: 5000000, image: "/voucher/Asset 6@4x.png" },
-  { id: "foxie-silver", nameKey: "svc.voucher.silver", price: 10000000, image: "/voucher/Asset 7@4x.png" },
-  { id: "foxie-gold", nameKey: "svc.voucher.gold", price: 20000000, image: "/voucher/Asset 8@4x.png" },
-  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", price: 30000000, image: "/voucher/Asset 4@4x.png" },
-  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", price: 50000000, image: "/voucher/Asset 3@4x.png" },
-  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", price: 80000000, image: "/voucher/Asset 1@4x.png" },
-  { id: "foxie-crown", nameKey: "svc.voucher.crown", price: 100000000, image: "/voucher/Asset 2@4x.png" },
+  { id: "foxie-trial", nameKey: "svc.voucher.trial", price: 1500000, image: "/voucher/foxie-cards/foxie-0-trial.jpg" },
+  { id: "foxie-iron", nameKey: "svc.voucher.iron", price: 3000000, image: "/voucher/foxie-cards/foxie-1-iron.jpg" },
+  { id: "foxie-bronze", nameKey: "svc.voucher.bronze", price: 5000000, image: "/voucher/foxie-cards/foxie-2-bronze.jpg" },
+  { id: "foxie-silver", nameKey: "svc.voucher.silver", price: 10000000, image: "/voucher/foxie-cards/foxie-3-silver.jpg" },
+  { id: "foxie-gold", nameKey: "svc.voucher.gold", price: 20000000, image: "/voucher/foxie-cards/foxie-4-gold.jpg" },
+  { id: "foxie-diamond", nameKey: "svc.voucher.diamond", price: 30000000, image: "/voucher/foxie-cards/foxie-5-diamond.jpg" },
+  { id: "foxie-platinum", nameKey: "svc.voucher.platinum", price: 50000000, image: "/voucher/foxie-cards/foxie-6-platinum.jpg" },
+  { id: "foxie-crystal", nameKey: "svc.voucher.crystal", price: 80000000, image: "/voucher/foxie-cards/foxie-7-crystal.jpg" },
+  { id: "foxie-crown", nameKey: "svc.voucher.crown", price: 100000000, image: "/voucher/foxie-cards/foxie-8-crown.jpg" },
 ];
 
 const formatVnd = (value: number) =>
@@ -80,7 +82,7 @@ export default function VoucherSection() {
             return (
               <div
                 key={voucher.id}
-                className="group relative aspect-[2986/2340] min-w-[78%] snap-center overflow-hidden rounded-3xl bg-[#f4dcc2] shadow-sm sm:min-w-[62%] md:min-w-0"
+                className="group relative aspect-square min-w-[78%] snap-center overflow-hidden rounded-3xl bg-[#f4dcc2] shadow-sm sm:min-w-[62%] md:min-w-0"
                 onClick={() =>
                   setActiveCardId((prev) => (prev === voucher.id ? null : voucher.id))
                 }
