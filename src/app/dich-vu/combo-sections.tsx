@@ -1,4 +1,3 @@
-import ComboIndepth from "./combo-indepth";
 import ComboLove from "./combo-love";
 import ExtraServices from "./extra-services";
 
@@ -10,7 +9,6 @@ export default function ComboSections() {
     >
       <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-10 md:gap-12">
         <ComboLove />
-        <ComboIndepth />
         <ExtraServices />
       </div>
     </section>

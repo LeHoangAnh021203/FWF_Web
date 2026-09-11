@@ -79,7 +79,7 @@ export default function FaqContactSection() {
           </p>
 
           <ul className="faq-category-list">
-            {faqCategories.map((category) => {
+            {faqCategories.filter((category) => !category.hidden).map((category) => {
               const isCategoryOpen = openCategory === category.id;
 
               return (

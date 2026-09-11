@@ -22,6 +22,10 @@ const FEEDBACK_VIDEOS = [
     src: "/feedback/04-399-689-999.mp4",
     poster: "/feedback/04-399-689-999.jpg",
   },
+  {
+    src: "/feedback/05-khong-noi-thit.mp4",
+    poster: "/feedback/05-khong-noi-thit.jpg",
+  },
 ] as const;
 
 type CardSlot = "active" | "next" | "prev" | "after";

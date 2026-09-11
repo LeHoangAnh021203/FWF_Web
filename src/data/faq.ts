@@ -1,6 +1,7 @@
 export type FaqCategoryDef = {
   id: string;
   titleKey: string;
+  hidden?: boolean;
   items: Array<{ qKey: string; aKey: string }>;
 };
 
@@ -33,6 +34,7 @@ export const faqCategories: FaqCategoryDef[] = [
   {
     id: "returns",
     titleKey: "faq.cat.returns",
+    hidden: true,
     items: [
       { qKey: "faq.r.q1", aKey: "faq.r.a1" },
       { qKey: "faq.r.q2", aKey: "faq.r.a2" },

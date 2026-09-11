@@ -15,7 +15,7 @@ export type NewsCard = {
 
 type NewsCardTrackProps = {
   items: NewsCard[];
-  badge: string;
+  badge?: string;
   adLabel?: string;
   children: ReactNode;
 };
@@ -66,7 +66,7 @@ export function NewsCardTrack({ items, badge, adLabel, children }: NewsCardTrack
 
   return (
     <div>
-      <div className="mb-3 text-center md:mb-4">{children}</div>
+      <div className="mb-[var(--home-title-gap)] text-center">{children}</div>
       {items.length > 3 ? (
         <div className="mb-4 flex justify-end gap-1.5 md:mb-5">
           <button
@@ -168,13 +168,15 @@ export function NewsCardTrack({ items, badge, adLabel, children }: NewsCardTrack
             </div>
 
             <div className="flex flex-1 flex-col pt-5">
-              <div className="mb-4 flex min-h-[56px] flex-wrap items-center gap-3">
+              <div className="mb-4 flex flex-wrap items-center gap-3">
                 <p className="text-[1.05rem] font-medium text-orange-400 md:text-[1.15rem]">
                   {item.date}
                 </p>
-                <span className="inline-flex min-w-[132px] items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-7 py-1 text-[1.05rem] font-medium italic text-black md:text-[1.2rem]">
-                  {item.sponsored && adLabel ? adLabel : badge}
-                </span>
+                {badge ? (
+                  <span className="inline-flex min-w-[132px] items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-7 py-1 text-[1.05rem] font-medium italic text-black md:text-[1.2rem]">
+                    {item.sponsored && adLabel ? adLabel : badge}
+                  </span>
+                ) : null}
               </div>
               <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] text-[#ff6a3d] md:text-[22px]">
                 {item.title}

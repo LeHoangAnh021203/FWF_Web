@@ -89,7 +89,7 @@ const vi: Dict = {
   "home.presenceYearText": "Chính thức ra mắt rộng rãi từ cuối năm 2023 - đầu năm 2024",
   "home.presenceScaleLabel": "Quy mô",
   "home.presenceScaleValue": "50+",
-  "home.presenceScaleText": "Gần 50 chi nhánh trên toàn quốc",
+  "home.presenceScaleText": "Hơn 50 chi nhánh trên toàn quốc",
   "home.servicesTitle": "Ưu đãi trải nghiệm lần đầu tại Face Wash Fox",
   "home.servicesSubtitle":
     "Áp dụng cho khách hàng lần đầu sử dụng dịch vụ, Giá chưa bao gồm VAT",

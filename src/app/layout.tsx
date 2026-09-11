@@ -129,8 +129,8 @@ export default function RootLayout({
   return (
     <html lang="vi" className={svnPoppins.variable}>
       <head>
-        <link rel="preload" href="/banners/home/banner-01-pc.png" as="image" type="image/png" media="(min-width: 769px)" />
-        <link rel="preload" href="/banners/home/banner-01-mobile.png" as="image" type="image/png" media="(max-width: 768px)" />
+        <link rel="preload" href="/banners/home/hero-01-pc.png?v=3" as="image" type="image/png" media="(min-width: 769px)" />
+        <link rel="preload" href="/banners/home/hero-01-mobile.png?v=3" as="image" type="image/png" media="(max-width: 768px)" />
       </head>
       <body className={`${svnPoppins.className} antialiased`}>
         <Script

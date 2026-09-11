@@ -8,36 +8,66 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const slides = [
   {
     id: 1,
-    pc: "/banners/home/banner-01-pc.png",
-    mobile: "/banners/home/banner-01-mobile.png",
-    href: "/cua-hang",
-    alt: "Rửa mặt công nghệ — Tìm chi nhánh Face Wash Fox",
+    pc: "/banners/home/hero-01-pc.png?v=3",
+    mobile: "/banners/home/hero-01-mobile.png?v=3",
+    href: "https://cuahang.facewashfox.com/",
+    alt: "Rửa mặt công nghệ — Tìm chi nhánh trên Bản đồ Fox",
+    tone: "light",
+    wrap: "mobile",
+    ctaStyle: "cream",
+    title: ["RỬA MẶT", "CÔNG NGHỆ"],
+    subtitle: "Chuỗi cửa hàng rửa mặt công nghệ tại Việt Nam —\nHơn 50 chi nhánh trên toàn quốc",
+    cta: "TÌM CHI NHÁNH",
   },
   {
     id: 2,
-    pc: "/banners/home/banner-02-pc.png",
-    mobile: "/banners/home/banner-02-mobile.png",
+    pc: "/banners/home/hero-02-pc.png?v=3",
+    mobile: "/banners/home/hero-02-mobile.png?v=3",
     href: "/#dat-lich",
     alt: "Mỗi làn da một phác đồ riêng — Đặt lịch soi da",
+    tone: "light",
+    mobileTone: "dark",
+    wrap: "always",
+    ctaStyle: "cream",
+    mobileCtaStyle: "brown",
+    title: ["MỖI LÀN DA", "MỘT PHÁC ĐỒ RIÊNG"],
+    subtitle: "Soi da trước mỗi buổi chăm sóc",
+    cta: "ĐẶT LỊCH SOI DA",
   },
   {
     id: 3,
-    pc: "/banners/home/banner-03-pc.png",
-    mobile: "/banners/home/banner-03-mobile.png",
+    pc: "/banners/home/hero-03-pc.png?v=3",
+    mobile: "/banners/home/hero-03-mobile.png?v=3",
     href: "/dich-vu",
     alt: "Không chỉ là rửa mặt — Xem quy trình chuẩn hóa",
+    tone: "dark",
+    wrap: "mobile",
+    ctaStyle: "outline",
+    title: ["KHÔNG CHỈ LÀ", "RỬA MẶT"],
+    subtitle: "Một quy trình chuẩn hóa\ntại mọi chi nhánh",
+    cta: "XEM QUY TRÌNH",
   },
   {
     id: 4,
-    pc: "/banners/home/banner-04-pc.png",
-    mobile: "/banners/home/banner-04-mobile.png",
+    pc: "/banners/home/hero-04-pc.png?v=3",
+    mobile: "/banners/home/hero-04-mobile.png?v=3",
     href: "/bang-gia-the-foxie-update-thang-08-2026",
     alt: "Giá niêm yết rõ ràng — Xem bảng giá",
+    tone: "dark",
+    wrap: "mobile",
+    ctaStyle: "brown",
+    title: ["GIÁ NIÊM YẾT", "RÕ RÀNG"],
+    subtitle: "Công khai tại mọi chi nhánh",
+    cta: "XEM BẢNG GIÁ",
   },
 ] as const;
 
-const AUTO_MS = 2000;
+const AUTO_MS = 6000;
 const SWIPE_PX = 40;
+
+function isBannerControl(target: EventTarget | null) {
+  return target instanceof Element && Boolean(target.closest(".hero-banner-dots"));
+}
 
 export default function HeroBanner() {
   const [index, setIndex] = useState(0);
@@ -97,12 +127,22 @@ export default function HeroBanner() {
           setPaused(false);
         }
       }}
-      onTouchStart={(event) => onPointerDown(event.touches[0]?.clientX ?? 0)}
-      onTouchEnd={(event) => onPointerUp(event.changedTouches[0]?.clientX ?? 0)}
-      onMouseDown={(event) => {
-        if (event.button === 0) onPointerDown(event.clientX);
+      onTouchStart={(event) => {
+        if (isBannerControl(event.target)) return;
+        onPointerDown(event.touches[0]?.clientX ?? 0);
       }}
-      onMouseUp={(event) => onPointerUp(event.clientX)}
+      onTouchEnd={(event) => {
+        if (isBannerControl(event.target)) return;
+        onPointerUp(event.changedTouches[0]?.clientX ?? 0);
+      }}
+      onMouseDown={(event) => {
+        if (event.button !== 0 || isBannerControl(event.target)) return;
+        onPointerDown(event.clientX);
+      }}
+      onMouseUp={(event) => {
+        if (isBannerControl(event.target)) return;
+        onPointerUp(event.clientX);
+      }}
     >
       <div className="hero-banner-track" aria-live="polite">
         {slides.map((slide, slideIndex) => {
@@ -113,6 +153,12 @@ export default function HeroBanner() {
               key={slide.id}
               href={slide.href}
               className={`hero-banner-slide${isActive ? " is-active" : ""}`}
+              data-banner={slide.id}
+              data-tone={slide.tone}
+              data-mobile-tone={"mobileTone" in slide ? slide.mobileTone : slide.tone}
+              data-cta={slide.ctaStyle}
+              data-mobile-cta={"mobileCtaStyle" in slide ? slide.mobileCtaStyle : slide.ctaStyle}
+              data-wrap={slide.wrap}
               aria-hidden={!isActive}
               tabIndex={isActive ? 0 : -1}
               draggable={false}
@@ -129,14 +175,26 @@ export default function HeroBanner() {
                   className="hero-banner-image"
                   src={slide.pc}
                   alt={slide.alt}
-                  width={1400}
-                  height={645}
+                  width={1920}
+                  height={884}
                   sizes="100vw"
                   fetchPriority={slideIndex === 0 ? "high" : "auto"}
                   decoding={slideIndex === 0 ? "sync" : "async"}
                   draggable={false}
                 />
               </picture>
+              <div className="hero-banner-copy">
+                <h2 className="hero-banner-title">
+                  {slide.title.map((line, lineIndex) => (
+                    <span key={line}>
+                      {lineIndex > 0 && slide.wrap === "mobile" ? " " : null}
+                      {line}
+                    </span>
+                  ))}
+                </h2>
+                <p className="hero-banner-subtitle">{slide.subtitle}</p>
+                <span className="hero-banner-cta">{slide.cta}</span>
+              </div>
             </Link>
           );
         })}
@@ -151,7 +209,14 @@ export default function HeroBanner() {
             aria-selected={slideIndex === index}
             aria-label={`Banner ${slideIndex + 1}`}
             className={`hero-banner-dot${slideIndex === index ? " is-active" : ""}`}
-            onClick={() => goTo(slideIndex)}
+            onPointerDown={(event) => event.stopPropagation()}
+            onMouseDown={(event) => event.stopPropagation()}
+            onMouseUp={(event) => event.stopPropagation()}
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              goTo(slideIndex);
+            }}
           />
         ))}
       </div>

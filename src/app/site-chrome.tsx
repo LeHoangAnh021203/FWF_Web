@@ -17,7 +17,6 @@ import {
   Phone,
   Share2,
   Sparkles,
-  Store,
   Users,
   X,
 } from "lucide-react";
@@ -27,7 +26,7 @@ import { useLanguage } from "@/i18n/language-context";
 
 const navItemConfigs = [
   { key: "nav.home", href: "/", Icon: Home },
-  { key: "nav.stores", href: "/cua-hang", Icon: Store },
+  // Temporarily hidden: { key: "nav.stores", href: "/cua-hang", Icon: Store },
   { key: "nav.services", href: "/dich-vu", Icon: Sparkles },
   { key: "nav.about", href: "/ve-chung-toi", Icon: Users },
   { key: "nav.contact", href: "#home-contact-info", Icon: Phone },
@@ -40,7 +39,7 @@ const navItemConfigs = [
 const desktopNavItemConfigs = [
   { key: "nav.home", href: "/" },
   { key: "nav.services", href: "/dich-vu" },
-  { key: "nav.stores", href: "/cua-hang" },
+  // Temporarily hidden: { key: "nav.stores", href: "/cua-hang" },
   { key: "nav.about", href: "/ve-chung-toi" },
   { key: "nav.news", href: "/tin-tuc" },
   { key: "nav.faq", href: "/faq" },

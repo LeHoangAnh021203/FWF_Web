@@ -1156,7 +1156,7 @@ const servicesVi: Dict = {
   "svc.voucher.subtitle": "Nhận ngay ưu đãi thành viên",
   "svc.voucher.body1": "Được sử dụng tất cả dịch vụ với giá thành viên",
   "svc.voucher.bodySave": "tiết kiệm đến 35%",
-  "svc.voucher.body2": "so với giá lẻ.",
+  "svc.voucher.body2": "so với giá niêm yết.",
   "svc.voucher.bodyShare": "Thẻ có thể chia sẻ hoặc dùng chung với bạn bè và người thân",
   "svc.voucher.addCart": "Thêm vào giỏ",
   "svc.voucher.crown": "Foxie Crown 100 triệu",

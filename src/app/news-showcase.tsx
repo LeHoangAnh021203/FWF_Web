@@ -1,7 +1,6 @@
 "use client";
 
 import { NewsCardTrack } from "@/components/news-card-track";
-import { useLanguage } from "@/i18n/language-context";
 
 type NewsPost = {
   slug: string;
@@ -15,7 +14,6 @@ type NewsShowcaseProps = {
 };
 
 export default function NewsShowcase({ posts }: NewsShowcaseProps) {
-  const { t } = useLanguage();
   const items = posts.slice(0, 10);
 
   return (
@@ -24,11 +22,8 @@ export default function NewsShowcase({ posts }: NewsShowcaseProps) {
       className="home-news-section overflow-hidden bg-white"
     >
       <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-6 md:px-10 xl:px-12">
-        <NewsCardTrack items={items} badge={t("home.news.badge")} adLabel={t("home.news.adLabel")}>
-          <p className="mb-1 text-sm font-extrabold uppercase tracking-wide text-[var(--brand-orange-deep)] md:text-base">
-            {t("home.news.update")}
-          </p>
-          <h2 className="home-section-title">Fox news</h2>
+        <NewsCardTrack items={items}>
+          <h2 className="home-section-title">Fox News</h2>
         </NewsCardTrack>
       </div>
     </section>
