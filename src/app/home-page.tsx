@@ -123,25 +123,41 @@ export default function HomePage() {
         <ExperienceOffers />
       </section>
 
+      <section className="commitment-section">
+        <div className="section-heading">
+          <h2>{t("home.whyTitle")}</h2>
+
+        </div>
+        <div className="commitment-grid">
+          {commitments.map((item) => (
+            <article key={item.title}>
+              <img src={item.image} alt="" />
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="store-section">
         <h2 className="store-title">{t("home.presenceTitle")}</h2>
         <div className="store-stats">
           <article>
-            <span>{t("home.presenceChainLabel")}</span>
-            <strong>{t("home.presenceChainTitle")}</strong>
-            <p>{t("home.presenceChainText")}</p>
+            <span className="store-stat-label">{t("home.presenceChainLabel")}</span>
+            <strong className="store-stat-value">{t("home.presenceChainTitle")}</strong>
+            <p className="store-stat-note">{t("home.presenceChainText")}</p>
           </article>
           <article>
-            <span>{t("home.presenceYearLabel")}</span>
-            <strong className="stat-number" data-count-to="2023">
+            <span className="store-stat-label">{t("home.presenceYearLabel")}</span>
+            <strong className="store-stat-value stat-number" data-count-to="2023">
               2023
             </strong>
-            <p>{t("home.presenceYearText")}</p>
+            <p className="store-stat-note">{t("home.presenceYearText")}</p>
           </article>
           <article>
-            <span>{t("home.presenceScaleLabel")}</span>
-            <strong>{t("home.presenceScaleValue")}</strong>
-            <p>{t("home.presenceScaleText")}</p>
+            <span className="store-stat-label">{t("home.presenceScaleLabel")}</span>
+            <strong className="store-stat-value">{t("home.presenceScaleValue")}</strong>
+            <p className="store-stat-note">{t("home.presenceScaleText")}</p>
           </article>
         </div>
         <CityTimeline cities={presenceCities} />
@@ -175,19 +191,6 @@ export default function HomePage() {
           <p>{t("home.feedbackSubtitle")}</p>
         </div>
         <FeedbackCarousel testimonials={testimonials} />
-      </section>
-
-      <section className="commitment-section">
-        <h2>{t("home.commitmentIntro")}</h2>
-        <div className="commitment-grid">
-          {commitments.map((item) => (
-            <article key={item.title}>
-              <img src={item.image} alt="" />
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))}
-        </div>
       </section>
 
       <SiteFooter home />
