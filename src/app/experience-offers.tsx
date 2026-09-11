@@ -17,7 +17,7 @@ const offers: ExperienceOffer[] = [
     id: "combo-4",
     title: "Combo 4",
     price: "399.000đ",
-    benefits: "Sáng Da - Săn Chắc Da - Chăm Sóc Mắt",
+    benefits: "Sáng Da - Săn\u00a0Chắc\u00a0Da - Chăm\u00a0Sóc\u00a0Mắt",
     image: "/dich vu uu dai/Combo 399.png",
     href: "/dich-vu",
   },
@@ -33,7 +33,7 @@ const offers: ExperienceOffer[] = [
     id: "combo-9",
     title: "Combo 9",
     price: "689.000đ",
-    benefits: "Cấp ẩm - Sáng Da - Săn Chắc Da - Chăm Sóc Mắt",
+    benefits: "Cấp ẩm - Sáng Da - Săn\u00a0Chắc\u00a0Da - Chăm\u00a0Sóc\u00a0Mắt",
     image: "/dich vu uu dai/Combo 689.png",
     href: "/dich-vu",
   },
@@ -68,10 +68,12 @@ export default function ExperienceOffers() {
             />
             <div className="experience-offer-panel">
               <h3>{offer.title}</h3>
-              <p className="experience-offer-benefits">{offer.benefits}</p>
-              <p className="experience-offer-price-line">
-                Giá trải nghiệm lần đầu <strong>{offer.price}</strong>
-              </p>
+              <div className="experience-offer-meta">
+                <p className="experience-offer-benefits">{offer.benefits}</p>
+                <p className="experience-offer-price-line">
+                  Giá trải nghiệm lần đầu <strong>{offer.price}</strong>
+                </p>
+              </div>
             </div>
           </Link>
         ))}

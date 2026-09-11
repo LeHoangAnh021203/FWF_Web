@@ -93,7 +93,7 @@ export default function QuickBookingBanner() {
   return (
     <section
       id="dat-lich"
-      className="quick-booking-section"
+      className="quick-booking-section bg-[linear-gradient(90deg,#fff8f2_0%,#ffe8d6_48%,#ffd8c0_100%)]"
       aria-labelledby="quick-booking-heading"
     >
       <div className="quick-booking-stage">
