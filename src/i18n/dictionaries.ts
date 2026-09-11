@@ -70,6 +70,8 @@ const vi: Dict = {
   "float.bookLine1": "Đặt lịch",
   "float.bookLine2": "ngay",
   "float.backTop": "Quay lại đầu trang",
+  "float.zalo": "Chat Zalo OA Face Wash Fox",
+  "float.hotline": "Gọi hotline 0889 866 666",
 
   "cookie.title": "Cookie Policy",
   "cookie.body":
@@ -263,6 +265,8 @@ const en: Dict = {
   "float.bookLine1": "Book",
   "float.bookLine2": "now",
   "float.backTop": "Back to top",
+  "float.zalo": "Chat on Face Wash Fox Zalo OA",
+  "float.hotline": "Call hotline 0889 866 666",
 
   "cookie.title": "Cookie Policy",
   "cookie.body":
@@ -449,6 +453,8 @@ const zh: Dict = {
   "float.bookLine1": "立即",
   "float.bookLine2": "预约",
   "float.backTop": "回到顶部",
+  "float.zalo": "通过 Zalo OA 联系 Face Wash Fox",
+  "float.hotline": "拨打热线 0889 866 666",
   "cookie.body":
     "Face Wash Fox 使用 Cookie 了解您如何使用网站、改善预约体验并优化服务内容。了解更多请查看",
   "cookie.title": "Cookie 政策",
@@ -610,6 +616,8 @@ const ja: Dict = {
   "float.bookLine1": "今すぐ",
   "float.bookLine2": "予約",
   "float.backTop": "ページ上部へ",
+  "float.zalo": "Face Wash Fox の Zalo OA でチャット",
+  "float.hotline": "ホットライン 0889 866 666 に電話",
   "cookie.body":
     "Face Wash FoxはCookieを使用してサイト利用を把握し、予約体験とサービス内容を改善します。詳細は",
   "cookie.title": "Cookieポリシー",
@@ -771,6 +779,8 @@ const ko: Dict = {
   "float.bookLine1": "지금",
   "float.bookLine2": "예약",
   "float.backTop": "맨 위로",
+  "float.zalo": "Face Wash Fox Zalo OA로 채팅",
+  "float.hotline": "핫라인 0889 866 666로 전화",
   "cookie.body":
     "Face Wash Fox는 쿠키를 사용해 사이트 이용을 파악하고 예약 경험과 서비스 콘텐츠를 개선합니다. 자세한 내용은",
   "cookie.title": "쿠키 정책",
@@ -932,6 +942,8 @@ const th: Dict = {
   "float.bookLine1": "จอง",
   "float.bookLine2": "เลย",
   "float.backTop": "กลับขึ้นบน",
+  "float.zalo": "แชท Zalo OA ของ Face Wash Fox",
+  "float.hotline": "โทรสายด่วน 0889 866 666",
   "cookie.body":
     "Face Wash Fox ใช้คุกกี้เพื่อเข้าใจการใช้งานเว็บไซต์ ปรับปรุงการจอง และเพิ่มประสิทธิภาพเนื้อหาบริการ อ่านเพิ่มเติมที่",
   "cookie.title": "นโยบายคุกกี้",

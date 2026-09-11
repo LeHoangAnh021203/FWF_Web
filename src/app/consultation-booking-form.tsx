@@ -1,5 +1,6 @@
 "use client";
 
+import { LocateFixed } from "lucide-react";
 import {
   useCallback,
   useMemo,
@@ -54,9 +55,7 @@ export default function ConsultationBookingForm({
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [privacyConsent, setPrivacyConsent] = useState(false);
-  const [selectedBranchId, setSelectedBranchId] = useState<number>(
-    () => branches[0]?.id ?? 0,
-  );
+  const [selectedBranchId, setSelectedBranchId] = useState(0);
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState("");
   const [submitError, setSubmitError] = useState("");
@@ -89,6 +88,23 @@ export default function ConsultationBookingForm({
     () => branches.find((branch) => branch.id === selectedBranchId) ?? null,
     [selectedBranchId],
   );
+
+  const listedBranches = useMemo(() => {
+    if (Object.keys(distanceByBranchId).length === 0) {
+      return branches;
+    }
+
+    return [...branches].sort(
+      (left, right) =>
+        (distanceByBranchId[left.id] ?? Number.POSITIVE_INFINITY) -
+        (distanceByBranchId[right.id] ?? Number.POSITIVE_INFINITY),
+    );
+  }, [distanceByBranchId]);
+
+  const hasLocation = Object.keys(distanceByBranchId).length > 0;
+  const nearestBranchName = nearestBranch
+    ? (branches.find((branch) => branch.id === nearestBranch.id)?.name ?? "")
+    : "";
 
   const handleDetectNearestBranch = useCallback(() => {
     if (typeof window === "undefined" || !navigator.geolocation) {
@@ -268,25 +284,34 @@ export default function ConsultationBookingForm({
       </div>
 
       <div>
-        <div className="consultation-booking-branch-head">
-          <label htmlFor={branchId} className="consultation-booking-label">
-            {t("svc.branchNearest")}
-          </label>
-          <button
-            type="button"
-            onClick={handleDetectNearestBranch}
-            className="consultation-booking-locate"
-          >
-            {isLocating ? t("svc.book.locating") : t("svc.book.locate")}
-          </button>
-        </div>
+        <label htmlFor={branchId} className="consultation-booking-label">
+          {t("svc.branchNearest")}
+        </label>
+        <p className="consultation-booking-locate-ask">{t("svc.book.locateAsk")}</p>
+        <button
+          type="button"
+          onClick={handleDetectNearestBranch}
+          disabled={isLocating}
+          className="consultation-booking-locate-btn"
+        >
+          <LocateFixed strokeWidth={2.2} aria-hidden="true" />
+          <span>
+            {isLocating
+              ? t("svc.book.locating")
+              : hasLocation
+                ? t("svc.book.locateAgain")
+                : t("svc.book.locateCta")}
+          </span>
+        </button>
         <select
           id={branchId}
           className="consultation-booking-field"
-          value={selectedBranchId}
-          onChange={(event) => setSelectedBranchId(Number(event.target.value))}
+          value={selectedBranchId || ""}
+          onChange={(event) => setSelectedBranchId(Number(event.target.value) || 0)}
+          required
         >
-          {branches.map((branch) => {
+          <option value="">{t("svc.book.branchPlaceholder")}</option>
+          {listedBranches.map((branch) => {
             const distance = distanceByBranchId[branch.id];
             return (
               <option key={branch.id} value={branch.id}>
@@ -301,10 +326,9 @@ export default function ConsultationBookingForm({
         ) : null}
         {nearestBranch ? (
           <p className="consultation-booking-hint is-success">
-            {t("svc.book.nearestHint").replace(
-              "{km}",
-              nearestBranch.distanceKm.toFixed(1),
-            )}
+            {t("svc.book.nearestHint")
+              .replace("{name}", nearestBranchName)
+              .replace("{km}", nearestBranch.distanceKm.toFixed(1))}
           </p>
         ) : null}
       </div>

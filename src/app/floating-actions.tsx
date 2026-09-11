@@ -1,12 +1,17 @@
 "use client";
 
-import { ChevronUp } from "lucide-react";
+import { ChevronUp, Phone } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useLanguage } from "@/i18n/language-context";
 
 import ConsultationBookingModal from "./consultation-booking-modal";
+
+const ZALO_OA_HREF = "https://zalo.me/352472932154112250";
+const ZALO_OA_ICON =
+  "https://img.icons8.com/?size=96&id=0m71tmRjlxEe&format=png";
+const HOTLINE = "0889866666";
 
 export default function FloatingActions() {
   const pathname = usePathname();
@@ -63,6 +68,22 @@ export default function FloatingActions() {
             </span>
           </button>
         )}
+        <a
+          className="floating-actions-btn floating-actions-zalo"
+          href={ZALO_OA_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t("float.zalo")}
+        >
+          <img src={ZALO_OA_ICON} alt="" />
+        </a>
+        <a
+          className="floating-actions-btn"
+          href={`tel:${HOTLINE}`}
+          aria-label={t("float.hotline")}
+        >
+          <Phone strokeWidth={2.4} aria-hidden="true" />
+        </a>
         <button
           type="button"
           className={`floating-actions-btn floating-actions-top${showTop ? " is-visible" : ""}`}

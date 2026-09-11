@@ -464,10 +464,13 @@ export default function ServiceStandard() {
               ) : null}
               {nearestBranch ? (
                 <p className="mt-2 text-[0.95rem] text-[#0f766e]">
-                  {t("svc.book.nearestHint").replace(
-                    "{km}",
-                    nearestBranch.distanceKm.toFixed(1),
-                  )}
+                  {t("svc.book.nearestHint")
+                    .replace(
+                      "{name}",
+                      branches.find((branch) => branch.id === nearestBranch.id)
+                        ?.name ?? "",
+                    )
+                    .replace("{km}", nearestBranch.distanceKm.toFixed(1))}
                 </p>
               ) : null}
             </div>

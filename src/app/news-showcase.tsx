@@ -21,7 +21,7 @@ export default function NewsShowcase({ posts }: NewsShowcaseProps) {
   return (
     <section
       id="news"
-      className="overflow-hidden bg-white py-10 md:py-12"
+      className="home-news-section overflow-hidden bg-white"
     >
       <div className="mx-auto w-full max-w-[1800px] px-4 sm:px-6 md:px-10 xl:px-12">
         <NewsCardTrack items={items} badge={t("home.news.badge")} adLabel={t("home.news.adLabel")}>

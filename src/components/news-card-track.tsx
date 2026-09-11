@@ -92,7 +92,7 @@ export function NewsCardTrack({ items, badge, adLabel, children }: NewsCardTrack
 
       <div
         ref={scrollerRef}
-        className="flex flex-nowrap cursor-grab touch-pan-x snap-x snap-mandatory gap-8 overflow-x-auto overflow-y-hidden pb-2 [scrollbar-width:none] active:cursor-grabbing [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden xl:gap-11"
+        className="flex flex-nowrap cursor-grab touch-pan-x snap-x snap-mandatory gap-8 overflow-x-auto overflow-y-hidden [scrollbar-width:none] active:cursor-grabbing [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden xl:gap-11"
         onPointerDown={(event) => {
           if (event.pointerType === "touch" || event.button !== 0) return;
           const scroller = scrollerRef.current;
@@ -176,7 +176,7 @@ export function NewsCardTrack({ items, badge, adLabel, children }: NewsCardTrack
                   {item.sponsored && adLabel ? adLabel : badge}
                 </span>
               </div>
-              <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] text-[#ff6a3d] md:min-h-[120px] md:text-[22px]">
+              <h3 className="max-w-full text-2xl font-extrabold leading-[1.04] text-[#ff6a3d] md:text-[22px]">
                 {item.title}
               </h3>
             </div>

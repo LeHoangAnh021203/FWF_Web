@@ -126,7 +126,6 @@ export default function HomePage() {
       <section className="commitment-section">
         <div className="section-heading">
           <h2>{t("home.whyTitle")}</h2>
-
         </div>
         <div className="commitment-grid">
           {commitments.map((item) => (
