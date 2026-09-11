@@ -141,6 +141,18 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="feedback-section" id="feedback">
+        <div className="feedback-layout">
+          <div className="feedback-intro">
+            <h2>{t("home.feedbackTitle")}</h2>
+            <div className="feedback-mascot">
+              <img src="/logo_FWF/Cao.png" alt="" width={720} height={720} />
+            </div>
+          </div>
+          <FeedbackCarousel />
+        </div>
+      </section>
+
       <section className="store-section">
         <h2 className="store-title">{t("home.presenceTitle")}</h2>
         <div className="store-stats">
@@ -165,39 +177,7 @@ export default function HomePage() {
         <CityTimeline cities={presenceCities} />
       </section>
 
-      <section id="story" className="story-section">
-        <div className="story-copy">
-          <p>&quot;{t("home.storyQuote")}&quot;</p>
-          <h2 className="text-12">{t("home.storyTitle")}</h2>
-          <p>{t("home.storyBody")}</p>
-        </div>
-        <div className="video-panel story-video">
-          <video
-            src="/fwf-story.mp4"
-            poster="/fwf-story-poster.jpg"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label={t("home.storyVideo")}
-          />
-        </div>
-      </section>
-
       <NewsShowcase posts={foxNews} />
-
-      <section className="feedback-section" id="feedback">
-        <div className="feedback-layout">
-          <div className="feedback-intro">
-            <h2>{t("home.feedbackTitle")}</h2>
-            <div className="feedback-mascot">
-              <img src="/logo_FWF/Cao.png" alt="" width={720} height={720} />
-            </div>
-          </div>
-          <FeedbackCarousel />
-        </div>
-      </section>
 
       <SiteFooter home />
       <ConsultationBookingModal

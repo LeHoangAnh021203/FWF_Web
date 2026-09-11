@@ -30,7 +30,7 @@ const vi: Dict = {
   "nav.stores": "Cửa hàng",
   "nav.news": "Tin tức",
   "nav.faq": "FAQ",
-  "nav.about": "Giới thiệu",
+  "nav.about": "Về chúng tôi",
   "nav.contact": "Liên hệ",
   "nav.promo": "Khuyến mãi",
   "nav.home": "Trang chủ",

@@ -29,7 +29,7 @@ const navItemConfigs = [
   { key: "nav.home", href: "/", Icon: Home },
   { key: "nav.stores", href: "/cua-hang", Icon: Store },
   { key: "nav.services", href: "/dich-vu", Icon: Sparkles },
-  { key: "nav.about", href: "#story", Icon: Users },
+  { key: "nav.about", href: "/ve-chung-toi", Icon: Users },
   { key: "nav.contact", href: "#home-contact-info", Icon: Phone },
   { key: "nav.promo", href: "#news", Icon: Gift },
   { key: "nav.news", href: "/tin-tuc", Icon: Bell },
@@ -41,6 +41,7 @@ const desktopNavItemConfigs = [
   { key: "nav.home", href: "/" },
   { key: "nav.services", href: "/dich-vu" },
   { key: "nav.stores", href: "/cua-hang" },
+  { key: "nav.about", href: "/ve-chung-toi" },
   { key: "nav.news", href: "/tin-tuc" },
   { key: "nav.faq", href: "/faq" },
   { key: "nav.b2b", href: "/b2b" },
@@ -118,7 +119,7 @@ const footerColumnConfigs = [
     titleKey: "footer.overview",
     links: [
       { labelKey: "nav.home", href: "/#hero" },
-      { labelKey: "footer.aboutUs", href: "/#story" },
+      { labelKey: "footer.aboutUs", href: "/ve-chung-toi" },
       { labelKey: "footer.contact", href: "/#home-contact-info" },
     ],
   },
@@ -307,6 +308,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     "/dich-vu",
     "/tin-tuc",
     "/faq",
+    "/ve-chung-toi",
     "/dieu-khoan-dieu-kien",
     "/chinh-sach-bao-ve-du-lieu-ca-nhan",
     "/bang-gia-the-foxie-update-thang-08-2026",
@@ -388,11 +390,22 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
           <img src="/logo/fwf-orange.png" alt="Face Wash Fox" />
         </a>
         <nav className="mono-nav-main" aria-label="Main navigation">
-          {desktopNavItems.map(({ label, href }) => (
-            <a href={resolveHomeAnchor(href, home)} key={href}>
-              <span>{label}</span>
-            </a>
-          ))}
+          {desktopNavItems.map(({ label, href }) => {
+            const isActive =
+              href === "/"
+                ? pathname === "/"
+                : pathname === href || pathname.startsWith(`${href}/`);
+            return (
+              <a
+                href={resolveHomeAnchor(href, home)}
+                key={href}
+                className={isActive ? "is-active" : undefined}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <span>{label}</span>
+              </a>
+            );
+          })}
         </nav>
         <div className="mono-header-actions">
           <a

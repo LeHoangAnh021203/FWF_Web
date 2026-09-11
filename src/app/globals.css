@@ -44,6 +44,7 @@
   --section-feedback-bg: #fffaf6;
   --section-contact-bg: var(--surface-0);
   --section-commitment-bg: var(--surface-inverse);
+  --home-title-size: clamp(28px, 4.2vw, 40px);
   --hero-progress: 0;
 }
 
@@ -417,9 +418,13 @@ img {
     transform 180ms ease;
 }
 
-.mono-nav-main a:hover {
+.mono-nav-main a:hover,
+.mono-nav-main a.is-active {
   color: #ea580c;
   background: rgba(255, 237, 213, 0.9);
+}
+
+.mono-nav-main a:hover {
   transform: translateY(-1px);
 }
 
@@ -1469,6 +1474,7 @@ body:has(.mono-mobile-menu) .floating-actions {
 }
 
 .section-heading h2,
+.story-copy h1,
 .story-copy h2,
 .store-title,
 .commitment-section .section-heading h2 {
@@ -1484,7 +1490,7 @@ body:has(.mono-mobile-menu) .floating-actions {
   margin: 0;
   color: var(--brand-orange-deep);
   font-family: var(--font-poppins), "SVN Poppins", sans-serif;
-  font-size: clamp(28px, 4.2vw, 40px);
+  font-size: var(--home-title-size);
   font-weight: 800;
   font-style: normal;
   line-height: 1.15;
@@ -1498,7 +1504,7 @@ body:has(.mono-mobile-menu) .floating-actions {
 
 .feedback-intro h2 {
   color: var(--brand-orange-deep);
-  text-align: left;
+  text-align: center;
   text-transform: uppercase;
   white-space: pre-line;
 }
@@ -2827,7 +2833,7 @@ body:has(.mono-mobile-menu) .floating-actions {
 
 .section-heading h2 {
   margin: 0;
-  font-size: clamp(28px, 4.2vw, 40px);
+  font-size: var(--home-title-size);
   font-weight: 800;
   font-style: normal;
 }
@@ -3592,6 +3598,17 @@ body:has(.mono-mobile-menu) .floating-actions {
   background: #ffffff;
 }
 
+.about-page {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.about-page .story-section {
+  min-height: calc(100vh - 96px);
+  padding-top: clamp(108px, 12vw, 148px);
+  padding-bottom: clamp(56px, 8vw, 96px);
+}
+
 .news-section {
   background:
     linear-gradient(180deg, #fffdfa 0%, #fff4e8 52%, #ffffff 100%);
@@ -3603,11 +3620,16 @@ body:has(.mono-mobile-menu) .floating-actions {
   font-size: 16px;
 }
 
+.story-copy h1,
 .story-copy h2 {
   margin: 0 0 24px;
-  font-size: clamp(22px, 4.8vw, 34px);
-  font-weight: 600;
-  line-height: 1.04;
+  color: var(--brand-orange-deep);
+  font-family: var(--font-poppins), "SVN Poppins", sans-serif;
+  font-size: var(--home-title-size);
+  font-weight: 800;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .story-copy p {
@@ -4143,16 +4165,17 @@ body:has(.mono-mobile-menu) .floating-actions {
 .feedback-intro {
   display: grid;
   flex: none;
-  width: min(280px, 32vw);
-  justify-items: start;
+  width: min(360px, 100%);
+  justify-items: center;
   align-content: center;
   gap: 8px;
 }
 
 .feedback-intro h2 {
-  max-width: 7.6em;
-  font-size: clamp(28px, 3.4vw, 42px);
+  width: auto;
+  max-width: none;
   line-height: 1.12;
+  white-space: pre-line;
 }
 
 .feedback-mascot {
@@ -4175,6 +4198,7 @@ body:has(.mono-mobile-menu) .floating-actions {
   position: relative;
   z-index: 1;
   width: 100%;
+  max-width: 280px;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 28px 36px rgba(249, 115, 22, 0.18));
@@ -4313,12 +4337,11 @@ body:has(.mono-mobile-menu) .floating-actions {
   }
 
   .feedback-intro {
-    width: min(280px, 86vw);
+    width: min(360px, 100%);
     justify-items: center;
   }
 
   .feedback-intro h2 {
-    max-width: 9em;
     text-align: center;
   }
 
@@ -6839,10 +6862,6 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
     padding-inline: 4px;
   }
 
-  .section-heading h2 {
-    font-size: clamp(28px, 8vw, 40px);
-  }
-
   .service-player,
   .service-player-shell {
     width: 100%;
@@ -7214,10 +7233,6 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   .model-info {
     flex-direction: column;
     gap: 12px;
-  }
-
-  .story-copy h2 {
-    font-size: 34px;
   }
 
   .news-showcase-section {
