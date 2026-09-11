@@ -2,39 +2,30 @@
 
 /* eslint-disable @next/next/no-img-element */
 
+import { useState } from "react";
+
 import { getLocalizedFoxNews } from "@/components/b2b/home-data";
 import { useLanguage } from "@/i18n/language-context";
 
 import CityTimeline from "./city-timeline";
+import ConsultationBookingModal from "./consultation-booking-modal";
 import ExperienceOffers from "./experience-offers";
 import FeedbackCarousel from "./feedback-carousel";
 import HeroBanner from "./hero-banner";
 import LoadingOverlay from "./loading-overlay";
 import NewsShowcase from "./news-showcase";
+import {
+  CONSULT_BOOKING_SOURCE_OFFERS,
+  warmupConsultationLocation,
+} from "./open-consultation-booking";
 import QuickBookingBanner from "./quick-booking-banner";
 import ScrollEffects from "./scroll-effects";
 import { SiteFooter, SiteHeader } from "./site-chrome";
 
-const testimonialImages = [
-  "/PR/pr3/pr3_1.jpg",
-  "/PR/pr1/pr1_1.PNG",
-  "/PR/pr2/pr2_1.JPG",
-  "/PR/pr3/pr3_2.jpg",
-  "/PR/pr2/pr2_2.JPG",
-] as const;
-
 export default function HomePage() {
   const { language, t } = useLanguage();
   const foxNews = getLocalizedFoxNews(language);
-
-  const testimonials = testimonialImages.map((image, index) => {
-    const id = index + 1;
-    return {
-      name: t(`home.feedback.${id}.name`),
-      quote: t(`home.feedback.${id}.quote`),
-      image,
-    };
-  });
+  const [offersBookingOpen, setOffersBookingOpen] = useState(false);
 
   const presenceCities = [
     {
@@ -79,27 +70,27 @@ export default function HomePage() {
     {
       title: t("home.commit.tech.title"),
       text: t("home.commit.tech.text"),
-      image: "/commitments/technology.png",
+      image: "/usp/usp-01.webp",
     },
     {
       title: t("home.commit.price.title"),
       text: t("home.commit.price.text"),
-      image: "/commitments/pricing.png",
+      image: "/usp/usp-02.webp",
     },
     {
       title: t("home.commit.time.title"),
       text: t("home.commit.time.text"),
-      image: "/commitments/time.png",
+      image: "/usp/usp-03.webp",
     },
     {
       title: t("home.commit.audience.title"),
       text: t("home.commit.audience.text"),
-      image: "/commitments/audience.png",
+      image: "/usp/usp-04.webp",
     },
     {
       title: t("home.commit.focus.title"),
       text: t("home.commit.focus.text"),
-      image: "/commitments/focus.png",
+      image: "/usp/usp-05.webp",
     },
   ];
 
@@ -121,6 +112,18 @@ export default function HomePage() {
           <p>{t("home.servicesSubtitle")}</p>
         </div>
         <ExperienceOffers />
+        <div className="models-section-cta">
+          <button
+            type="button"
+            className="models-book-cta"
+            onClick={() => {
+              setOffersBookingOpen(true);
+              warmupConsultationLocation();
+            }}
+          >
+            {t("float.bookNow")}
+          </button>
+        </div>
       </section>
 
       <section className="commitment-section">
@@ -130,7 +133,7 @@ export default function HomePage() {
         <div className="commitment-grid">
           {commitments.map((item) => (
             <article key={item.title}>
-              <img src={item.image} alt="" />
+              <img src={item.image} alt="" loading="lazy" decoding="async" />
               <h3>{item.title}</h3>
               <p>{item.text}</p>
             </article>
@@ -184,15 +187,25 @@ export default function HomePage() {
 
       <NewsShowcase posts={foxNews} />
 
-      <section className="feedback-section">
-        <div className="section-heading">
-          <h2>{t("home.feedbackTitle")}</h2>
-          <p>{t("home.feedbackSubtitle")}</p>
+      <section className="feedback-section" id="feedback">
+        <div className="feedback-layout">
+          <div className="feedback-intro">
+            <h2>{t("home.feedbackTitle")}</h2>
+            <div className="feedback-mascot">
+              <img src="/logo_FWF/Cao.png" alt="" width={720} height={720} />
+            </div>
+          </div>
+          <FeedbackCarousel />
         </div>
-        <FeedbackCarousel testimonials={testimonials} />
       </section>
 
       <SiteFooter home />
+      <ConsultationBookingModal
+        idPrefix="offers"
+        source={CONSULT_BOOKING_SOURCE_OFFERS}
+        open={offersBookingOpen}
+        onClose={() => setOffersBookingOpen(false)}
+      />
     </main>
   );
 }

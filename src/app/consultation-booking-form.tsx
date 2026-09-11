@@ -1,9 +1,10 @@
 "use client";
 
-import { LocateFixed } from "lucide-react";
 import {
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type FormEvent,
 } from "react";
@@ -11,6 +12,8 @@ import {
 import { PrivacyConsent } from "@/components/privacy-consent";
 import { branches } from "@/data/branches";
 import { useLanguage } from "@/i18n/language-context";
+
+import { CONSULT_BOOKING_SOURCE_FAB } from "./open-consultation-booking";
 
 type BranchDistance = {
   id: number;
@@ -20,6 +23,8 @@ type BranchDistance = {
 type ConsultationBookingFormProps = {
   idPrefix?: string;
   submitLabel?: string;
+  active?: boolean;
+  source?: string;
 };
 
 function toRad(value: number) {
@@ -48,6 +53,8 @@ function getDistanceKm(
 export default function ConsultationBookingForm({
   idPrefix = "consult",
   submitLabel,
+  active = false,
+  source = CONSULT_BOOKING_SOURCE_FAB,
 }: ConsultationBookingFormProps) {
   const { t } = useLanguage();
   const [fullName, setFullName] = useState("");
@@ -89,6 +96,8 @@ export default function ConsultationBookingForm({
     [selectedBranchId],
   );
 
+  const requestedForOpenRef = useRef(false);
+
   const listedBranches = useMemo(() => {
     if (Object.keys(distanceByBranchId).length === 0) {
       return branches;
@@ -101,7 +110,6 @@ export default function ConsultationBookingForm({
     );
   }, [distanceByBranchId]);
 
-  const hasLocation = Object.keys(distanceByBranchId).length > 0;
   const nearestBranchName = nearestBranch
     ? (branches.find((branch) => branch.id === nearestBranch.id)?.name ?? "")
     : "";
@@ -160,6 +168,20 @@ export default function ConsultationBookingForm({
     );
   }, [t]);
 
+  useEffect(() => {
+    if (!active) {
+      requestedForOpenRef.current = false;
+      return;
+    }
+
+    if (requestedForOpenRef.current) {
+      return;
+    }
+
+    requestedForOpenRef.current = true;
+    handleDetectNearestBranch();
+  }, [active, handleDetectNearestBranch]);
+
   const handleSubmitBooking = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitError("");
@@ -197,7 +219,7 @@ export default function ConsultationBookingForm({
           fullName: fullName.trim(),
           phone: phone.trim(),
           email: email.trim(),
-          note: note.trim(),
+          note: [source, note.trim()].filter(Boolean).join(" — "),
           branchId: selectedBranch.id,
           branchName: selectedBranch.name,
           branchAddress: selectedBranch.address,
@@ -287,22 +309,9 @@ export default function ConsultationBookingForm({
         <label htmlFor={branchId} className="consultation-booking-label">
           {t("svc.branchNearest")}
         </label>
-        <p className="consultation-booking-locate-ask">{t("svc.book.locateAsk")}</p>
-        <button
-          type="button"
-          onClick={handleDetectNearestBranch}
-          disabled={isLocating}
-          className="consultation-booking-locate-btn"
-        >
-          <LocateFixed strokeWidth={2.2} aria-hidden="true" />
-          <span>
-            {isLocating
-              ? t("svc.book.locating")
-              : hasLocation
-                ? t("svc.book.locateAgain")
-                : t("svc.book.locateCta")}
-          </span>
-        </button>
+        {isLocating ? (
+          <p className="consultation-booking-locate-ask">{t("svc.book.locating")}</p>
+        ) : null}
         <select
           id={branchId}
           className="consultation-booking-field"

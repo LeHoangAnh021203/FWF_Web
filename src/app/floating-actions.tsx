@@ -7,6 +7,12 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/i18n/language-context";
 
 import ConsultationBookingModal from "./consultation-booking-modal";
+import {
+  CONSULT_BOOKING_SOURCE_FAB,
+  OPEN_CONSULTATION_BOOKING,
+  warmupConsultationLocation,
+  type OpenConsultationBookingDetail,
+} from "./open-consultation-booking";
 
 const ZALO_OA_HREF = "https://zalo.me/352472932154112250";
 const ZALO_OA_ICON =
@@ -18,6 +24,7 @@ export default function FloatingActions() {
   const { t } = useLanguage();
   const [showTop, setShowTop] = useState(false);
   const [bookingOpen, setBookingOpen] = useState(false);
+  const [bookingSource, setBookingSource] = useState(CONSULT_BOOKING_SOURCE_FAB);
 
   useEffect(() => {
     const update = () => setShowTop(window.scrollY > 280);
@@ -25,6 +32,17 @@ export default function FloatingActions() {
     window.addEventListener("scroll", update, { passive: true });
 
     return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  useEffect(() => {
+    const open = (event: Event) => {
+      const detail = (event as CustomEvent<OpenConsultationBookingDetail>).detail;
+      setBookingSource(detail?.source || CONSULT_BOOKING_SOURCE_FAB);
+      setBookingOpen(true);
+    };
+
+    window.addEventListener(OPEN_CONSULTATION_BOOKING, open);
+    return () => window.removeEventListener(OPEN_CONSULTATION_BOOKING, open);
   }, []);
 
   if (
@@ -59,7 +77,11 @@ export default function FloatingActions() {
             aria-label={t("float.bookNow")}
             aria-haspopup="dialog"
             aria-expanded={bookingOpen}
-            onClick={() => setBookingOpen(true)}
+            onClick={() => {
+              setBookingSource(CONSULT_BOOKING_SOURCE_FAB);
+              setBookingOpen(true);
+              warmupConsultationLocation();
+            }}
           >
             <span>
               {t("float.bookLine1")}
@@ -97,6 +119,7 @@ export default function FloatingActions() {
       {usePageBooking ? null : (
         <ConsultationBookingModal
           open={bookingOpen}
+          source={bookingSource}
           onClose={() => setBookingOpen(false)}
         />
       )}

@@ -10,11 +10,15 @@ import ConsultationBookingForm from "./consultation-booking-form";
 type ConsultationBookingModalProps = {
   open: boolean;
   onClose: () => void;
+  source?: string;
+  idPrefix?: string;
 };
 
 export default function ConsultationBookingModal({
   open,
   onClose,
+  source,
+  idPrefix = "consult",
 }: ConsultationBookingModalProps) {
   const { t } = useLanguage();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -27,17 +31,17 @@ export default function ConsultationBookingModal({
 
     if (open && !dialog.open) {
       dialog.showModal();
-      document.getElementById("consult-booking-name")?.focus();
+      document.getElementById(`${idPrefix}-booking-name`)?.focus();
     } else if (!open && dialog.open) {
       dialog.close();
     }
-  }, [open]);
+  }, [idPrefix, open]);
 
   return (
     <dialog
       ref={dialogRef}
       className="consultation-booking-dialog"
-      aria-labelledby="consultation-booking-title"
+      aria-labelledby={`${idPrefix}-booking-title`}
       onClose={onClose}
       onClick={(event) => {
         if (event.target === dialogRef.current) {
@@ -56,11 +60,15 @@ export default function ConsultationBookingModal({
         </button>
 
         <header className="consultation-booking-dialog-copy">
-          <h2 id="consultation-booking-title">{t("svc.bookTitle")}</h2>
+          <h2 id={`${idPrefix}-booking-title`}>{t("svc.bookTitle")}</h2>
           <p>{t("svc.bookLead")}</p>
         </header>
 
-        <ConsultationBookingForm idPrefix="consult" />
+        <ConsultationBookingForm
+          idPrefix={idPrefix}
+          active={open}
+          source={source}
+        />
       </div>
     </dialog>
   );
