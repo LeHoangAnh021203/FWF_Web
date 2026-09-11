@@ -39,9 +39,9 @@ const offers: ExperienceOffer[] = [
   },
   {
     id: "combo-ms",
-    title: "Combo MS PDRN / MS Brightening",
+    title: "MS PDRN / MS Brightening",
     price: "999.000đ",
-    benefits: "Căng bóng - Trắng sáng - Săn chắc - Hỗ trợ phục hồi",
+    benefits: "Căng bóng - Săn chắc - Hỗ trợ phục hồi",
     image: "/dich vu uu dai/Combo 999.png",
     href: "/dich-vu",
   },
