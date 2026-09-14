@@ -28,7 +28,7 @@ export function FaqSection() {
             <p className="mb-3 text-sm font-black uppercase text-orange-400 drop-shadow-[0_3px_10px_rgba(251,146,60,0.22)] md:bg-gradient-to-r md:from-orange-300 md:via-orange-400 md:to-amber-300 md:bg-clip-text md:text-transparent md:text-base">
               {t("b2b.faq.eyebrow")}
             </p>
-            <h2 className="text-3xl font-extrabold text-orange-500 drop-shadow-[0_5px_16px_rgba(249,115,22,0.18)] md:bg-gradient-to-b md:from-[#ffb15f] md:via-orange-500 md:to-[#f97316] md:bg-clip-text md:text-5xl md:text-transparent">
+            <h2 className="page-section-title text-orange-500">
               {t("b2b.faq.title")}
             </h2>
           </div>

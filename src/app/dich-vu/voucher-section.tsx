@@ -29,13 +29,13 @@ export default function VoucherSection() {
     <section className="w-full overflow-x-hidden bg-[#f7e0c7] px-4 py-10 md:px-8 md:py-14">
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-7 text-center md:mb-10">
-          <h2 className="text-[clamp(1.75rem,7vw,3.75rem)] font-extrabold uppercase leading-tight text-[#f05b2a] md:text-6xl">
+          <h2 className="page-section-title uppercase text-[#f05b2a]">
             {t("svc.voucher.title")}
           </h2>
-          <p className="mt-1 text-[clamp(1.05rem,4vw,2.25rem)] font-bold uppercase text-[#f05b2a] md:mt-2 md:text-4xl">
+          <p className="page-section-lead mt-1 font-bold uppercase text-[#f05b2a] md:mt-2">
             {t("svc.voucher.subtitle")}
           </p>
-          <p className="mx-auto mt-3 max-w-4xl text-sm font-medium leading-relaxed text-[#222] md:mt-4 md:text-2xl">
+          <p className="page-section-lead mx-auto mt-3 max-w-4xl font-medium text-[#222] md:mt-4">
             {t("svc.voucher.body1")}{" "}
             <span className="font-bold">{t("svc.voucher.bodySave")}</span> {t("svc.voucher.body2")}{" "}
             <span className="font-bold">{t("svc.voucher.bodyShare")}</span>.

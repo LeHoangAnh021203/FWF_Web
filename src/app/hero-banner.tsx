@@ -5,60 +5,62 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useLanguage } from "@/i18n/language-context";
+
 const slides = [
   {
     id: 1,
     pc: "/banners/home/hero-01-pc.png?v=3",
     mobile: "/banners/home/hero-01-mobile.png?v=3",
     href: "https://cuahang.facewashfox.com/",
-    alt: "Rửa mặt công nghệ — Tìm chi nhánh trên Bản đồ Fox",
     tone: "light",
     wrap: "mobile",
     ctaStyle: "cream",
-    title: ["RỬA MẶT", "CÔNG NGHỆ"],
-    subtitle: "Chuỗi cửa hàng rửa mặt công nghệ tại Việt Nam —\nHơn 50 chi nhánh trên toàn quốc",
-    cta: "TÌM CHI NHÁNH",
+    titleKeys: ["home.hero.1.title1", "home.hero.1.title2"],
+    subtitleKey: "home.hero.1.subtitle",
+    ctaKey: "home.hero.1.cta",
+    altKey: "home.hero.1.alt",
   },
   {
     id: 2,
     pc: "/banners/home/hero-02-pc.png?v=3",
     mobile: "/banners/home/hero-02-mobile.png?v=3",
     href: "/#dat-lich",
-    alt: "Mỗi làn da một phác đồ riêng — Đặt lịch soi da",
     tone: "light",
     mobileTone: "dark",
     wrap: "always",
     ctaStyle: "cream",
     mobileCtaStyle: "brown",
-    title: ["MỖI LÀN DA", "MỘT PHÁC ĐỒ RIÊNG"],
-    subtitle: "Soi da trước mỗi buổi chăm sóc",
-    cta: "ĐẶT LỊCH SOI DA",
+    titleKeys: ["home.hero.2.title1", "home.hero.2.title2"],
+    subtitleKey: "home.hero.2.subtitle",
+    ctaKey: "home.hero.2.cta",
+    altKey: "home.hero.2.alt",
   },
   {
     id: 3,
     pc: "/banners/home/hero-03-pc.png?v=3",
     mobile: "/banners/home/hero-03-mobile.png?v=3",
     href: "/dich-vu",
-    alt: "Không chỉ là rửa mặt — Xem quy trình chuẩn hóa",
     tone: "dark",
     wrap: "mobile",
     ctaStyle: "outline",
-    title: ["KHÔNG CHỈ LÀ", "RỬA MẶT"],
-    subtitle: "Một quy trình chuẩn hóa\ntại mọi chi nhánh",
-    cta: "XEM QUY TRÌNH",
+    titleKeys: ["home.hero.3.title1", "home.hero.3.title2"],
+    subtitleKey: "home.hero.3.subtitle",
+    ctaKey: "home.hero.3.cta",
+    altKey: "home.hero.3.alt",
   },
   {
     id: 4,
     pc: "/banners/home/hero-04-pc.png?v=3",
     mobile: "/banners/home/hero-04-mobile.png?v=3",
     href: "/bang-gia-the-foxie-update-thang-08-2026",
-    alt: "Giá niêm yết rõ ràng — Xem bảng giá",
     tone: "dark",
     wrap: "mobile",
     ctaStyle: "brown",
-    title: ["GIÁ NIÊM YẾT", "RÕ RÀNG"],
-    subtitle: "Công khai tại mọi chi nhánh",
-    cta: "XEM BẢNG GIÁ",
+    titleKeys: ["home.hero.4.title1", "home.hero.4.title2"],
+    subtitleKey: "home.hero.4.subtitle",
+    ctaKey: "home.hero.4.cta",
+    altKey: "home.hero.4.alt",
   },
 ] as const;
 
@@ -70,6 +72,7 @@ function isBannerControl(target: EventTarget | null) {
 }
 
 export default function HeroBanner() {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const pointerStartX = useRef<number | null>(null);
@@ -174,7 +177,7 @@ export default function HeroBanner() {
                 <img
                   className="hero-banner-image"
                   src={slide.pc}
-                  alt={slide.alt}
+                  alt={t(slide.altKey)}
                   width={1920}
                   height={884}
                   sizes="100vw"
@@ -185,22 +188,22 @@ export default function HeroBanner() {
               </picture>
               <div className="hero-banner-copy">
                 <h2 className="hero-banner-title">
-                  {slide.title.map((line, lineIndex) => (
-                    <span key={line}>
+                  {slide.titleKeys.map((key, lineIndex) => (
+                    <span key={key}>
                       {lineIndex > 0 && slide.wrap === "mobile" ? " " : null}
-                      {line}
+                      {t(key)}
                     </span>
                   ))}
                 </h2>
-                <p className="hero-banner-subtitle">{slide.subtitle}</p>
-                <span className="hero-banner-cta">{slide.cta}</span>
+                <p className="hero-banner-subtitle">{t(slide.subtitleKey)}</p>
+                <span className="hero-banner-cta">{t(slide.ctaKey)}</span>
               </div>
             </Link>
           );
         })}
       </div>
 
-      <div className="hero-banner-dots" role="tablist" aria-label="Hero banners">
+      <div className="hero-banner-dots" role="tablist" aria-label={t("home.hero.dots")}>
         {slides.map((slide, slideIndex) => (
           <button
             key={slide.id}

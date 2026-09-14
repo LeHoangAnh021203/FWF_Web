@@ -49,7 +49,7 @@ export function NewsArticleView({ slug }: NewsArticleViewProps) {
             </span>
           </div>
 
-          <h1 className="text-[1.85rem] font-semibold leading-[1.18] text-[#111827] sm:text-[2.25rem] md:text-[2.85rem]">
+          <h1 className="page-section-title text-[#111827]">
             {article.title}
           </h1>
 

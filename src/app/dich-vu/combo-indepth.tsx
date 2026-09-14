@@ -124,7 +124,7 @@ export default function ComboIndepth() {
   return (
     <div id="combo-deep" className="scroll-mt-20 mt-10">
       <div className="mb-5 text-[#1a1a1a] md:mb-7">
-        <h2 className="text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:whitespace-nowrap md:text-5xl">
+        <h2 className="page-section-title uppercase md:whitespace-nowrap">
           {t("svc.comboDeep.title")}
         </h2>
       </div>

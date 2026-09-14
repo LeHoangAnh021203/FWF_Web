@@ -45,6 +45,7 @@
   --section-contact-bg: var(--surface-0);
   --section-commitment-bg: var(--surface-inverse);
   --home-title-size: clamp(28px, 4.2vw, 40px);
+  --home-lead-size: clamp(15px, 1.8vw, 18px);
   --hero-progress: 0;
 }
 
@@ -1694,6 +1695,21 @@ body:has(.mono-mobile-menu) .floating-actions {
   text-align: left;
 }
 
+.page-section-title {
+  margin: 0;
+  font-family: var(--font-poppins), "SVN Poppins", sans-serif;
+  font-size: var(--home-title-size);
+  font-weight: 800;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.page-section-lead {
+  font-size: var(--home-lead-size);
+  line-height: 1.55;
+}
+
 .feedback-intro h2 {
   color: var(--brand-orange-deep);
   text-align: center;
@@ -3034,7 +3050,7 @@ body:has(.mono-mobile-menu) .floating-actions {
   max-width: 720px;
   margin: 0;
   color: var(--muted);
-  font-size: clamp(15px, 1.8vw, 18px);
+  font-size: var(--home-lead-size);
   line-height: 1.55;
 }
 
@@ -5121,11 +5137,11 @@ body:has(.mono-mobile-menu) .floating-actions {
   max-width: 920px;
   margin: 0;
   color: var(--brand-orange-deep);
-  font-size: clamp(54px, 8.5vw, 80px);
+  font-size: var(--home-title-size);
   font-style: italic;
   font-weight: 800;
-  letter-spacing: 0;
-  line-height: 0.92;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   text-wrap: balance;
 }
 
@@ -5172,9 +5188,9 @@ body:has(.mono-mobile-menu) .floating-actions {
 .terms-contact h2 {
   margin: 0;
   color: var(--foreground);
-  font-size: clamp(24px, 2.4vw, 38px);
+  font-size: var(--home-title-size);
   font-weight: 800;
-  line-height: 1.08;
+  line-height: 1.15;
 }
 
 .terms-summary p {
@@ -5202,7 +5218,7 @@ body:has(.mono-mobile-menu) .floating-actions {
 .terms-content h2 {
   margin: 0;
   color: var(--brand-orange-deep);
-  font-size: clamp(24px, 2.2vw, 34px);
+  font-size: var(--home-title-size);
   font-weight: 800;
   line-height: 1.15;
 }
@@ -5446,8 +5462,8 @@ body:has(.mono-mobile-menu) .floating-actions {
 }
 
 .faq-card-left h1 {
-  font-size: clamp(42px, 5vw, 64px);
-  line-height: 1;
+  font-size: var(--home-title-size);
+  line-height: 1.15;
 }
 
 .faq-card-lead {
@@ -5583,8 +5599,8 @@ body:has(.mono-mobile-menu) .floating-actions {
 }
 
 .faq-card-right h2 {
-  font-size: clamp(24px, 2.4vw, 32px);
-  line-height: 1.2;
+  font-size: var(--home-title-size);
+  line-height: 1.15;
 }
 
 .faq-card-right > p {
@@ -5706,9 +5722,10 @@ body:has(.mono-mobile-menu) .floating-actions {
 
 .policy-page h1 {
   margin: 0;
-  font-size: clamp(48px, 8vw, 88px);
-  font-weight: 500;
-  line-height: 0.96;
+  font-size: var(--home-title-size);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .policy-page h2 {
@@ -5931,9 +5948,9 @@ body:has(.mono-mobile-menu) .floating-actions {
 .b2b-section-heading h2 {
   margin: 0;
   color: #f97316;
-  font-size: clamp(30px, 4vw, 56px);
-  font-weight: 700;
-  line-height: 1.08;
+  font-size: var(--home-title-size);
+  font-weight: 800;
+  line-height: 1.15;
 }
 
 .b2b-packages {
@@ -7594,7 +7611,7 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   }
 
   .terms-hero h1 {
-    font-size: clamp(46px, 14vw, 72px);
+    font-size: var(--home-title-size);
   }
 
   .terms-hero > p {
@@ -7740,9 +7757,10 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
 
 .news-hub-banner-inner > h1 {
   margin: 0;
-  font-size: clamp(1.8rem, 4.2vw, 3rem);
+  font-size: var(--home-title-size);
   font-weight: 800;
   line-height: 1.15;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
 }
 
@@ -7788,8 +7806,10 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
 
 .news-hub-section-head h2 {
   margin: 0;
-  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  font-size: var(--home-title-size);
   font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: #ea5814;
 }
 

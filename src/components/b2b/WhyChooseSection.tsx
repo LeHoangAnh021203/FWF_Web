@@ -67,7 +67,7 @@ export function WhyChooseSection() {
             <p className="mb-3 text-sm font-bold uppercase text-orange-300 md:text-base">
               {t("b2b.whyEyebrow")}
             </p>
-            <h2 className="text-balance text-2xl font-bold leading-tight text-orange-500 md:text-3xl lg:text-4xl">
+            <h2 className="page-section-title text-balance text-orange-500">
               {t("b2b.whyTitle")}
             </h2>
           </div>

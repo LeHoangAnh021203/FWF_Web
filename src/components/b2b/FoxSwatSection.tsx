@@ -51,7 +51,7 @@ export function FoxSwatSection() {
       <div className="mx-auto w-full max-w-[1480px] px-4 md:px-8 xl:px-10">
         <div className="mx-auto mb-16 max-w-3xl text-center">
           <h2 className="mb-4 text-sm font-bold uppercase text-orange-300 md:text-base">{t("b2b.packagesEyebrow")}</h2>
-          <p className="mb-4 text-3xl font-bold text-black md:text-4xl">{t("b2b.packagesTitle")}</p>
+          <p className="page-section-title mb-4 text-black">{t("b2b.packagesTitle")}</p>
         </div>
         <div className="grid gap-8 pt-6">
           {caseStudies.map((study, index) => (

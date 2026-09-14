@@ -48,10 +48,10 @@ export default function ChamSocDaFwfPage() {
       <SiteHeader />
       <section className="px-4 pb-10 pt-[88px] md:px-8 md:pb-14 md:pt-28">
         <div className="mx-auto mb-6 max-w-[780px] text-center md:mb-8">
-          <h1 className="text-[clamp(1.5rem,5vw,2.25rem)] font-extrabold uppercase leading-tight text-[#f05b2a]">
+          <h1 className="page-section-title uppercase text-[#f05b2a]">
             Chăm sóc da FWF
           </h1>
-          <p className="mt-2 text-sm font-medium leading-relaxed text-[#4a3428] md:text-base">
+          <p className="page-section-lead mt-2 font-medium text-[#4a3428]">
             Hướng dẫn chăm sóc da mụn và sau liệu trình tại Face Wash Fox
           </p>
         </div>

@@ -38,10 +38,10 @@ export default function AppFwfPage() {
       <section className="mx-auto flex min-h-[calc(100svh-4.5rem)] w-full max-w-xl flex-col items-center justify-center px-5 pb-10 pt-24 text-center md:min-h-[calc(100svh-5rem)] md:pt-28">
 
 
-        <h1 className="mt-2 text-[clamp(1.6rem,5.5vw,2.75rem)] font-extrabold leading-tight text-[#1f1f1f] md:mt-3">
+        <h1 className="page-section-title mt-2 text-[#1f1f1f] md:mt-3">
           Tải ứng dụng
         </h1>
-        <p className="mt-2 max-w-md text-[0.95rem] font-medium leading-relaxed text-[#5c4a3d] md:mt-3 md:text-lg">
+        <p className="page-section-lead mt-2 max-w-md font-medium text-[#5c4a3d] md:mt-3">
           Chọn nền tảng của bạn để tải app <br></br> Face Wash Fox và đặt lịch chăm sóc da <br></br> dễ dàng hơn.
         </p>
 

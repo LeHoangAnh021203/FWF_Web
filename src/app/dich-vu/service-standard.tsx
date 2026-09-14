@@ -294,10 +294,10 @@ export default function ServiceStandard() {
     >
       <div className="mx-auto max-w-[1600px]">
         <header className="mx-auto mb-8 max-w-[1200px] text-center md:mb-16">
-          <h2 className="text-[clamp(1.75rem,7vw,4rem)] font-extrabold uppercase text-[#121212]">
+          <h2 className="page-section-title uppercase text-[#121212]">
             {t("svc.standardTitle")}
           </h2>
-          <p className="mx-auto mt-3 max-w-[42rem] text-[clamp(0.95rem,3.6vw,1.6rem)] leading-relaxed text-[#6a6a6a] md:mt-4">
+          <p className="page-section-lead mx-auto mt-3 max-w-[42rem] text-[#6a6a6a] md:mt-4">
             {t("svc.standardLead")}
           </p>
         </header>
@@ -357,10 +357,10 @@ export default function ServiceStandard() {
             </svg>
           </div>
 
-          <h3 className="mt-5 text-center text-[clamp(1.5rem,6vw,3.3rem)] font-extrabold text-[#0f172a] sm:mt-6">
+          <h3 className="page-section-title mt-5 text-center text-[#0f172a] sm:mt-6">
             {t("svc.bookTitle")}
           </h3>
-          <p className="mt-2 text-center text-[clamp(0.95rem,3.8vw,1.8rem)] text-[#4b5563]">
+          <p className="page-section-lead mt-2 text-center text-[#4b5563]">
             {t("svc.bookLead")}
           </p>
 

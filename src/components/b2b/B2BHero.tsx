@@ -21,7 +21,7 @@ export function B2BHero() {
             <span className="hero-status-dot h-2.5 w-2.5 rounded-full bg-orange-500 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5" />
             <span className="truncate">{t("b2b.badge")}</span>
           </p>
-          <h1 className="mb-6 text-2xl font-bold text-[#0097b2] sm:text-3xl md:text-4xl lg:text-3xl">
+          <h1 className="page-section-title mb-6 text-[#0097b2]">
             {t("b2b.heroTitle1")} <br />
             {t("b2b.heroTitle2")}
           </h1>

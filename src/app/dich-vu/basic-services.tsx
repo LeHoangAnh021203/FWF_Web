@@ -60,7 +60,7 @@ export default function BasicServices() {
   return (
     <div id="dich-vu-co-ban" className="scroll-mt-20">
       <div className="mb-5 text-[#1a1a1a] md:mb-7">
-        <h2 className="whitespace-nowrap text-[clamp(1.35rem,5.5vw,3rem)] font-extrabold uppercase leading-[1.1] md:text-5xl">
+        <h2 className="page-section-title uppercase whitespace-nowrap">
           {t("svc.gallery.tabBasic")}
         </h2>
       </div>

@@ -89,7 +89,7 @@ export function BookingSection() {
           >
             {t("b2b.booking.phoneCta")}
           </a>
-          <h2 className="mb-4 pt-5 text-xl font-bold text-black md:text-3xl">{t("b2b.booking.title")}</h2>
+          <h2 className="page-section-title mb-4 pt-5 text-black">{t("b2b.booking.title")}</h2>
           <p className="mb-8 text-sm leading-7 text-muted-foreground md:text-[16px]">
             {t("b2b.booking.subtitle")}
           </p>
