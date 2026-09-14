@@ -49,12 +49,12 @@ export function NewsArticleView({ slug }: NewsArticleViewProps) {
             </span>
           </div>
 
-          <h1 className="max-w-[22ch] text-[1.85rem] font-semibold leading-[1.18] text-[#111827] sm:text-[2.25rem] md:text-[2.85rem]">
+          <h1 className="text-[1.85rem] font-semibold leading-[1.18] text-[#111827] sm:text-[2.25rem] md:text-[2.85rem]">
             {article.title}
           </h1>
 
           {content.intro ? (
-            <p className="mt-6 max-w-[48rem] text-lg font-semibold leading-snug text-[#ff6a3d] md:mt-8 md:text-[1.35rem]">
+            <p className="mt-6 text-lg font-semibold leading-snug text-[#ff6a3d] md:mt-8 md:text-[1.35rem]">
               {content.intro}
             </p>
           ) : null}

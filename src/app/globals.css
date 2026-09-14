@@ -113,14 +113,13 @@ html {
   font-size: 16px;
   text-size-adjust: 100%;
   overflow-x: clip;
-  overflow-y: auto;
 }
 
 body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  overflow-x: clip;
+  overflow: visible;
   font-family: var(--font-poppins), "SVN Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 400;
@@ -199,7 +198,7 @@ img {
   --home-title-gap: clamp(24px, 3vw, 32px);
   min-height: 100vh;
   background: var(--background);
-  overflow-x: clip;
+  overflow: visible;
 }
 
 .loading-overlay {
@@ -1710,7 +1709,7 @@ body:has(.mono-mobile-menu) .floating-actions {
   padding-bottom: 0;
   background: #ffffff;
   text-align: left;
-  overflow-x: hidden;
+  overflow: visible;
   min-width: 0;
 }
 
