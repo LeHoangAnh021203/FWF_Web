@@ -65,6 +65,6 @@ export const comboMobileTrackClassName =
 export const comboMobileCardClassName =
   "relative flex min-h-[190px] w-[min(86vw,340px)] shrink-0 snap-center flex-col gap-3 rounded-[22px] border border-[#f0e4d8] bg-white px-4 pb-4 pt-5 shadow-[0_10px_28px_rgba(244,116,29,0.12)] md:min-h-[210px] md:w-auto md:min-w-0 md:shrink md:rounded-[26px] md:px-5 md:pb-5 md:pt-6";
 
-/** Cyan service/combo name — same size on basic, combo, and extra cards. */
+/** Cyan service/combo name — 30px cap so titles stay inside the card. */
 export const comboCardTitleClassName =
-  "text-[32px] font-extrabold !leading-none text-[#2bb8c9] md:text-[40px]";
+  "text-[30px] font-extrabold !leading-none text-[#2bb8c9]";

@@ -2121,6 +2121,10 @@ body:has(.mono-mobile-menu) .floating-actions {
   overflow-x: hidden;
 }
 
+.service-page .page-section-title {
+  font-size: min(var(--home-title-size), 30px);
+}
+
 .service-booking-combo {
   background: radial-gradient(circle at top, #ffe0c4 0%, #fff7ef 32%, #ffffff 100%);
 }

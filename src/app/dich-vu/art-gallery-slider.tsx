@@ -315,7 +315,7 @@ function ExtraServicePriceCard({ item, isActive, dragOffset, index, currentIndex
             style={{ x: parallaxOffset }}
         >
             <div className="w-[250px] rounded-[20px] border border-white/60 bg-[#ececec] p-4 shadow-[0_14px_35px_rgba(0,0,0,0.28)] sm:w-[280px] sm:rounded-[24px] sm:p-5 md:w-[332px]">
-                <h3 className="text-[clamp(2rem,8vw,3.5rem)] font-extrabold leading-none text-[#212121] md:text-[56px]">{t(item.nameKey)}</h3>
+                <h3 className="text-[30px] font-extrabold leading-none text-[#212121]">{t(item.nameKey)}</h3>
                 <p className="mt-1 text-[clamp(1rem,4vw,1.5rem)] leading-none text-[#333333]/80 md:text-[24px]">{t(item.subKey)}</p>
 
                 <div className="mt-3 border-t-[3px] border-[#272727] pt-2" />
