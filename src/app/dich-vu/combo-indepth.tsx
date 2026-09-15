@@ -5,6 +5,7 @@ import { useLanguage } from "@/i18n/language-context";
 import useSharedCart from "./hooks/use-shared-cart";
 import {
   ComboMobileNav,
+  comboCardTitleClassName,
   comboMobileCardClassName,
   comboMobileTrackClassName,
   useComboMobileScroll,
@@ -134,7 +135,7 @@ export default function ComboIndepth() {
           <article key={item.serviceId} data-combo-card className={comboMobileCardClassName}>
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 flex-1 pr-2">
-                <h3 className="text-[28px] font-extrabold leading-tight text-[#2bb8c9] md:text-[34px]">
+                <h3 className={comboCardTitleClassName}>
                   {t(item.titleKey)}
                 </h3>
                 {item.itemKey && t(item.itemKey) ? (

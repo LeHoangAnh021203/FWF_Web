@@ -6,6 +6,7 @@ import { useLanguage } from "@/i18n/language-context";
 import useSharedCart from "./hooks/use-shared-cart";
 import {
   ComboMobileNav,
+  comboCardTitleClassName,
   comboMobileCardClassName,
   comboMobileTrackClassName,
   useComboMobileScroll,
@@ -102,7 +103,7 @@ export default function ComboLove() {
           <article key={item.serviceId} data-combo-card className={comboMobileCardClassName}>
             <div className="flex items-start justify-between gap-3">
               <div className="grid min-w-0 flex-1 grid-rows-[auto_minmax(0.55em,auto)_auto] gap-1.5 pr-2">
-                <span className="text-[32px] font-extrabold leading-none text-[#2bb8c9] md:text-[40px]">
+                <span className={comboCardTitleClassName}>
                   Combo {item.displayNo}
                 </span>
                 <h3 className="text-[14px] font-extrabold uppercase leading-snug text-[#1a1a1a] md:text-[16px]">

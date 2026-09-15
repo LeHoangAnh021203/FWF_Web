@@ -3,6 +3,7 @@
 import { useLanguage } from "@/i18n/language-context";
 import {
   ComboMobileNav,
+  comboCardTitleClassName,
   comboMobileCardClassName,
   comboMobileTrackClassName,
   useComboMobileScroll,
@@ -78,10 +79,10 @@ export default function ExtraServices() {
             className={`${comboMobileCardClassName} shadow-[0_14px_36px_rgba(244,116,29,0.22)]`}
           >
             <div className="min-w-0">
-              <h3 className="whitespace-nowrap text-[22px] font-extrabold leading-tight text-[#2bb8c9] md:text-[28px]">
+              <h3 className={comboCardTitleClassName}>
                 {t(item.nameKey)}
               </h3>
-              <p className="mt-1 text-[16px] font-extrabold leading-snug text-[#1a1a1a] md:text-[20px]">
+              <p className="mt-1 text-[14px] font-extrabold uppercase leading-snug text-[#1a1a1a] md:text-[16px]">
                 {t(item.subKey)}
               </p>
             </div>
