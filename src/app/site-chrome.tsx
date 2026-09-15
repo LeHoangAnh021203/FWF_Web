@@ -577,11 +577,18 @@ export function SiteFooter({ home = false }: { home?: boolean }) {
             </div>
           </address>
         </div>
-        <img
-          className="footer-fox"
-          src="/footer-icons.png"
-          alt="Face Wash Fox icons"
-        />
+        <div className="footer-fox-row justify-center">
+          <img
+            className="footer-fox"
+            src="/logo/fwf-footer.png"
+            alt="Face Wash Fox"
+          />
+          <img
+            className="footer-fox-shapes !w-auto !max-w-[min(100%,720px)] !flex-none"
+            src="/footer-shapes.png"
+            alt=""
+          />
+        </div>
         <div className="footer-bottom">
           <p className="footer-bottom-email">
             <Mail aria-hidden="true" />

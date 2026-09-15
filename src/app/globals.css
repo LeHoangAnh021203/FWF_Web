@@ -5081,10 +5081,31 @@ body:has(.mono-mobile-menu) .floating-actions {
   text-transform: none;
 }
 
-.footer-fox {
-  display: block;
+.footer-fox-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.5vw, 36px);
   width: 100%;
   margin: clamp(28px, 4vw, 46px) 0 0;
+}
+
+.footer-fox {
+  display: block;
+  flex: 0 0 auto;
+  width: auto;
+  height: clamp(64px, 7.2vw, 110px);
+}
+
+.footer-fox-shapes {
+  display: block;
+  flex: 0 1 auto;
+  min-width: 0;
+  width: auto;
+  max-width: min(100%, 720px);
+  height: clamp(52px, 6.4vw, 96px);
+  object-fit: contain;
+  object-position: center;
 }
 
 .footer-bottom {
@@ -7098,6 +7119,18 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
 
   .footer-link-columns > :last-child a {
     white-space: normal;
+  }
+
+  .footer-fox-row {
+    gap: 12px;
+  }
+
+  .footer-fox {
+    height: 56px;
+  }
+
+  .footer-fox-shapes {
+    height: 44px;
   }
 
   .footer-bottom {
