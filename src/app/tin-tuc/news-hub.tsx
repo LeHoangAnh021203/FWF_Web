@@ -43,7 +43,7 @@ function NewsCard({
       </div>
       <div className="news-hub-card-body">
         <span className="news-hub-card-cat">{categoryLabel}</span>
-        <time dateTime={item.date}>{item.date}</time>
+        <time dateTime={item.dateIso}>{item.date}</time>
         <h3>{item.title}</h3>
         {item.excerpt ? <p>{item.excerpt}</p> : null}
       </div>

@@ -1,4 +1,5 @@
 import type { SiteLanguage } from "@/i18n/dictionaries";
+import { formatNewsDate, toNewsDateIso } from "@/i18n/format-news-date";
 import {
   getNewsCategoryId,
   type NewsCategoryId,
@@ -27,6 +28,7 @@ export type CaseStudy = {
 export type FoxNewsItem = {
   slug: string;
   date: string;
+  dateIso: string;
   title: string;
   image: string;
   excerpt?: string;
@@ -108,7 +110,8 @@ export function getLocalizedFoxNews(language: SiteLanguage): FoxNewsItem[] {
       source.locales[language] ?? source.locales.en ?? source.locales.vi;
     return {
       slug: source.slug,
-      date: source.date,
+      date: formatNewsDate(source.date, language),
+      dateIso: toNewsDateIso(source.date),
       image: source.image,
       sponsored: source.sponsored,
       categoryId: getNewsCategoryId(source.slug),

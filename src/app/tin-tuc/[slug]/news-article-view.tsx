@@ -41,7 +41,7 @@ export function NewsArticleView({ slug }: NewsArticleViewProps) {
       <div className="grid items-start gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(300px,380px)] xl:gap-12">
         <article className="min-w-0">
           <div className="mb-5 flex flex-wrap items-center gap-3">
-            <time className="text-base font-medium text-[#9ca3af] md:text-lg">
+            <time dateTime={article.dateIso} className="text-base font-medium text-[#9ca3af] md:text-lg">
               {article.date}
             </time>
             <span className="inline-flex min-w-[92px] items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-5 py-1 text-[15px] font-medium italic text-black">
@@ -143,7 +143,7 @@ export function NewsArticleView({ slug }: NewsArticleViewProps) {
                     </div>
 
                     <div className="mt-4 flex flex-wrap items-center gap-2.5">
-                      <p className="text-sm font-medium text-[#9ca3af]">{item.date}</p>
+                      <time dateTime={item.dateIso} className="text-sm font-medium text-[#9ca3af]">{item.date}</time>
                       <span className="inline-flex items-center justify-center rounded-full border border-[#f0c437] bg-[repeating-linear-gradient(45deg,rgba(240,196,55,0.18)_0,rgba(240,196,55,0.18)_11px,rgba(255,220,90,0.42)_11px,rgba(255,220,90,0.42)_22px)] px-3.5 py-0.5 text-sm font-medium italic text-black">
                         {t("home.news.badge")}
                       </span>

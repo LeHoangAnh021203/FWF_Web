@@ -526,67 +526,69 @@ export function SiteFooter({ home = false }: { home?: boolean }) {
 
   return (
     <footer className="mono-footer">
-      <div className="footer-main">
-        <div className="footer-brand">
-          <strong>{t("footer.tagline")}</strong>
-          <p>{t("footer.about")}</p>
-          <a
-            className="footer-bct-badge"
-            href="https://online.gov.vn/nen-tang/1ac4ac87-056b-41b4-a9bb-703eb10b9eaa"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/bct/da-thong-bao.png"
-              alt={t("footer.ecommerceBadgeAlt")}
-              width={150}
-              height={56}
-            />
-          </a>
-        </div>
-
-        <div className="footer-link-columns">
-          {footerColumnConfigs.map(({ titleKey, links }) => (
-            <div key={titleKey}>
-              <h3>{t(titleKey)}</h3>
-              <ul>
-                {links.map(({ labelKey, href }) => (
-                  <li key={labelKey}>
-                    <a href={resolveHomeAnchor(href, home)}>{t(labelKey)}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <address id="home-contact-info" className="footer-contact">
-          <h3>{t("footer.contact")}</h3>
-          <a href={`tel:${hotline}`}>
-            <Phone aria-hidden="true" />
-            {displayHotline}
-          </a>
-          <p>
-            <MapPin aria-hidden="true" />
-            {t("footer.address")}
-          </p>
-          <div className="footer-follow">
-            <SocialLinks footer />
+      <div className="page-wide-shell">
+        <div className="footer-main">
+          <div className="footer-brand">
+            <strong>{t("footer.tagline")}</strong>
+            <p>{t("footer.about")}</p>
+            <a
+              className="footer-bct-badge"
+              href="https://online.gov.vn/nen-tang/1ac4ac87-056b-41b4-a9bb-703eb10b9eaa"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/bct/da-thong-bao.png"
+                alt={t("footer.ecommerceBadgeAlt")}
+                width={150}
+                height={56}
+              />
+            </a>
           </div>
-        </address>
-      </div>
-      <img
-        className="footer-fox"
-        src="/footer-icons.png"
-        alt="Face Wash Fox icons"
-      />
-      <div className="footer-bottom">
-        <p className="footer-bottom-email">
-          <Mail aria-hidden="true" />
-          <a href="mailto:info@facewashfox.com">info@facewashfox.com</a>
-        </p>
-        <p className="footer-copyright">© 2026 Face Wash Fox</p>
+
+          <div className="footer-link-columns">
+            {footerColumnConfigs.map(({ titleKey, links }) => (
+              <div key={titleKey}>
+                <h3>{t(titleKey)}</h3>
+                <ul>
+                  {links.map(({ labelKey, href }) => (
+                    <li key={labelKey}>
+                      <a href={resolveHomeAnchor(href, home)}>{t(labelKey)}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <address id="home-contact-info" className="footer-contact">
+            <h3>{t("footer.contact")}</h3>
+            <a href={`tel:${hotline}`}>
+              <Phone aria-hidden="true" />
+              {displayHotline}
+            </a>
+            <p>
+              <MapPin aria-hidden="true" />
+              {t("footer.address")}
+            </p>
+            <div className="footer-follow">
+              <SocialLinks footer />
+            </div>
+          </address>
+        </div>
+        <img
+          className="footer-fox"
+          src="/footer-icons.png"
+          alt="Face Wash Fox icons"
+        />
+        <div className="footer-bottom">
+          <p className="footer-bottom-email">
+            <Mail aria-hidden="true" />
+            <a href="mailto:info@facewashfox.com">info@facewashfox.com</a>
+          </p>
+          <p className="footer-copyright">© 2026 Face Wash Fox</p>
+        </div>
       </div>
     </footer>
   );

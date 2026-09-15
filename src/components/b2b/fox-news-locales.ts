@@ -1,19 +1,17 @@
 import type { SiteLanguage } from "@/i18n/dictionaries";
 
-export type ArticleBlock =
-  | { type: "paragraph"; content: string }
-  | { type: "image"; src: string; alt: string };
+import {
+  buildLocales,
+  type ArticleBlock,
+  type LocalizedNewsFields,
+} from "@/components/b2b/fox-news-copy";
+import { enNews } from "@/components/b2b/fox-news-en";
+import { jaNews } from "@/components/b2b/fox-news-ja";
+import { koNews } from "@/components/b2b/fox-news-ko";
+import { thNews } from "@/components/b2b/fox-news-th";
+import { zhNews } from "@/components/b2b/fox-news-zh";
 
-export type LocalizedNewsFields = {
-  title: string;
-  excerpt: string;
-  intro: string;
-  lead: string;
-  paragraphs: ArticleBlock[];
-  bullets: string[];
-  quote: string;
-  cta: string;
-};
+export type { ArticleBlock, LocalizedNewsFields };
 
 export type FoxNewsSource = {
   slug: string;
@@ -26,21 +24,21 @@ export type FoxNewsSource = {
 const p = (content: string): ArticleBlock => ({ type: "paragraph", content });
 const img = (src: string, alt: string): ArticleBlock => ({ type: "image", src, alt });
 
-const copyLocales = (fields: LocalizedNewsFields): Record<SiteLanguage, LocalizedNewsFields> => ({
-  vi: fields,
-  en: fields,
-  zh: fields,
-  ja: fields,
-  ko: fields,
-  th: fields,
-});
+const loc = (slug: string, fields: LocalizedNewsFields) =>
+  buildLocales(slug, fields, {
+    en: enNews[slug],
+    zh: zhNews[slug],
+    ja: jaNews[slug],
+    ko: koNews[slug],
+    th: thNews[slug],
+  });
 
 export const foxNewsSources: FoxNewsSource[] = [
   {
     slug: 'face-wash-fox-hanh-trinh-tu-y-tuong-den-thuong-hieu-tien-phong',
-    date: '29 May 2025',
+    date: '2025-05-29',
     image: '/news/press/brand-tp-3.jpg',
-    locales: copyLocales({
+    locales: loc('face-wash-fox-hanh-trinh-tu-y-tuong-den-thuong-hieu-tien-phong', {
       title: 'Face Wash Fox - Hành trình từ ý tưởng đến thương hiệu chăm sóc da công nghệ',
       excerpt: 'Chuỗi cửa hàng rửa mặt công nghệ đầu tiên tại các trung tâm thương mại lớn, mở ra một thị trường ngách đầy tiềm năng.',
       intro: 'Trong bối cảnh công nghệ ngày càng len lỏi vào mọi mặt đời sống, ngành làm đẹp cũng không nằm ngoài xu hướng chuyển mình mạnh mẽ.',
@@ -70,10 +68,10 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'tiktoker-anh-mat-vuong-tro-thanh-dai-su-thuong-hieu-cua-face-wash-fox',
-    date: '11 April 2026',
+    date: '2026-04-11',
     image: '/news/press/amv-dt-cover.jpg',
     sponsored: true,
-    locales: copyLocales({
+    locales: loc('tiktoker-anh-mat-vuong-tro-thanh-dai-su-thuong-hieu-cua-face-wash-fox', {
       title: 'TikToker “Anh Mặt Vuông” trở thành đại sứ thương hiệu của Face Wash Fox',
       excerpt: 'Không phải gương mặt hoàn hảo, cũng không phải làn da không tì vết, nhưng đó chính xác là lý do Face Wash Fox chọn TikToker “Anh Mặt Vuông” làm đại sứ thương hiệu năm 2026.',
       intro: 'Không phải gương mặt hoàn hảo, cũng không phải làn da không tì vết.',
@@ -105,9 +103,9 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'face-wash-fox-va-hanh-trinh-kien-tao-van-hoa-doanh-nghiep',
-    date: '30 May 2025',
+    date: '2025-05-30',
     image: '/news/press/brand-tn-3.jpg',
-    locales: copyLocales({
+    locales: loc('face-wash-fox-va-hanh-trinh-kien-tao-van-hoa-doanh-nghiep', {
       title: 'Face Wash Fox và hành trình kiến tạo văn hóa doanh nghiệp: Tận tâm, chất lượng và hiện đại',
       excerpt: 'Không chỉ là thương hiệu trong mô hình rửa mặt công nghệ, Face Wash Fox khẳng định vị thế bằng văn hóa doanh nghiệp.',
       intro: 'Không chỉ là một thương hiệu trong mô hình rửa mặt công nghệ.',
@@ -137,10 +135,10 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'anh-mat-vuong-tung-khong-nghi-co-mot-ngay-minh-noi-ve-cham-da',
-    date: '14 April 2026',
+    date: '2026-04-14',
     image: '/news/press/amv-vtv-cover.jpg',
     sponsored: true,
-    locales: copyLocales({
+    locales: loc('anh-mat-vuong-tung-khong-nghi-co-mot-ngay-minh-noi-ve-cham-da', {
       title: 'Anh Mặt Vuông từng không nghĩ có một ngày mình nói về chăm da',
       excerpt: 'Không phải thương hiệu đầu tiên tìm đến anh. Nhưng là thương hiệu anh chọn ở lại.',
       intro: 'Không phải thương hiệu đầu tiên tìm đến anh.',
@@ -173,9 +171,9 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'nhung-bac-thang-tao-nen-ky-tich-doi-ngu-sang-lap-face-wash-fox',
-    date: '29 May 2025',
+    date: '2025-05-29',
     image: '/news/press/brand-tn-1.jpg',
-    locales: copyLocales({
+    locales: loc('nhung-bac-thang-tao-nen-ky-tich-doi-ngu-sang-lap-face-wash-fox', {
       title: 'Những bậc thang tạo nên kỳ tích: Đội ngũ sáng lập Face Wash Fox',
       excerpt: 'Đội ngũ sáng lập Face Wash Fox không chỉ xây dựng một thương hiệu làm đẹp, mà còn đặt nền móng cho rửa mặt công nghệ cao, hiện đại nhưng vẫn gần gũi với mọi người.',
       intro: 'Đằng sau mỗi thương hiệu lớn là câu chuyện về những con người dám nghĩ, dám làm.',
@@ -205,10 +203,10 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'mot-ngay-cua-anh-mat-vuong-tai-face-wash-fox-hau-truong',
-    date: '16 April 2026',
+    date: '2026-04-16',
     image: '/news/press/amv-tp-2.jpg',
     sponsored: true,
-    locales: copyLocales({
+    locales: loc('mot-ngay-cua-anh-mat-vuong-tai-face-wash-fox-hau-truong', {
       title: 'Một ngày của “Anh Mặt Vuông” tại Face Wash Fox - hậu trường mà không ai nghĩ anh sẽ kể',
       excerpt: 'Ít ai biết, giữa những buổi quay dày đặc, Dương Minh Tân thường nằm ở Face Wash Fox. Không phải thử cho biết, mà là thói quen từ trước khi làm đại sứ.',
       intro: 'Khách hàng trước - đại sứ sau.',
@@ -241,9 +239,9 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'bi-mat-bieu-tuong-logo-face-wash-fox',
-    date: '30 May 2025',
+    date: '2025-05-30',
     image: '/news/press/brand-vtv-1.jpg',
-    locales: copyLocales({
+    locales: loc('bi-mat-bieu-tuong-logo-face-wash-fox', {
       title: '"Bí mật biểu tượng": Logo Face Wash Fox và hành trình chạm tới trái tim khách hàng',
       excerpt: 'Hình ảnh chú cáo thông minh Foxie là linh hồn nhận diện thương hiệu Face Wash Fox — tinh anh, khéo léo và thích nghi.',
       intro: 'Logo – Câu chuyện không chỉ nằm ở thiết kế.',
@@ -272,10 +270,10 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'nam-gioi-viet-cham-soc-da-dep-trai-khong-phai-chuyen-ngai-ngung',
-    date: '18 April 2026',
+    date: '2026-04-18',
     image: '/news/press/amv-cf-1.jpg',
     sponsored: true,
-    locales: copyLocales({
+    locales: loc('nam-gioi-viet-cham-soc-da-dep-trai-khong-phai-chuyen-ngai-ngung', {
       title: 'Nam giới Việt chăm sóc da - "đẹp trai" không phải chuyện ngại ngùng',
       excerpt: 'Vài năm trước, một anh chàng bước vào tiệm chăm da còn bị nhìn với ánh mắt lạ. Năm 2026, điều đó không còn đúng nữa.',
       intro: 'Vài năm trước, một anh chàng bước vào tiệm chăm da còn bị nhìn với ánh mắt lạ.',
@@ -306,9 +304,9 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'face-wash-fox-tien-phong-trong-linh-vuc-cham-soc-da-cong-nghe-cao',
-    date: '7 June 2025',
+    date: '2025-06-07',
     image: '/news/press/brand-pn-cover.jpg',
-    locales: copyLocales({
+    locales: loc('face-wash-fox-tien-phong-trong-linh-vuc-cham-soc-da-cong-nghe-cao', {
       title: 'Face Wash Fox - Chăm sóc da công nghệ tại Việt Nam',
       excerpt: 'Face Wash Fox trở thành một trong những thương hiệu chăm sóc da công nghệ tại Việt Nam.',
       intro: 'Làm đẹp thời công nghệ số không chỉ là nhu cầu thiết yếu mà còn là cách thể hiện phong cách sống hiện đại.',
@@ -335,10 +333,10 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'mot-ngay-cua-anh-mat-vuong-tai-face-wash-fox',
-    date: '20 April 2026',
+    date: '2026-04-20',
     image: '/news/press/amv-tp-1.jpg',
     sponsored: true,
-    locales: copyLocales({
+    locales: loc('mot-ngay-cua-anh-mat-vuong-tai-face-wash-fox', {
       title: 'Một ngày của Anh Mặt Vuông tại Face Wash Fox',
       excerpt: 'Khán giả quen thấy Dương Minh Tân trên set quay. Ít ai biết rằng giữa những buổi quay dày đặc — anh đang nằm ở giường chăm da tại Face Wash Fox.',
       intro: 'Không phải lần đầu. Không phải thử cho biết.',
@@ -373,9 +371,9 @@ export const foxNewsSources: FoxNewsSource[] = [
   },
   {
     slug: 'gift-voucher-da-sach-sau-rang-ro-ngay-tu-lan-dau',
-    date: '21 October 2025',
+    date: '2025-10-21',
     image: '/voucher/voucher 1.png',
-    locales: copyLocales({
+    locales: loc('gift-voucher-da-sach-sau-rang-ro-ngay-tu-lan-dau', {
       title: 'GIFT VOUCHER - DA SẠCH SÂU, RẠNG RỠ NGAY TỪ LẦN ĐẦU!',
       excerpt:
         'Chương trình gift voucher với nhiều ưu đãi dành cho khách muốn trải nghiệm rửa mặt công nghệ tại Face Wash Fox.',
