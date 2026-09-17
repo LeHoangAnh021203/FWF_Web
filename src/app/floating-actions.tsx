@@ -46,6 +46,7 @@ export default function FloatingActions() {
   }, []);
 
   if (
+    pathname.startsWith("/admin") ||
     pathname === "/cua-hang" ||
     pathname === "/bang-gia-the-foxie-update-thang-08-2026"
   ) {

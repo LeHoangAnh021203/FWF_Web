@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-import { getLocalizedFoxNews } from "@/components/b2b/home-data";
+import type { FoxNewsItem } from "@/components/b2b/home-data";
 import { useLanguage } from "@/i18n/language-context";
 
 type NewsArticleViewProps = {
@@ -12,10 +13,51 @@ type NewsArticleViewProps = {
 
 export function NewsArticleView({ slug }: NewsArticleViewProps) {
   const { language, t } = useLanguage();
-  const items = getLocalizedFoxNews(language);
-  const article = items.find((item) => item.slug === slug);
+  const [article, setArticle] = useState<FoxNewsItem | null>(null);
+  const [related, setRelated] = useState<FoxNewsItem[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const controller = new AbortController();
+
+    Promise.all([
+      fetch(`/api/news/${slug}?lang=${language}`, { cache: "no-store", signal: controller.signal }).then(async (response) => {
+        if (!response.ok) return null;
+        const data = (await response.json()) as { item?: FoxNewsItem };
+        return data.item ?? null;
+      }),
+      fetch(`/api/news?lang=${language}`, { cache: "no-store", signal: controller.signal }).then(async (response) => {
+        if (!response.ok) return [] as FoxNewsItem[];
+        const data = (await response.json()) as { items?: FoxNewsItem[] };
+        return data.items ?? [];
+      }),
+    ])
+      .then(([current, items]) => {
+        if (cancelled) return;
+        setArticle(current);
+        setRelated(items.filter((item) => item.slug !== slug).slice(0, 2));
+        setLoaded(true);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        if (!cancelled) {
+          setArticle(null);
+          setLoaded(true);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
+  }, [language, slug]);
+
   const content = article?.article;
-  const related = items.filter((item) => item.slug !== slug).slice(0, 2);
+
+  if (!loaded) {
+    return <div className="mx-auto min-h-[50vh] w-full max-w-[1400px] px-4 pt-28" />;
+  }
 
   if (!article || !content) {
     return null;

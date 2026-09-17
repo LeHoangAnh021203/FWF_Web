@@ -1,26 +1,21 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import {
-  foxNewsItems,
-  getFoxNewsItemBySlug,
-} from "@/components/b2b/home-data";
 import { SiteFooter, SiteHeader } from "@/app/site-chrome";
+import { getPublishedNewsBySlug, newsSlugExists } from "@/lib/news-store";
 import { NewsArticleView } from "./news-article-view";
+
+export const dynamic = "force-dynamic";
 
 type NewsDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return foxNewsItems.map((article) => ({ slug: article.slug }));
-}
-
 export async function generateMetadata({
   params,
 }: NewsDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getFoxNewsItemBySlug(slug);
+  const article = await getPublishedNewsBySlug(slug, "vi");
 
   if (!article) {
     return {
@@ -36,9 +31,8 @@ export async function generateMetadata({
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { slug } = await params;
-  const article = getFoxNewsItemBySlug(slug);
-
-  if (!article?.article) notFound();
+  const exists = await newsSlugExists(slug);
+  if (!exists) notFound();
 
   return (
     <main className="min-h-screen bg-white text-[#171412]">

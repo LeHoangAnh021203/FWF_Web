@@ -1,12 +1,12 @@
 "use client";
 
-import { getLocalizedFoxNews } from "@/components/b2b/home-data";
 import { NewsCardTrack } from "@/components/news-card-track";
 import { useLanguage } from "@/i18n/language-context";
+import { usePublishedNews } from "@/lib/use-published-news";
 
 export function FoxNewsSection() {
   const { language, t } = useLanguage();
-  const items = getLocalizedFoxNews(language);
+  const { items } = usePublishedNews(language);
 
   return (
     <section

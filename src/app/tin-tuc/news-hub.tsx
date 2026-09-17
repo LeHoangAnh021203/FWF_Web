@@ -6,12 +6,10 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 
-import { getLocalizedFoxNews, type FoxNewsItem } from "@/components/b2b/home-data";
-import {
-  NEWS_CATEGORIES,
-  type NewsCategoryId,
-} from "@/data/news-categories";
+import { type FoxNewsItem } from "@/components/b2b/home-data";
 import { useLanguage } from "@/i18n/language-context";
+import type { PublicNewsCategory } from "@/lib/news-store";
+import { usePublishedNews } from "@/lib/use-published-news";
 
 function NewsCard({
   item,
@@ -223,7 +221,7 @@ function CategorySection({
   prevLabel,
   nextLabel,
 }: {
-  id: NewsCategoryId;
+  id: string;
   title: string;
   items: FoxNewsItem[];
   adLabel: string;
@@ -256,18 +254,29 @@ function CategorySection({
   );
 }
 
-export default function NewsHub() {
+export default function NewsHub({
+  initialItems = [],
+  initialCategories = [],
+}: {
+  initialItems?: FoxNewsItem[];
+  initialCategories?: PublicNewsCategory[];
+}) {
   const { language, t } = useLanguage();
   const searchParams = useSearchParams();
-  const items = useMemo(() => getLocalizedFoxNews(language), [language]);
+  const { items, categories } = usePublishedNews(language, initialItems, initialCategories);
 
   const grouped = useMemo(() => {
-    return NEWS_CATEGORIES.map((category) => ({
-      ...category,
-      title: t(category.labelKey),
-      items: items.filter((item) => item.categoryId === category.id),
-    }));
-  }, [items, t]);
+    const topicList = categories.length
+      ? categories
+      : Array.from(new Set(items.map((item) => item.categoryId))).map((id) => ({ id, label: id }));
+    return topicList
+      .map((category) => ({
+        ...category,
+        title: category.label,
+        items: items.filter((item) => item.categoryId === category.id),
+      }))
+      .filter((category) => category.items.length > 0);
+  }, [categories, items]);
 
   useEffect(() => {
     const target = searchParams.get("danhMuc");
@@ -287,9 +296,9 @@ export default function NewsHub() {
         <div className="news-hub-topics-inner">
           <p>{t("news.topicsLabel")}</p>
           <nav className="news-hub-topic-list">
-            {NEWS_CATEGORIES.map((category) => (
+            {grouped.map((category) => (
               <a key={category.id} href={`#${category.id}`}>
-                {t(category.labelKey)}
+                {category.title}
               </a>
             ))}
           </nav>

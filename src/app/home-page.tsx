@@ -4,8 +4,8 @@
 
 import { useState } from "react";
 
-import { getLocalizedFoxNews } from "@/components/b2b/home-data";
 import { useLanguage } from "@/i18n/language-context";
+import { usePublishedNews } from "@/lib/use-published-news";
 
 import CityTimeline from "./city-timeline";
 import ConsultationBookingModal from "./consultation-booking-modal";
@@ -24,7 +24,7 @@ import { SiteFooter, SiteHeader } from "./site-chrome";
 
 export default function HomePage() {
   const { language, t } = useLanguage();
-  const foxNews = getLocalizedFoxNews(language);
+  const { items: foxNews } = usePublishedNews(language);
   const [offersBookingOpen, setOffersBookingOpen] = useState(false);
 
   const presenceCities = [

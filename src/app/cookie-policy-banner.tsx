@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 
 import { useLanguage } from "@/i18n/language-context";
@@ -21,12 +22,17 @@ const subscribeToCookieChoice = (callback: () => void) => {
 const getCookieChoiceSnapshot = () => !localStorage.getItem(COOKIE_CHOICE_KEY);
 
 export default function CookiePolicyBanner() {
+  const pathname = usePathname();
   const { t } = useLanguage();
   const isVisible = useSyncExternalStore(
     subscribeToCookieChoice,
     getCookieChoiceSnapshot,
     () => false,
   );
+
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
 
   const saveChoice = (choice: "accepted" | "declined" | "closed") => {
     localStorage.setItem(COOKIE_CHOICE_KEY, choice);

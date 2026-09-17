@@ -1,20 +1,58 @@
+import type { SiteLanguage } from "@/i18n/dictionaries";
+
+export type NewsCategoryId = string;
+
+export type NewsCategoryLabels = Partial<Record<SiteLanguage, string>>;
+
+export type NewsCategory = {
+  id: string;
+  sortOrder: number;
+  labels: NewsCategoryLabels;
+};
+
 export const NEWS_CATEGORY_IDS = [
   "hoat-dong-su-kien",
   "kien-thuc-lam-dep",
   "chuong-trinh-khuyen-mai",
 ] as const;
 
-export type NewsCategoryId = (typeof NEWS_CATEGORY_IDS)[number];
-
-export type NewsCategory = {
-  id: NewsCategoryId;
-  labelKey: string;
-};
-
-export const NEWS_CATEGORIES: NewsCategory[] = [
-  { id: "hoat-dong-su-kien", labelKey: "news.cat.events" },
-  { id: "kien-thuc-lam-dep", labelKey: "news.cat.beauty" },
-  { id: "chuong-trinh-khuyen-mai", labelKey: "news.cat.promo" },
+export const DEFAULT_NEWS_CATEGORIES: NewsCategory[] = [
+  {
+    id: "hoat-dong-su-kien",
+    sortOrder: 0,
+    labels: {
+      vi: "Hoạt động sự kiện",
+      en: "Events & activities",
+      zh: "活动与事件",
+      ja: "イベント・活動",
+      ko: "활동·이벤트",
+      th: "กิจกรรมและอีเวนต์",
+    },
+  },
+  {
+    id: "kien-thuc-lam-dep",
+    sortOrder: 1,
+    labels: {
+      vi: "Kiến thức làm đẹp",
+      en: "Beauty knowledge",
+      zh: "美肤知识",
+      ja: "美容知識",
+      ko: "뷰티 지식",
+      th: "ความรู้ความงาม",
+    },
+  },
+  {
+    id: "chuong-trinh-khuyen-mai",
+    sortOrder: 2,
+    labels: {
+      vi: "Chương trình khuyến mãi",
+      en: "Promotions",
+      zh: "促销活动",
+      ja: "キャンペーン",
+      ko: "프로모션",
+      th: "โปรโมชัน",
+    },
+  },
 ];
 
 /** Maps existing Fox News slugs into the 3 hub categories. */
@@ -44,7 +82,7 @@ const newsCategoryBySlug: Record<string, NewsCategoryId> = {
 };
 
 export function isNewsCategoryId(value: string | null | undefined): value is NewsCategoryId {
-  return NEWS_CATEGORY_IDS.includes(value as NewsCategoryId);
+  return Boolean(value && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value) && value.length <= 90);
 }
 
 export function getNewsCategoryId(slug: string): NewsCategoryId {
@@ -52,5 +90,12 @@ export function getNewsCategoryId(slug: string): NewsCategoryId {
 }
 
 export function getNewsCategory(id: NewsCategoryId): NewsCategory {
-  return NEWS_CATEGORIES.find((category) => category.id === id) ?? NEWS_CATEGORIES[0];
+  return DEFAULT_NEWS_CATEGORIES.find((category) => category.id === id) ?? DEFAULT_NEWS_CATEGORIES[0];
 }
+
+export function categoryLabel(category: NewsCategory, language: SiteLanguage): string {
+  return category.labels[language]?.trim() || category.labels.vi?.trim() || category.id;
+}
+
+/** @deprecated Use DEFAULT_NEWS_CATEGORIES. Kept for older imports. */
+export const NEWS_CATEGORIES = DEFAULT_NEWS_CATEGORIES;
