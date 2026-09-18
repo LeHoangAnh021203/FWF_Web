@@ -8,12 +8,14 @@ import {
   MapPin,
   Smartphone,
   Sparkles,
+  UserCog,
   Users,
 } from "lucide-react";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 
-import { ADMIN_MODULES, type AdminModule } from "@/lib/admin-modules";
+import { getAdminModulesForRole, type AdminModule } from "@/lib/admin-modules";
+import type { AdminUser } from "@/lib/admin-users";
 
 import { AdminShell } from "./admin-shell";
 
@@ -26,6 +28,7 @@ const MODULE_ICONS: Record<string, LucideIcon> = {
   b2b: Building2,
   "cua-hang": MapPin,
   "ung-dung": Smartphone,
+  "nhan-su": UserCog,
 };
 
 function ModuleCard({ module }: { module: AdminModule }) {
@@ -48,14 +51,18 @@ function ModuleCard({ module }: { module: AdminModule }) {
   );
 }
 
-export function AdminHome() {
+export function AdminHome({ user }: { user: AdminUser }) {
+  const modules = getAdminModulesForRole(user.role);
+
   return (
-    <AdminShell title="Chọn mục cần chỉnh sửa" siteHref="/" backHref={null}>
+    <AdminShell title="Chọn mục cần chỉnh sửa" siteHref="/" backHref={null} accountEmail={user.email}>
       <p className="mb-6 max-w-2xl text-sm leading-6 text-[#5f5a57]">
-        Tin tức là mục đang mở để chỉnh. Các mục khác sẽ lần lượt mở trên cùng trang quản trị này.
+        {user.role === "owner"
+          ? "Bạn đang đăng nhập bằng tài khoản IT. Có thêm mục Quản lý nhân sự để duyệt người được vào admin."
+          : "Tin tức là mục đang mở để chỉnh. Các mục khác sẽ lần lượt mở trên cùng trang quản trị này."}
       </p>
       <div className="admin-module-grid">
-        {ADMIN_MODULES.map((module) => (
+        {modules.map((module) => (
           <ModuleCard key={module.id} module={module} />
         ))}
       </div>

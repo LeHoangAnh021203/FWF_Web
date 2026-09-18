@@ -1,11 +1,26 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { ADMIN_SESSION_COOKIE } from "@/lib/admin-path";
+import { ADMIN_OTP_COOKIE, ADMIN_SESSION_COOKIE } from "@/lib/admin-path";
+import {
+  canAccessAdmin,
+  getAdminUserByEmail,
+  type AdminUser,
+  type AdminUserRole,
+} from "@/lib/admin-users";
 
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
+const OTP_TTL_SECONDS = 10 * 60;
 
 type SessionPayload = {
+  email: string;
+  role: AdminUserRole;
+  exp: number;
+};
+
+type OtpPayload = {
+  email: string;
+  hash: string;
   exp: number;
 };
 
@@ -53,86 +68,153 @@ async function sha256Bytes(value: string): Promise<Uint8Array> {
   return new Uint8Array(digest);
 }
 
-export async function createSessionToken(): Promise<string> {
-  const secret = getSecret();
-  if (!secret) throw new Error("ADMIN_SESSION_SECRET is not set");
-
-  const payload: SessionPayload = {
-    exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS,
-  };
+async function signPayload(payload: object, secret: string): Promise<string> {
   const encoded = toBase64Url(new TextEncoder().encode(JSON.stringify(payload)));
   const signature = await hmacSign(encoded, secret);
   return `${encoded}.${signature}`;
 }
 
-export async function verifySessionToken(token: string | undefined | null): Promise<boolean> {
-  if (!token) return false;
+async function readSignedPayload<T>(token: string | undefined | null, secret: string): Promise<T | null> {
+  if (!token) return null;
+  const [encoded, signature] = token.split(".");
+  if (!encoded || !signature) return null;
+  const expected = await hmacSign(encoded, secret);
+  if (!timingSafeEqual(fromBase64Url(signature), fromBase64Url(expected))) return null;
+  try {
+    return JSON.parse(new TextDecoder().decode(fromBase64Url(encoded))) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function createSessionToken(email: string, role: AdminUserRole): Promise<string> {
+  const secret = getSecret();
+  if (!secret) throw new Error("ADMIN_SESSION_SECRET is not set");
+  const payload: SessionPayload = {
+    email: email.toLowerCase(),
+    role,
+    exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS,
+  };
+  return signPayload(payload, secret);
+}
+
+export async function createOtpToken(email: string, otp: string): Promise<string> {
+  const secret = getSecret();
+  if (!secret) throw new Error("ADMIN_SESSION_SECRET is not set");
+  const hash = toBase64Url(await sha256Bytes(`${secret}:${email.toLowerCase()}:${otp}`));
+  const payload: OtpPayload = {
+    email: email.toLowerCase(),
+    hash,
+    exp: Math.floor(Date.now() / 1000) + OTP_TTL_SECONDS,
+  };
+  return signPayload(payload, secret);
+}
+
+export async function verifyOtpToken(token: string | undefined | null, email: string, otp: string): Promise<boolean> {
   const secret = getSecret();
   if (!secret) return false;
+  const payload = await readSignedPayload<OtpPayload>(token, secret);
+  if (!payload) return false;
+  if (payload.email !== email.toLowerCase()) return false;
+  if (typeof payload.exp !== "number" || payload.exp <= Math.floor(Date.now() / 1000)) return false;
+  const hash = toBase64Url(await sha256Bytes(`${secret}:${email.toLowerCase()}:${otp}`));
+  return timingSafeEqual(fromBase64Url(payload.hash), fromBase64Url(hash));
+}
 
-  const [encoded, signature] = token.split(".");
-  if (!encoded || !signature) return false;
+async function readSession(token: string | undefined | null): Promise<SessionPayload | null> {
+  const secret = getSecret();
+  if (!secret) return null;
+  const payload = await readSignedPayload<SessionPayload>(token, secret);
+  if (!payload?.email || (payload.role !== "owner" && payload.role !== "staff")) return null;
+  if (typeof payload.exp !== "number" || payload.exp <= Math.floor(Date.now() / 1000)) return null;
+  return payload;
+}
 
-  const expected = await hmacSign(encoded, secret);
-  if (!timingSafeEqual(fromBase64Url(signature), fromBase64Url(expected))) return false;
-
-  try {
-    const payload = JSON.parse(new TextDecoder().decode(fromBase64Url(encoded))) as SessionPayload;
-    return typeof payload.exp === "number" && payload.exp > Math.floor(Date.now() / 1000);
-  } catch {
-    return false;
-  }
+export async function verifySessionToken(token: string | undefined | null): Promise<boolean> {
+  return Boolean(await readSession(token));
 }
 
 export function hasSessionCookie(token: string | undefined | null): boolean {
   return Boolean(token && token.includes("."));
 }
 
-export async function passwordsMatch(input: string): Promise<boolean> {
-  const expected = process.env.ADMIN_PASSWORD;
-  if (!expected) return false;
-  const [left, right] = await Promise.all([sha256Bytes(input), sha256Bytes(expected)]);
-  return timingSafeEqual(left, right);
-}
-
-export function allowLoginAttempt(ip: string): boolean {
+export function allowLoginAttempt(key: string, limit = 8): boolean {
   const now = Date.now();
   const windowMs = 15 * 60 * 1000;
-  const recent = (loginAttempts.get(ip) ?? []).filter((time) => now - time < windowMs);
-  if (recent.length >= 8) {
-    loginAttempts.set(ip, recent);
+  const recent = (loginAttempts.get(key) ?? []).filter((time) => now - time < windowMs);
+  if (recent.length >= limit) {
+    loginAttempts.set(key, recent);
     return false;
   }
   recent.push(now);
-  loginAttempts.set(ip, recent);
+  loginAttempts.set(key, recent);
   return true;
+}
+
+function cookieBase() {
+  return {
+    httpOnly: true as const,
+    sameSite: "lax" as const,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+  };
 }
 
 export function applySessionCookie(response: NextResponse, token: string): void {
   response.cookies.set({
+    ...cookieBase(),
     name: ADMIN_SESSION_COOKIE,
     value: token,
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
     maxAge: SESSION_TTL_SECONDS,
+  });
+}
+
+export function applyOtpCookie(response: NextResponse, token: string): void {
+  response.cookies.set({
+    ...cookieBase(),
+    name: ADMIN_OTP_COOKIE,
+    value: token,
+    maxAge: OTP_TTL_SECONDS,
   });
 }
 
 export function clearSessionCookie(response: NextResponse): void {
   response.cookies.set({
+    ...cookieBase(),
     name: ADMIN_SESSION_COOKIE,
     value: "",
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
     maxAge: 0,
   });
 }
 
-export async function requireAdmin(): Promise<boolean> {
+export function clearOtpCookie(response: NextResponse): void {
+  response.cookies.set({
+    ...cookieBase(),
+    name: ADMIN_OTP_COOKIE,
+    value: "",
+    maxAge: 0,
+  });
+}
+
+export async function getAdminSessionUser(): Promise<AdminUser | null> {
   const jar = await cookies();
-  return verifySessionToken(jar.get(ADMIN_SESSION_COOKIE)?.value);
+  const session = await readSession(jar.get(ADMIN_SESSION_COOKIE)?.value);
+  if (!session) return null;
+  const user = await getAdminUserByEmail(session.email);
+  return canAccessAdmin(user) ? user : null;
+}
+
+export async function requireAdmin(): Promise<boolean> {
+  return Boolean(await getAdminSessionUser());
+}
+
+export async function requireOwner(): Promise<AdminUser | null> {
+  const user = await getAdminSessionUser();
+  return user?.role === "owner" ? user : null;
+}
+
+export function generateOtpCode(): string {
+  const bytes = new Uint32Array(1);
+  crypto.getRandomValues(bytes);
+  return String(bytes[0] % 1_000_000).padStart(6, "0");
 }

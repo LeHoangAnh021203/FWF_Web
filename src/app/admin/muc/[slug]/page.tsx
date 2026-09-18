@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
+import { getAdminSessionUser } from "@/lib/admin-auth";
 import { getAdminModule } from "@/lib/admin-modules";
 
 import { AdminShell } from "../../admin-shell";
@@ -13,6 +14,10 @@ export default async function AdminModuleSoonPage({ params }: AdminModulePagePro
   const { slug } = await params;
   const module = getAdminModule(slug);
   if (!module) notFound();
+  if (module.ownerOnly) {
+    const user = await getAdminSessionUser();
+    if (user?.role !== "owner") notFound();
+  }
   if (module.status === "ready") redirect(module.href);
 
   return (

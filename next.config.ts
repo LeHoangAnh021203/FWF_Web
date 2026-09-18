@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
           source: "/wp-content/uploads/Cham-soc-da-FWF.pdf",
           destination: "/cham-soc-da-fwf",
         },
+        {
+          source: "/wp-content/uploads/2024/09/Cham-soc-sau-MESO.pdf",
+          destination: "/cham-soc-sau-meso",
+        },
       ],
     };
   },
@@ -18,6 +22,19 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/wp-content/uploads/Cham-soc-da-FWF.pdf",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, must-revalidate",
+          },
+          {
+            key: "Content-Type",
+            value: "text/html; charset=utf-8",
+          },
+        ],
+      },
+      {
+        source: "/wp-content/uploads/2024/09/Cham-soc-sau-MESO.pdf",
         headers: [
           {
             key: "Cache-Control",

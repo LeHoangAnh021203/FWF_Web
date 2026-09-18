@@ -14,6 +14,7 @@ export function AdminShell({
   siteHref = "/",
   backHref = "/admin",
   backLabel = "Quay về",
+  accountEmail,
 }: {
   title: string;
   action?: React.ReactNode;
@@ -22,6 +23,7 @@ export function AdminShell({
   siteHref?: string;
   backHref?: string | null;
   backLabel?: string;
+  accountEmail?: string;
 }) {
   const router = useRouter();
 
@@ -40,6 +42,7 @@ export function AdminShell({
           </Link>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#ee6730]">Admin</p>
+            {accountEmail ? <p className="text-[11px] font-medium text-[#9ca3af]">{accountEmail}</p> : null}
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               {backHref ? (
                 <Link href={backHref} className="admin-back-link">

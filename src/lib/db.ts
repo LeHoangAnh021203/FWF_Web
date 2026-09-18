@@ -132,3 +132,33 @@ async function initializeNewsSchema(): Promise<void> {
     }
   }
 }
+
+let adminReady: Promise<void> | null = null;
+
+export async function ensureAdminSchema(): Promise<void> {
+  if (!isDatabaseConfigured()) return;
+  if (!adminReady) {
+    adminReady = initializeAdminSchema().catch((error) => {
+      adminReady = null;
+      throw error;
+    });
+  }
+  await adminReady;
+}
+
+async function initializeAdminSchema(): Promise<void> {
+  const db = getSql();
+  await db`
+    CREATE TABLE IF NOT EXISTS admin_users (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      email text UNIQUE NOT NULL,
+      role text NOT NULL DEFAULT 'staff',
+      status text NOT NULL DEFAULT 'pending',
+      created_at timestamptz NOT NULL DEFAULT now(),
+      updated_at timestamptz NOT NULL DEFAULT now(),
+      last_login_at timestamptz,
+      CONSTRAINT admin_users_role_check CHECK (role IN ('owner', 'staff')),
+      CONSTRAINT admin_users_status_check CHECK (status IN ('pending', 'approved', 'rejected'))
+    )
+  `;
+}

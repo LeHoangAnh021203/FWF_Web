@@ -6,6 +6,7 @@ export type AdminModule = {
   title: string;
   description: string;
   status: AdminModuleStatus;
+  ownerOnly?: boolean;
 };
 
 export const ADMIN_MODULES: AdminModule[] = [
@@ -65,8 +66,20 @@ export const ADMIN_MODULES: AdminModule[] = [
     description: "Trang App FWF và thông tin tải ứng dụng.",
     status: "soon",
   },
+  {
+    id: "nhan-su",
+    href: "/admin/nhan-su",
+    title: "Quản lý nhân sự",
+    description: "Duyệt tài khoản đăng nhập admin và thu hồi quyền truy cập.",
+    status: "ready",
+    ownerOnly: true,
+  },
 ];
 
 export function getAdminModule(id: string): AdminModule | undefined {
   return ADMIN_MODULES.find((module) => module.id === id);
+}
+
+export function getAdminModulesForRole(role: "owner" | "staff"): AdminModule[] {
+  return ADMIN_MODULES.filter((module) => !module.ownerOnly || role === "owner");
 }

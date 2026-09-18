@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { hasSessionCookie } from "@/lib/admin-auth";
 import { getAdminOrigin, getRequestHost, isAdminHost, isLocalHost } from "@/lib/admin-host";
-import { ADMIN_SESSION_COOKIE, isAdminPathname } from "@/lib/admin-path";
+import { ADMIN_SESSION_COOKIE, isAdminPathname, isPublicAdminApi } from "@/lib/admin-path";
 
 function withNoIndex(response: NextResponse): NextResponse {
   response.headers.set("X-Robots-Tag", "noindex, nofollow");
@@ -15,7 +15,7 @@ export function proxy(request: NextRequest) {
   const local = isLocalHost(host);
   const session = hasSessionCookie(request.cookies.get(ADMIN_SESSION_COOKIE)?.value);
 
-  if (pathname.startsWith("/api/admin") && pathname !== "/api/admin/login" && !session) {
+  if (pathname.startsWith("/api/admin") && !isPublicAdminApi(pathname) && !session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
