@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
           source: "/wp-content/uploads/2024/09/Cham-soc-sau-MESO.pdf",
           destination: "/cham-soc-sau-meso",
         },
+        {
+          source: "/wp-content/uploads/2024/09/Cham-soc-da-mun.pdf",
+          destination: "/cham-soc-da-mun",
+        },
       ],
     };
   },
@@ -35,6 +39,19 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/wp-content/uploads/2024/09/Cham-soc-sau-MESO.pdf",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, must-revalidate",
+          },
+          {
+            key: "Content-Type",
+            value: "text/html; charset=utf-8",
+          },
+        ],
+      },
+      {
+        source: "/wp-content/uploads/2024/09/Cham-soc-da-mun.pdf",
         headers: [
           {
             key: "Cache-Control",
