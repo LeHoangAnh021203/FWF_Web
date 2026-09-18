@@ -278,6 +278,6 @@ export async function markAdminLogin(email: string): Promise<void> {
   });
 }
 
-export function canAccessAdmin(user: AdminUser | null | undefined): user is AdminUser {
+export function canAccessAdmin(user: AdminUser | null | undefined): boolean {
   return Boolean(user && user.status === "approved");
 }
