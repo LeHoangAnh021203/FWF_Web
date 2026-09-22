@@ -54,6 +54,7 @@ export default function AdminLoginForm() {
       const response = await fetch("/api/admin/auth/request-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({ email }),
       });
       const data = (await response.json()) as { error?: string; message?: string };
@@ -92,9 +93,20 @@ export default function AdminLoginForm() {
       const response = await fetch("/api/admin/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({ email, otp }),
       });
-      const data = (await response.json()) as { error?: string; pending?: boolean };
+      let data: { error?: string; pending?: boolean } = {};
+      try {
+        data = (await response.json()) as { error?: string; pending?: boolean };
+      } catch {
+        setError(
+          response.ok
+            ? "Máy chủ trả về phản hồi không hợp lệ."
+            : `Không đăng nhập được (mã ${response.status}).`,
+        );
+        return;
+      }
       if (!response.ok) {
         setError(
           data.error ||

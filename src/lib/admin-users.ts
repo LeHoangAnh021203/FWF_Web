@@ -121,7 +121,28 @@ export async function upsertVerifiedAdminUser(
 
   if (existing) {
     if (owner && (existing.role !== "owner" || existing.status !== "approved")) {
-      return { user: await updateAdminUser(existing.id, { role: "owner", status: "approved" }), created: false };
+      const promoted = await withStore({
+        db: async () => {
+          const rows = (await getSql()`
+            UPDATE admin_users
+            SET role = 'owner', status = 'approved', updated_at = ${now}
+            WHERE id = ${existing.id}
+            RETURNING id, email, role, status, created_at, updated_at, last_login_at
+          `) as AdminUserRow[];
+          if (!rows[0]) throw new Error("Không cập nhật được tài khoản quản trị.");
+          return mapRow(rows[0]);
+        },
+        file: async () => {
+          const { fileUpsertUser } = await import("@/lib/admin-users-file");
+          return fileUpsertUser({
+            ...existing,
+            role: "owner",
+            status: "approved",
+            updatedAt: now,
+          });
+        },
+      });
+      return { user: promoted, created: false };
     }
     return { user: existing, created: false };
   }
@@ -153,6 +174,11 @@ export async function upsertVerifiedAdminUser(
       return rows[0] ? mapRow(rows[0]) : user;
     },
     file: async () => {
+      if (process.env.VERCEL) {
+        throw new Error(
+          "Thiếu DATABASE_URL trên Vercel. Thêm Neon DATABASE_URL vào Production rồi deploy lại.",
+        );
+      }
       const { fileUpsertUser } = await import("@/lib/admin-users-file");
       return fileUpsertUser(user);
     },
