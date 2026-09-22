@@ -9,25 +9,40 @@ import { useLanguage } from "@/i18n/language-context";
 
 type NewsArticleViewProps = {
   slug: string;
+  initialArticle: FoxNewsItem;
+  initialRelated?: FoxNewsItem[];
 };
 
-export function NewsArticleView({ slug }: NewsArticleViewProps) {
+export function NewsArticleView({
+  slug,
+  initialArticle,
+  initialRelated = [],
+}: NewsArticleViewProps) {
   const { language, t } = useLanguage();
-  const [article, setArticle] = useState<FoxNewsItem | null>(null);
-  const [related, setRelated] = useState<FoxNewsItem[]>([]);
-  const [loaded, setLoaded] = useState(false);
+  const [article, setArticle] = useState<FoxNewsItem | null>(initialArticle);
+  const [related, setRelated] = useState<FoxNewsItem[]>(initialRelated);
+  const [loaded, setLoaded] = useState(true);
 
   useEffect(() => {
+    // Server đã hydrate tiếng Việt — chỉ fetch khi đổi ngôn ngữ.
+    if (language === "vi") {
+      setArticle(initialArticle);
+      setRelated(initialRelated);
+      setLoaded(true);
+      return;
+    }
+
     let cancelled = false;
     const controller = new AbortController();
+    setLoaded(false);
 
     Promise.all([
-      fetch(`/api/news/${slug}?lang=${language}`, { cache: "no-store", signal: controller.signal }).then(async (response) => {
+      fetch(`/api/news/${slug}?lang=${language}`, { signal: controller.signal }).then(async (response) => {
         if (!response.ok) return null;
         const data = (await response.json()) as { item?: FoxNewsItem };
         return data.item ?? null;
       }),
-      fetch(`/api/news?lang=${language}`, { cache: "no-store", signal: controller.signal }).then(async (response) => {
+      fetch(`/api/news?lang=${language}`, { signal: controller.signal }).then(async (response) => {
         if (!response.ok) return [] as FoxNewsItem[];
         const data = (await response.json()) as { items?: FoxNewsItem[] };
         return data.items ?? [];
@@ -42,7 +57,8 @@ export function NewsArticleView({ slug }: NewsArticleViewProps) {
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
         if (!cancelled) {
-          setArticle(null);
+          setArticle(initialArticle);
+          setRelated(initialRelated);
           setLoaded(true);
         }
       });
@@ -51,7 +67,7 @@ export function NewsArticleView({ slug }: NewsArticleViewProps) {
       cancelled = true;
       controller.abort();
     };
-  }, [language, slug]);
+  }, [initialArticle, initialRelated, language, slug]);
 
   const content = article?.article;
 

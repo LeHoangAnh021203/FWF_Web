@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireModule } from "@/lib/admin-auth";
 import type { SiteLanguage } from "@/i18n/dictionaries";
 import { translatePostLocales } from "@/lib/news-payload";
 import { revalidatePublicNews } from "@/lib/revalidate-news";
@@ -30,7 +30,7 @@ function parseTranslateBody(body: unknown): { force: boolean; languages?: Transl
 }
 
 export async function POST(request: Request, context: RouteContext) {
-  if (!(await requireAdmin())) {
+  if (!(await requireModule("tin-tuc"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

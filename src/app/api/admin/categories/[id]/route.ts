@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireModule } from "@/lib/admin-auth";
 import { revalidatePublicNews } from "@/lib/revalidate-news";
 import { deleteNewsCategory, updateNewsCategory } from "@/lib/news-store";
 
@@ -11,7 +11,7 @@ type RouteContext = {
 };
 
 export async function PUT(request: Request, context: RouteContext) {
-  if (!(await requireAdmin())) {
+  if (!(await requireModule("tin-tuc"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -40,7 +40,7 @@ export async function PUT(request: Request, context: RouteContext) {
 }
 
 export async function DELETE(_request: Request, context: RouteContext) {
-  if (!(await requireAdmin())) {
+  if (!(await requireModule("tin-tuc"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

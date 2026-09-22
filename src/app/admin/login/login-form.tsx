@@ -25,6 +25,7 @@ export default function AdminLoginForm() {
   const [error, setError] = useState("");
   const [errorTitle, setErrorTitle] = useState("");
   const [noticeTone, setNoticeTone] = useState<"error" | "success">("error");
+  const [accountPending, setAccountPending] = useState(false);
   const [message, setMessage] = useState("");
   const [pending, setPending] = useState(false);
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
@@ -49,6 +50,7 @@ export default function AdminLoginForm() {
     setError("");
     setErrorTitle("");
     setNoticeTone("error");
+    setAccountPending(false);
     setMessage("");
     try {
       const response = await fetch("/api/admin/auth/request-otp", {
@@ -88,6 +90,7 @@ export default function AdminLoginForm() {
     setError("");
     setErrorTitle("");
     setNoticeTone("error");
+    setAccountPending(false);
     setMessage("");
     try {
       const response = await fetch("/api/admin/auth/verify-otp", {
@@ -116,6 +119,7 @@ export default function AdminLoginForm() {
         );
         setErrorTitle(data.pending ? "Đã nhận tài khoản" : "");
         setNoticeTone(data.pending ? "success" : "error");
+        setAccountPending(Boolean(data.pending));
         return;
       }
       router.replace(nextPath());
@@ -190,10 +194,17 @@ export default function AdminLoginForm() {
           tone={noticeTone}
           title={errorTitle || undefined}
           message={error}
+          closeLabel={accountPending ? "Quay về trang đăng nhập" : "Đóng"}
           onClose={() => {
             setError("");
             setErrorTitle("");
             setNoticeTone("error");
+            if (accountPending) {
+              setAccountPending(false);
+              setStep("email");
+              resetDigits();
+              setMessage("");
+            }
           }}
         />
       ) : null}

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireModule } from "@/lib/admin-auth";
 import { parseNewsPayload, translatePostLocales, wantsTranslation } from "@/lib/news-payload";
 import { revalidatePublicNews } from "@/lib/revalidate-news";
 import { createAdminPost, getAdminPost, listAdminPosts, listNewsCategories } from "@/lib/news-store";
@@ -8,7 +8,7 @@ import { createAdminPost, getAdminPost, listAdminPosts, listNewsCategories } fro
 export const runtime = "nodejs";
 
 export async function GET() {
-  if (!(await requireAdmin())) {
+  if (!(await requireModule("tin-tuc"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -16,7 +16,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!(await requireAdmin())) {
+  if (!(await requireModule("tin-tuc"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

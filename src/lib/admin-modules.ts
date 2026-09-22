@@ -80,6 +80,40 @@ export function getAdminModule(id: string): AdminModule | undefined {
   return ADMIN_MODULES.find((module) => module.id === id);
 }
 
+/** Modules an owner can assign to staff (excludes nhan-su). */
+export function getAssignableAdminModules(): AdminModule[] {
+  return ADMIN_MODULES.filter((module) => !module.ownerOnly);
+}
+
+export function normalizeAssignedModules(moduleIds: string[] | null | undefined): string[] {
+  const allowed = new Set(getAssignableAdminModules().map((module) => module.id));
+  const unique = new Set<string>();
+  for (const id of moduleIds ?? []) {
+    if (allowed.has(id)) unique.add(id);
+  }
+  return [...unique];
+}
+
 export function getAdminModulesForRole(role: "owner" | "staff"): AdminModule[] {
   return ADMIN_MODULES.filter((module) => !module.ownerOnly || role === "owner");
+}
+
+export function getAdminModulesForUser(user: {
+  role: "owner" | "staff";
+  modules?: string[];
+}): AdminModule[] {
+  if (user.role === "owner") return getAdminModulesForRole("owner");
+  const allowed = new Set(normalizeAssignedModules(user.modules));
+  return getAssignableAdminModules().filter((module) => allowed.has(module.id));
+}
+
+export function userCanAccessModule(
+  user: { role: "owner" | "staff"; modules?: string[] } | null | undefined,
+  moduleId: string,
+): boolean {
+  if (!user) return false;
+  if (user.role === "owner") return true;
+  const module = getAdminModule(moduleId);
+  if (!module || module.ownerOnly) return false;
+  return normalizeAssignedModules(user.modules).includes(moduleId);
 }

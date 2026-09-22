@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 
+import { normalizeAssignedModules } from "@/lib/admin-modules";
 import { ensureAdminSchema, getSql, isDatabaseConfigured } from "@/lib/db";
 
 export type AdminUserRole = "owner" | "staff";
@@ -10,6 +11,7 @@ export type AdminUser = {
   email: string;
   role: AdminUserRole;
   status: AdminUserStatus;
+  modules: string[];
   createdAt: string;
   updatedAt: string;
   lastLoginAt: string | null;
@@ -20,6 +22,7 @@ type AdminUserRow = {
   email: string;
   role: AdminUserRole;
   status: AdminUserStatus;
+  modules?: unknown;
   created_at: string;
   updated_at: string;
   last_login_at: string | null;
@@ -50,12 +53,25 @@ export function isCompanyAdminEmail(email: string): boolean {
   return isValidAdminEmail(normalized) && normalized.endsWith(COMPANY_DOMAIN);
 }
 
+function parseModules(value: unknown): string[] {
+  if (Array.isArray(value)) return normalizeAssignedModules(value.filter((item): item is string => typeof item === "string"));
+  if (typeof value === "string") {
+    try {
+      return parseModules(JSON.parse(value));
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
 function mapRow(row: AdminUserRow): AdminUser {
   return {
     id: String(row.id),
     email: normalizeAdminEmail(row.email),
     role: row.role === "owner" ? "owner" : "staff",
     status: row.status === "approved" || row.status === "rejected" ? row.status : "pending",
+    modules: row.role === "owner" ? [] : parseModules(row.modules),
     createdAt: String(row.created_at),
     updatedAt: String(row.updated_at),
     lastLoginAt: row.last_login_at ? String(row.last_login_at) : null,
@@ -78,7 +94,7 @@ export async function getAdminUserByEmail(email: string): Promise<AdminUser | nu
   return withStore({
     db: async () => {
       const rows = (await getSql()`
-        SELECT id, email, role, status, created_at, updated_at, last_login_at
+        SELECT id, email, role, status, modules, created_at, updated_at, last_login_at
         FROM admin_users
         WHERE email = ${normalized}
         LIMIT 1
@@ -96,7 +112,7 @@ export async function listAdminUsers(): Promise<AdminUser[]> {
   return withStore({
     db: async () => {
       const rows = (await getSql()`
-        SELECT id, email, role, status, created_at, updated_at, last_login_at
+        SELECT id, email, role, status, modules, created_at, updated_at, last_login_at
         FROM admin_users
         ORDER BY
           CASE status WHEN 'pending' THEN 0 WHEN 'approved' THEN 1 ELSE 2 END,
@@ -125,9 +141,9 @@ export async function upsertVerifiedAdminUser(
         db: async () => {
           const rows = (await getSql()`
             UPDATE admin_users
-            SET role = 'owner', status = 'approved', updated_at = ${now}
+            SET role = 'owner', status = 'approved', modules = '[]'::jsonb, updated_at = ${now}
             WHERE id = ${existing.id}
-            RETURNING id, email, role, status, created_at, updated_at, last_login_at
+            RETURNING id, email, role, status, modules, created_at, updated_at, last_login_at
           `) as AdminUserRow[];
           if (!rows[0]) throw new Error("Không cập nhật được tài khoản quản trị.");
           return mapRow(rows[0]);
@@ -138,6 +154,7 @@ export async function upsertVerifiedAdminUser(
             ...existing,
             role: "owner",
             status: "approved",
+            modules: [],
             updatedAt: now,
           });
         },
@@ -152,6 +169,7 @@ export async function upsertVerifiedAdminUser(
     email: normalized,
     role: owner ? "owner" : "staff",
     status: owner ? "approved" : "pending",
+    modules: [],
     createdAt: now,
     updatedAt: now,
     lastLoginAt: null,
@@ -159,9 +177,10 @@ export async function upsertVerifiedAdminUser(
 
   const saved = await withStore({
     db: async () => {
-      const rows = (await getSql()`
-        INSERT INTO admin_users (id, email, role, status, created_at, updated_at)
-        VALUES (${user.id}, ${user.email}, ${user.role}, ${user.status}, ${user.createdAt}, ${user.updatedAt})
+      const db = getSql();
+      const rows = (await db`
+        INSERT INTO admin_users (id, email, role, status, modules, created_at, updated_at)
+        VALUES (${user.id}, ${user.email}, ${user.role}, ${user.status}, ${db.json(user.modules)}, ${user.createdAt}, ${user.updatedAt})
         ON CONFLICT (email) DO UPDATE SET
           role = EXCLUDED.role,
           status = CASE
@@ -169,7 +188,7 @@ export async function upsertVerifiedAdminUser(
             ELSE admin_users.status
           END,
           updated_at = EXCLUDED.updated_at
-        RETURNING id, email, role, status, created_at, updated_at, last_login_at
+        RETURNING id, email, role, status, modules, created_at, updated_at, last_login_at
       `) as AdminUserRow[];
       return rows[0] ? mapRow(rows[0]) : user;
     },
@@ -187,7 +206,12 @@ export async function upsertVerifiedAdminUser(
   return { user: saved, created: saved.id === user.id };
 }
 
-export async function createAdminStaff(email: string, status: AdminUserStatus = "approved"): Promise<AdminUser> {
+export async function createAdminStaff(
+  email: string,
+  status: AdminUserStatus = "approved",
+  modules: string[] = ["tin-tuc"],
+  role: AdminUserRole = "staff",
+): Promise<AdminUser> {
   const normalized = normalizeAdminEmail(email);
   if (!isValidAdminEmail(normalized)) throw new Error("Email không hợp lệ.");
   if (isOwnerEmail(normalized)) throw new Error("Không thể tạo trùng tài khoản quản trị chính.");
@@ -195,12 +219,21 @@ export async function createAdminStaff(email: string, status: AdminUserStatus = 
   const existing = await getAdminUserByEmail(normalized);
   if (existing) throw new Error("Email này đã có trong danh sách.");
 
+  const nextRole: AdminUserRole = role === "owner" ? "owner" : "staff";
+  const nextStatus: AdminUserStatus = nextRole === "owner" ? "approved" : status;
+  const assigned =
+    nextRole === "owner" ? [] : nextStatus === "approved" ? normalizeAssignedModules(modules) : [];
+  if (nextRole === "staff" && nextStatus === "approved" && assigned.length === 0) {
+    throw new Error("Chọn ít nhất một trang được truy cập.");
+  }
+
   const now = new Date().toISOString();
   const user: AdminUser = {
     id: randomUUID(),
     email: normalized,
-    role: "staff",
-    status,
+    role: nextRole,
+    status: nextStatus,
+    modules: assigned,
     createdAt: now,
     updatedAt: now,
     lastLoginAt: null,
@@ -208,10 +241,11 @@ export async function createAdminStaff(email: string, status: AdminUserStatus = 
 
   return withStore({
     db: async () => {
-      const rows = (await getSql()`
-        INSERT INTO admin_users (id, email, role, status, created_at, updated_at)
-        VALUES (${user.id}, ${user.email}, ${user.role}, ${user.status}, ${user.createdAt}, ${user.updatedAt})
-        RETURNING id, email, role, status, created_at, updated_at, last_login_at
+      const db = getSql();
+      const rows = (await db`
+        INSERT INTO admin_users (id, email, role, status, modules, created_at, updated_at)
+        VALUES (${user.id}, ${user.email}, ${user.role}, ${user.status}, ${db.json(user.modules)}, ${user.createdAt}, ${user.updatedAt})
+        RETURNING id, email, role, status, modules, created_at, updated_at, last_login_at
       `) as AdminUserRow[];
       return rows[0] ? mapRow(rows[0]) : user;
     },
@@ -224,16 +258,18 @@ export async function createAdminStaff(email: string, status: AdminUserStatus = 
 
 export async function updateAdminUser(
   id: string,
-  patch: { email?: string; role?: AdminUserRole; status?: AdminUserStatus },
+  patch: { email?: string; role?: AdminUserRole; status?: AdminUserStatus; modules?: string[] },
 ): Promise<AdminUser> {
   const now = new Date().toISOString();
   const nextEmail = patch.email ? normalizeAdminEmail(patch.email) : undefined;
   if (nextEmail && !isValidAdminEmail(nextEmail)) throw new Error("Email không hợp lệ.");
+  const nextModules = patch.modules ? normalizeAssignedModules(patch.modules) : undefined;
 
   return withStore({
     db: async () => {
-      const current = (await getSql()`
-        SELECT id, email, role, status, created_at, updated_at, last_login_at
+      const db = getSql();
+      const current = (await db`
+        SELECT id, email, role, status, modules, created_at, updated_at, last_login_at
         FROM admin_users WHERE id = ${id} LIMIT 1
       `) as AdminUserRow[];
       if (!current[0]) throw new Error("Không tìm thấy tài khoản.");
@@ -243,14 +279,35 @@ export async function updateAdminUser(
         if (clash && clash.id !== id) throw new Error("Email này đã có trong danh sách.");
         if (isOwnerEmail(nextEmail)) throw new Error("Không thể đổi thành email quản trị chính.");
       }
-      const nextRole = patch.role ?? current[0].role;
-      const nextStatus = patch.status ?? current[0].status;
+      const nextRole: AdminUserRole = patch.role === "owner" || patch.role === "staff" ? patch.role : current[0].role;
+      const nextStatus: AdminUserStatus =
+        nextRole === "owner" ? "approved" : (patch.status ?? current[0].status);
       const email = nextEmail ?? current[0].email;
-      const rows = (await getSql()`
+      let modules: string[];
+      if (nextRole === "owner") {
+        modules = [];
+      } else if (nextModules !== undefined) {
+        modules = nextModules;
+      } else if (nextStatus === "rejected") {
+        modules = [];
+      } else if (current[0].role === "owner") {
+        modules = [];
+      } else {
+        modules = parseModules(current[0].modules);
+      }
+      if (nextRole === "staff" && nextStatus === "approved" && modules.length === 0) {
+        throw new Error("Chọn ít nhất một trang được truy cập.");
+      }
+      const rows = (await db`
         UPDATE admin_users
-        SET email = ${email}, role = ${nextRole}, status = ${nextStatus}, updated_at = ${now}
+        SET
+          email = ${email},
+          role = ${nextRole},
+          status = ${nextStatus},
+          modules = ${db.json(modules)},
+          updated_at = ${now}
         WHERE id = ${id}
-        RETURNING id, email, role, status, created_at, updated_at, last_login_at
+        RETURNING id, email, role, status, modules, created_at, updated_at, last_login_at
       `) as AdminUserRow[];
       if (!rows[0]) throw new Error("Không tìm thấy tài khoản.");
       return mapRow(rows[0]);
@@ -263,6 +320,7 @@ export async function updateAdminUser(
           ...(nextEmail ? { email: nextEmail } : {}),
           ...(patch.role ? { role: patch.role } : {}),
           ...(patch.status ? { status: patch.status } : {}),
+          ...(nextModules ? { modules: nextModules } : {}),
         },
         now,
       );

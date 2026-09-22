@@ -14,9 +14,11 @@ export default async function AdminModuleSoonPage({ params }: AdminModulePagePro
   const { slug } = await params;
   const module = getAdminModule(slug);
   if (!module) notFound();
-  if (module.ownerOnly) {
-    const user = await getAdminSessionUser();
-    if (user?.role !== "owner") notFound();
+  const user = await getAdminSessionUser();
+  if (!user) redirect("/admin/login");
+  if (module.ownerOnly && user.role !== "owner") notFound();
+  if (user.role !== "owner" && !user.modules.includes(module.id)) {
+    redirect("/admin");
   }
   if (module.status === "ready") redirect(module.href);
 

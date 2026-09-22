@@ -25,10 +25,17 @@ export function usePublishedNews(
   }, [initialCategories]);
 
   useEffect(() => {
+    // Data VI đã có từ server — chỉ fetch khi đổi ngôn ngữ.
+    if (language === "vi") {
+      setItems(fallbackItemsRef.current);
+      setCategories(fallbackCategoriesRef.current);
+      return;
+    }
+
     let cancelled = false;
     const controller = new AbortController();
 
-    fetch(`/api/news?lang=${language}`, { cache: "no-store", signal: controller.signal })
+    fetch(`/api/news?lang=${language}`, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to load news");
         return response.json() as Promise<{ items: FoxNewsItem[]; categories?: PublicNewsCategory[] }>;

@@ -10,7 +10,7 @@ import { categoryLabel, type NewsCategory } from "@/data/news-categories";
 import { formatNewsDate } from "@/i18n/format-news-date";
 import type { AdminPostListItem, PostStatus } from "@/lib/news-store";
 
-import { AdminNotice } from "../admin-notice";
+import { AdminConfirm, AdminNotice } from "../admin-notice";
 import { AdminShell } from "../admin-shell";
 
 function statusLabel(status: PostStatus) {
@@ -262,6 +262,8 @@ export default function AdminPostsPage() {
   const [drop, setDrop] = useState<{ categoryId: string; index: number } | null>(null);
   const [dialog, setDialog] = useState<{ mode: "create" | "edit"; id?: string; name: string } | null>(null);
   const [dialogBusy, setDialogBusy] = useState(false);
+  const [deletePost, setDeletePost] = useState<AdminPostListItem | null>(null);
+  const [deleteCategory, setDeleteCategory] = useState<NewsCategory | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -374,19 +376,23 @@ export default function AdminPostsPage() {
     }
   };
 
-  const remove = async (item: AdminPostListItem) => {
-    if (!window.confirm(`Xóa bài “${item.title}”?`)) return;
+  const remove = async () => {
+    if (!deletePost) return;
+    const item = deletePost;
     setBusyId(item.id);
     setError("");
     try {
       const response = await fetch(`/api/admin/posts/${item.id}`, { method: "DELETE" });
       if (!response.ok) {
         const data = (await response.json()) as { error?: string };
+        setDeletePost(null);
         setError(data.error || "Không xóa được bài.");
         return;
       }
       setItems((current) => current.filter((post) => post.id !== item.id));
+      setDeletePost(null);
     } catch {
+      setDeletePost(null);
       setError("Không kết nối được máy chủ.");
     } finally {
       setBusyId(null);
@@ -432,19 +438,23 @@ export default function AdminPostsPage() {
     }
   };
 
-  const removeCategory = async (category: NewsCategory) => {
-    if (!window.confirm(`Xóa chủ đề “${categoryLabel(category, "vi")}”?`)) return;
+  const removeCategory = async () => {
+    if (!deleteCategory) return;
+    const category = deleteCategory;
     setError("");
+    setDialogBusy(true);
     try {
       const response = await fetch(`/api/admin/categories/${category.id}`, { method: "DELETE" });
       const data = (await response.json()) as { error?: string };
-      if (!response.ok) {
-        setError(data.error || "Không xóa được chủ đề.");
-        return;
-      }
+      if (!response.ok) throw new Error(data.error || "Không xóa được chủ đề.");
       setCategories((current) => current.filter((item) => item.id !== category.id));
-    } catch {
-      setError("Không kết nối được máy chủ.");
+      setItems((current) => current.filter((item) => item.categoryId !== category.id));
+      setDeleteCategory(null);
+    } catch (deleteError) {
+      setDeleteCategory(null);
+      setError(deleteError instanceof Error ? deleteError.message : "Không xóa được chủ đề.");
+    } finally {
+      setDialogBusy(false);
     }
   };
 
@@ -521,7 +531,7 @@ export default function AdminPostsPage() {
                             <Plus aria-hidden="true" strokeWidth={2.4} />
                             Thêm bài
                           </Link>
-                          <button type="button" className="is-danger" onClick={() => void removeCategory(category)}>
+                          <button type="button" className="is-danger" onClick={() => setDeleteCategory(category)}>
                             <Trash2 aria-hidden="true" strokeWidth={2.2} />
                             Xóa
                           </button>
@@ -536,7 +546,7 @@ export default function AdminPostsPage() {
                         drop={drop}
                         onHide={(item) => void patchStatus(item, "hidden")}
                         onShow={(item) => void patchStatus(item, "published")}
-                        onRemove={(item) => void remove(item)}
+                        onRemove={(item) => setDeletePost(item)}
                         onMove={(item, delta) => {
                           const index = category.items.findIndex((post) => post.id === item.id);
                           void moveTo(item.id, category.id, index + delta, "at");
@@ -601,6 +611,36 @@ export default function AdminPostsPage() {
             </div>
           </form>
         </div>
+      ) : null}
+
+      {deletePost ? (
+        <AdminConfirm
+          title="Xóa bài viết?"
+          message={`Bạn sắp xóa “${deletePost.title}”. Bài sẽ biến mất khỏi trang tin tức.`}
+          confirmLabel="Xóa bài"
+          cancelLabel="Hủy"
+          tone="danger"
+          busy={busyId === deletePost.id}
+          onCancel={() => {
+            if (busyId !== deletePost.id) setDeletePost(null);
+          }}
+          onConfirm={() => void remove()}
+        />
+      ) : null}
+
+      {deleteCategory ? (
+        <AdminConfirm
+          title="Xóa chủ đề?"
+          message={`Bạn sắp xóa chủ đề “${categoryLabel(deleteCategory, "vi")}”. Thao tác không hoàn tác.`}
+          confirmLabel="Xóa chủ đề"
+          cancelLabel="Hủy"
+          tone="danger"
+          busy={dialogBusy}
+          onCancel={() => {
+            if (!dialogBusy) setDeleteCategory(null);
+          }}
+          onConfirm={() => void removeCategory()}
+        />
       ) : null}
     </AdminShell>
   );

@@ -5,7 +5,7 @@ import path from "node:path";
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireModule } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
 
@@ -29,7 +29,7 @@ async function saveLocalImage(file: File): Promise<string> {
 }
 
 export async function POST(request: Request) {
-  if (!(await requireAdmin())) {
+  if (!(await requireModule("tin-tuc"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

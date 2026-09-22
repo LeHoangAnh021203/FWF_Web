@@ -113,3 +113,41 @@ export async function sendPendingAccessEmails(params: {
     }),
   ]);
 }
+
+export async function sendAccessDecisionEmail(params: {
+  applicantEmail: string;
+  status: "approved" | "rejected";
+  loginUrl: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  const { applicantEmail, status, loginUrl } = params;
+  const approved = status === "approved";
+
+  return sendMail({
+    to: applicantEmail,
+    subject: approved
+      ? "Tài khoản admin Face Wash Fox đã được duyệt"
+      : "Tài khoản admin Face Wash Fox đã bị từ chối",
+    text: approved
+      ? [
+          "Tài khoản đăng nhập trang quản trị Face Wash Fox của bạn đã được duyệt.",
+          "",
+          `Đăng nhập tại: ${loginUrl}`,
+        ].join("\n")
+      : [
+          "Yêu cầu truy cập trang quản trị Face Wash Fox của bạn đã bị từ chối.",
+          "",
+          "Bạn có thể liên hệ itdept@facewashfox.com nếu cần hỗ trợ thêm.",
+        ].join("\n"),
+    html: approved
+      ? `
+        <p>Xin chào,</p>
+        <p>Tài khoản đăng nhập trang quản trị Face Wash Fox của bạn <strong>đã được duyệt</strong>.</p>
+        <p><a href="${escapeHtml(loginUrl)}">Đăng nhập trang quản trị</a></p>
+      `
+      : `
+        <p>Xin chào,</p>
+        <p>Yêu cầu truy cập trang quản trị Face Wash Fox của bạn <strong>đã bị từ chối</strong>.</p>
+        <p>Bạn có thể liên hệ <a href="mailto:itdept@facewashfox.com">itdept@facewashfox.com</a> nếu cần hỗ trợ thêm.</p>
+      `,
+  });
+}

@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 
-import { getAdminModulesForRole, type AdminModule } from "@/lib/admin-modules";
+import { getAdminModulesForUser, type AdminModule } from "@/lib/admin-modules";
 import type { AdminUser } from "@/lib/admin-users";
 
 import { AdminShell } from "./admin-shell";
@@ -52,7 +52,7 @@ function ModuleCard({ module }: { module: AdminModule }) {
 }
 
 export function AdminHome({ user }: { user: AdminUser }) {
-  const modules = getAdminModulesForRole(user.role);
+  const modules = getAdminModulesForUser(user);
 
   return (
     <AdminShell title="Chọn mục cần chỉnh sửa" siteHref="/" backHref={null} accountEmail={user.email}>
@@ -66,6 +66,11 @@ export function AdminHome({ user }: { user: AdminUser }) {
           <ModuleCard key={module.id} module={module} />
         ))}
       </div>
+      {user.role !== "owner" && modules.length === 0 ? (
+        <p className="mt-6 rounded-[24px] border border-[#eadfd5] bg-white px-4 py-8 text-center text-sm text-[#5f5a57]">
+          Tài khoản chưa được cấp trang nào để chỉnh. Liên hệ IT để được duyệt quyền truy cập.
+        </p>
+      ) : null}
     </AdminShell>
   );
 }

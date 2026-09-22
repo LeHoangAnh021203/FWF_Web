@@ -177,4 +177,5 @@ async function initializeAdminSchema(): Promise<void> {
       CONSTRAINT admin_users_status_check CHECK (status IN ('pending', 'approved', 'rejected'))
     )
   `;
+  await db`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS modules jsonb NOT NULL DEFAULT '[]'::jsonb`;
 }

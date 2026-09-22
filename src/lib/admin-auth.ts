@@ -25,6 +25,7 @@ type OtpPayload = {
 };
 
 const loginAttempts = new Map<string, number[]>();
+const otpChallenges = new Map<string, { hash: string; exp: number }>();
 
 function getSecret(): string | null {
   return process.env.ADMIN_SESSION_SECRET?.trim() || null;
@@ -101,24 +102,71 @@ export async function createSessionToken(email: string, role: AdminUserRole): Pr
 export async function createOtpToken(email: string, otp: string): Promise<string> {
   const secret = getSecret();
   if (!secret) throw new Error("ADMIN_SESSION_SECRET is not set");
-  const hash = toBase64Url(await sha256Bytes(`${secret}:${email.toLowerCase()}:${otp}`));
+  const normalized = email.toLowerCase();
+  const hash = toBase64Url(await sha256Bytes(`${secret}:${normalized}:${otp}`));
+  otpChallenges.set(normalized, {
+    hash,
+    exp: Math.floor(Date.now() / 1000) + OTP_TTL_SECONDS,
+  });
   const payload: OtpPayload = {
-    email: email.toLowerCase(),
+    email: normalized,
     hash,
     exp: Math.floor(Date.now() / 1000) + OTP_TTL_SECONDS,
   };
   return signPayload(payload, secret);
 }
 
+export async function rememberOtpChallenge(email: string, otp: string): Promise<void> {
+  const secret = getSecret();
+  if (!secret) throw new Error("ADMIN_SESSION_SECRET is not set");
+  const normalized = email.toLowerCase();
+  const hash = toBase64Url(await sha256Bytes(`${secret}:${normalized}:${otp}`));
+  otpChallenges.set(normalized, {
+    hash,
+    exp: Math.floor(Date.now() / 1000) + OTP_TTL_SECONDS,
+  });
+}
+
+async function consumeStoredOtp(email: string, otp: string): Promise<boolean> {
+  const secret = getSecret();
+  if (!secret) return false;
+  const normalized = email.toLowerCase();
+  const challenge = otpChallenges.get(normalized);
+  if (!challenge) return false;
+  if (challenge.exp <= Math.floor(Date.now() / 1000)) {
+    otpChallenges.delete(normalized);
+    return false;
+  }
+  const hash = toBase64Url(await sha256Bytes(`${secret}:${normalized}:${otp}`));
+  const ok = timingSafeEqual(fromBase64Url(challenge.hash), fromBase64Url(hash));
+  if (ok) otpChallenges.delete(normalized);
+  return ok;
+}
+
+/** Verify OTP that was stored server-side (e.g. invite flow), without cookie. */
+export async function verifyAndConsumeOtpChallenge(email: string, otp: string): Promise<boolean> {
+  return consumeStoredOtp(email.toLowerCase(), otp);
+}
+
 export async function verifyOtpToken(token: string | undefined | null, email: string, otp: string): Promise<boolean> {
   const secret = getSecret();
   if (!secret) return false;
+  const normalized = email.toLowerCase();
   const payload = await readSignedPayload<OtpPayload>(token, secret);
-  if (!payload) return false;
-  if (payload.email !== email.toLowerCase()) return false;
-  if (typeof payload.exp !== "number" || payload.exp <= Math.floor(Date.now() / 1000)) return false;
-  const hash = toBase64Url(await sha256Bytes(`${secret}:${email.toLowerCase()}:${otp}`));
-  return timingSafeEqual(fromBase64Url(payload.hash), fromBase64Url(hash));
+  if (payload) {
+    if (
+      payload.email === normalized &&
+      typeof payload.exp === "number" &&
+      payload.exp > Math.floor(Date.now() / 1000)
+    ) {
+      const hash = toBase64Url(await sha256Bytes(`${secret}:${normalized}:${otp}`));
+      if (timingSafeEqual(fromBase64Url(payload.hash), fromBase64Url(hash))) {
+        otpChallenges.delete(normalized);
+        return true;
+      }
+    }
+  }
+  return consumeStoredOtp(normalized, otp);
 }
 
 async function readSession(token: string | undefined | null): Promise<SessionPayload | null> {
@@ -206,6 +254,13 @@ export async function getAdminSessionUser(): Promise<AdminUser | null> {
 
 export async function requireAdmin(): Promise<boolean> {
   return Boolean(await getAdminSessionUser());
+}
+
+export async function requireModule(moduleId: string): Promise<AdminUser | null> {
+  const user = await getAdminSessionUser();
+  if (!user) return null;
+  const { userCanAccessModule } = await import("@/lib/admin-modules");
+  return userCanAccessModule(user, moduleId) ? user : null;
 }
 
 export async function requireOwner(): Promise<AdminUser | null> {

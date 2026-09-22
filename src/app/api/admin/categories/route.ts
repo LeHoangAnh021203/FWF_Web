@@ -1,20 +1,20 @@
 import { NextResponse } from "next/server";
 
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireModule } from "@/lib/admin-auth";
 import { revalidatePublicNews } from "@/lib/revalidate-news";
 import { createNewsCategory, listNewsCategories } from "@/lib/news-store";
 
 export const runtime = "nodejs";
 
 export async function GET() {
-  if (!(await requireAdmin())) {
+  if (!(await requireModule("tin-tuc"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   return NextResponse.json({ items: await listNewsCategories() });
 }
 
 export async function POST(request: Request) {
-  if (!(await requireAdmin())) {
+  if (!(await requireModule("tin-tuc"))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
