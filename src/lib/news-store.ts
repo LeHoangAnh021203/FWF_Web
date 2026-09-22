@@ -460,8 +460,8 @@ export async function upsertTranslation(
       ${locale.excerpt},
       ${locale.intro},
       ${locale.lead},
-      ${JSON.stringify(locale.paragraphs)}::jsonb,
-      ${JSON.stringify(locale.bullets)}::jsonb,
+      ${db.json(locale.paragraphs)},
+      ${db.json(locale.bullets)},
       ${locale.quote},
       ${locale.cta},
       ${source}
@@ -559,7 +559,7 @@ export async function createNewsCategory(viName: string): Promise<NewsCategory> 
   const sortOrder = Number(maxRows[0]?.max_sort ?? -1) + 1;
   await db`
     INSERT INTO news_categories (id, sort_order, labels)
-    VALUES (${id}, ${sortOrder}, ${JSON.stringify(labels)}::jsonb)
+    VALUES (${id}, ${sortOrder}, ${db.json(labels)})
   `;
   return { id, sortOrder, labels };
 }
@@ -573,7 +573,7 @@ export async function updateNewsCategory(id: string, viName: string): Promise<Ne
   const db = getSql();
   const updated = await db`
     UPDATE news_categories
-    SET labels = ${JSON.stringify(labels)}::jsonb
+    SET labels = ${db.json(labels)}
     WHERE id = ${id}
     RETURNING id
   `;

@@ -176,7 +176,7 @@ export async function upsertVerifiedAdminUser(
     file: async () => {
       if (process.env.VERCEL) {
         throw new Error(
-          "Thiếu DATABASE_URL trên Vercel. Thêm Neon DATABASE_URL vào Production rồi deploy lại.",
+          "Thiếu DATABASE_URL trên Vercel. Thêm Railway Postgres DATABASE_URL vào Production rồi deploy lại.",
         );
       }
       const { fileUpsertUser } = await import("@/lib/admin-users-file");

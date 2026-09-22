@@ -1,22 +1,36 @@
-import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
+import postgres, { type Sql } from "postgres";
 
 import { foxNewsSources } from "@/components/b2b/fox-news-locales";
 import { DEFAULT_NEWS_CATEGORIES, getNewsCategoryId } from "@/data/news-categories";
 import type { SiteLanguage } from "@/i18n/dictionaries";
 
-type Sql = NeonQueryFunction<false, false>;
-
 let sql: Sql | null = null;
 let ready: Promise<void> | null = null;
 
 export function isDatabaseConfigured(): boolean {
-  return Boolean(process.env.DATABASE_URL?.trim());
+  return Boolean(getDatabaseUrl());
+}
+
+function getDatabaseUrl(): string | null {
+  const url =
+    process.env.DATABASE_URL?.trim() ||
+    process.env.DATABASE_PUBLIC_URL?.trim() ||
+    null;
+  return url || null;
 }
 
 export function getSql(): Sql {
-  const url = process.env.DATABASE_URL?.trim();
+  const url = getDatabaseUrl();
   if (!url) throw new Error("DATABASE_URL is not set");
-  if (!sql) sql = neon(url);
+  if (!sql) {
+    sql = postgres(url, {
+      max: 10,
+      idle_timeout: 20,
+      connect_timeout: 30,
+      prepare: false,
+      ssl: url.includes("localhost") || url.includes("127.0.0.1") ? false : "require",
+    });
+  }
   return sql;
 }
 
@@ -33,6 +47,7 @@ export async function ensureNewsSchema(): Promise<void> {
 
 async function initializeNewsSchema(): Promise<void> {
   const db = getSql();
+  await db`CREATE EXTENSION IF NOT EXISTS pgcrypto`;
 
   await db`
     CREATE TABLE IF NOT EXISTS posts (
@@ -85,7 +100,7 @@ async function initializeNewsSchema(): Promise<void> {
   for (const category of DEFAULT_NEWS_CATEGORIES) {
     await db`
       INSERT INTO news_categories (id, sort_order, labels)
-      VALUES (${category.id}, ${category.sortOrder}, ${JSON.stringify(category.labels)}::jsonb)
+      VALUES (${category.id}, ${category.sortOrder}, ${db.json(category.labels)})
       ON CONFLICT (id) DO NOTHING
     `;
   }
@@ -121,8 +136,8 @@ async function initializeNewsSchema(): Promise<void> {
           ${locale.excerpt},
           ${locale.intro},
           ${locale.lead},
-          ${JSON.stringify(locale.paragraphs)}::jsonb,
-          ${JSON.stringify(locale.bullets)}::jsonb,
+          ${db.json(locale.paragraphs)},
+          ${db.json(locale.bullets)},
           ${locale.quote},
           ${locale.cta},
           'manual'
@@ -148,6 +163,7 @@ export async function ensureAdminSchema(): Promise<void> {
 
 async function initializeAdminSchema(): Promise<void> {
   const db = getSql();
+  await db`CREATE EXTENSION IF NOT EXISTS pgcrypto`;
   await db`
     CREATE TABLE IF NOT EXISTS admin_users (
       id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
