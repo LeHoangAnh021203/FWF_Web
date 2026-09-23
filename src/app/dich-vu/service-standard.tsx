@@ -2,13 +2,15 @@
 
 import {
   useCallback,
+  useEffect,
   useMemo,
   useState,
   type FormEvent,
 } from "react";
-import { branches } from "@/data/branches";
+import { useBranches } from "@/lib/use-branches";
 import { useLanguage } from "@/i18n/language-context";
 import { PrivacyConsent } from "@/components/privacy-consent";
+import { BranchPicker } from "@/components/branch-picker";
 import { serviceImages } from "./service-images";
 
 const centerImage = serviceImages.standardsCenter;
@@ -126,15 +128,21 @@ function StandardRow({
 
 export default function ServiceStandard() {
   const { t } = useLanguage();
+  const { branches } = useBranches();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [privacyConsent, setPrivacyConsent] = useState(false);
 
-  const [selectedBranchId, setSelectedBranchId] = useState<number>(
-    branches[0]?.id ?? 0,
-  );
+  const [selectedBranchId, setSelectedBranchId] = useState<number>(0);
+
+  useEffect(() => {
+    if (!selectedBranchId && branches[0]?.id) {
+      setSelectedBranchId(branches[0].id);
+    }
+  }, [branches, selectedBranchId]);
+
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState("");
 
@@ -160,7 +168,7 @@ export default function ServiceStandard() {
 
   const selectedBranch = useMemo(() => {
     return branches.find((branch) => branch.id === selectedBranchId) ?? null;
-  }, [selectedBranchId]);
+  }, [branches, selectedBranchId]);
 
   const handleDetectNearestBranch = useCallback(() => {
     if (typeof window === "undefined" || !navigator.geolocation) {
@@ -214,7 +222,7 @@ export default function ServiceStandard() {
         maximumAge: 300000,
       },
     );
-  }, [t]);
+  }, [branches, t]);
 
   const handleSubmitBooking = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -425,12 +433,9 @@ export default function ServiceStandard() {
 
             <div>
               <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-                <label
-                  htmlFor="booking-branch"
-                  className="text-sm font-semibold text-[#374151] sm:text-[1.05rem]"
-                >
+                <p className="text-sm font-semibold text-[#374151] sm:text-[1.05rem]">
                   {t("svc.branch")}
-                </label>
+                </p>
                 <button
                   type="button"
                   onClick={handleDetectNearestBranch}
@@ -439,24 +444,15 @@ export default function ServiceStandard() {
                   {isLocating ? t("svc.book.locating") : t("svc.book.locate")}
                 </button>
               </div>
-              <select
+              <BranchPicker
                 id="booking-branch"
-                className="h-12 w-full rounded-[14px] border border-[#c7cdd5] bg-[#f1dce9] px-4 text-base text-[#111827] outline-none focus:border-[#a855f7]/50 sm:h-14 sm:px-5 sm:text-[1.05rem] md:text-[1.15rem]"
+                placeholder={t("svc.book.branchPlaceholder")}
+                branches={branches}
                 value={selectedBranchId}
-                onChange={(event) => setSelectedBranchId(Number(event.target.value))}
-              >
-                {branches.map((branch) => {
-                  const distance = distanceByBranchId[branch.id];
-                  return (
-                    <option key={branch.id} value={branch.id}>
-                      {branch.name}
-                      {typeof distance === "number"
-                        ? ` — ${distance.toFixed(1)} km`
-                        : ""}
-                    </option>
-                  );
-                })}
-              </select>
+                distanceByBranchId={distanceByBranchId}
+                required
+                onChange={setSelectedBranchId}
+              />
               {locationError ? (
                 <p className="mt-2 text-[0.95rem] text-[#dc2626]">
                   {locationError}

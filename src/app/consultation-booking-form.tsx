@@ -10,7 +10,8 @@ import {
 } from "react";
 
 import { PrivacyConsent } from "@/components/privacy-consent";
-import { branches } from "@/data/branches";
+import { BranchPicker } from "@/components/branch-picker";
+import { useBranches } from "@/lib/use-branches";
 import { useLanguage } from "@/i18n/language-context";
 
 import { CONSULT_BOOKING_SOURCE_FAB } from "./open-consultation-booking";
@@ -57,12 +58,19 @@ export default function ConsultationBookingForm({
   source = CONSULT_BOOKING_SOURCE_FAB,
 }: ConsultationBookingFormProps) {
   const { t } = useLanguage();
+  const { branches } = useBranches();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [selectedBranchId, setSelectedBranchId] = useState(0);
+
+  useEffect(() => {
+    if (!selectedBranchId && branches[0]?.id) {
+      setSelectedBranchId(branches[0].id);
+    }
+  }, [branches, selectedBranchId]);
   const [isLocating, setIsLocating] = useState(false);
   const [locationError, setLocationError] = useState("");
   const [submitError, setSubmitError] = useState("");
@@ -93,7 +101,7 @@ export default function ConsultationBookingForm({
 
   const selectedBranch = useMemo(
     () => branches.find((branch) => branch.id === selectedBranchId) ?? null,
-    [selectedBranchId],
+    [branches, selectedBranchId],
   );
 
   const requestedForOpenRef = useRef(false);
@@ -108,7 +116,7 @@ export default function ConsultationBookingForm({
         (distanceByBranchId[left.id] ?? Number.POSITIVE_INFINITY) -
         (distanceByBranchId[right.id] ?? Number.POSITIVE_INFINITY),
     );
-  }, [distanceByBranchId]);
+  }, [branches, distanceByBranchId]);
 
   const nearestBranchName = nearestBranch
     ? (branches.find((branch) => branch.id === nearestBranch.id)?.name ?? "")
@@ -166,7 +174,7 @@ export default function ConsultationBookingForm({
         maximumAge: 300000,
       },
     );
-  }, [t]);
+  }, [branches, t]);
 
   useEffect(() => {
     if (!active) {
@@ -306,30 +314,19 @@ export default function ConsultationBookingForm({
       </div>
 
       <div>
-        <label htmlFor={branchId} className="consultation-booking-label">
-          {t("svc.branchNearest")}
-        </label>
         {isLocating ? (
           <p className="consultation-booking-locate-ask">{t("svc.book.locating")}</p>
         ) : null}
-        <select
+        <BranchPicker
           id={branchId}
-          className="consultation-booking-field"
-          value={selectedBranchId || ""}
-          onChange={(event) => setSelectedBranchId(Number(event.target.value) || 0)}
+          label={t("svc.branchNearest")}
+          placeholder={t("svc.book.branchPlaceholder")}
+          branches={listedBranches}
+          value={selectedBranchId}
+          distanceByBranchId={distanceByBranchId}
           required
-        >
-          <option value="">{t("svc.book.branchPlaceholder")}</option>
-          {listedBranches.map((branch) => {
-            const distance = distanceByBranchId[branch.id];
-            return (
-              <option key={branch.id} value={branch.id}>
-                {branch.name}
-                {typeof distance === "number" ? ` — ${distance.toFixed(1)} km` : ""}
-              </option>
-            );
-          })}
-        </select>
+          onChange={setSelectedBranchId}
+        />
         {locationError ? (
           <p className="consultation-booking-hint is-error">{locationError}</p>
         ) : null}

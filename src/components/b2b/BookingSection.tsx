@@ -1,24 +1,31 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-import { branches } from "@/data/branches"
 import { Button } from "@/components/b2b/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/b2b/ui/dialog"
 import { useLanguage } from "@/i18n/language-context"
 import { PrivacyConsent } from "@/components/privacy-consent"
+import { useBranches } from "@/lib/use-branches"
 
 export function BookingSection() {
   const { t } = useLanguage()
+  const { branches } = useBranches()
   const [fullName, setFullName] = useState("")
   const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
   const [note, setNote] = useState("")
   const [privacyConsent, setPrivacyConsent] = useState(false)
-  const [selectedBranchId] = useState(branches[0]?.id ?? 1)
+  const [selectedBranchId, setSelectedBranchId] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState("")
   const [submitSuccess, setSubmitSuccess] = useState("")
+
+  useEffect(() => {
+    if (!selectedBranchId && branches[0]?.id) {
+      setSelectedBranchId(branches[0].id)
+    }
+  }, [branches, selectedBranchId])
 
   const handleSubmitBooking = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
