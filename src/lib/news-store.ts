@@ -34,6 +34,7 @@ import {
 } from "@/lib/news-file-store";
 import { slugifyVi } from "@/lib/slugify";
 import { translateCategoryLabels } from "@/lib/translate-news";
+import { cache } from "react";
 
 export type PostStatus = "draft" | "published" | "hidden";
 export type TranslationSource = "auto" | "manual";
@@ -174,6 +175,21 @@ function toFoxNewsItem(row: PostRow, language: SiteLanguage): FoxNewsItem {
   };
 }
 
+/** Card/list payload — bỏ body nặng (paragraphs jsonb). */
+function toFoxNewsSummary(row: PostRow, language: SiteLanguage): FoxNewsItem {
+  const publishedAt = dateOnly(row.published_at);
+  return {
+    slug: row.slug,
+    date: formatNewsDate(publishedAt, language),
+    dateIso: toNewsDateIso(publishedAt),
+    image: row.cover_image,
+    sponsored: Boolean(row.sponsored),
+    categoryId: asCategoryId(row.category_id),
+    title: row.title ?? "",
+    excerpt: row.excerpt ?? "",
+  };
+}
+
 async function uniqueSlug(base: string, excludeId?: string): Promise<string> {
   const db = getSql();
   const normalized = slugifyVi(base) || `bai-viet-${Date.now()}`;
@@ -206,13 +222,7 @@ export async function getPublishedNews(language: SiteLanguage): Promise<FoxNewsI
       SELECT
         p.id, p.slug, p.category_id, p.published_at, p.cover_image, p.sponsored, p.status,
         COALESCE(t.title, vi.title) AS title,
-        COALESCE(t.excerpt, vi.excerpt) AS excerpt,
-        COALESCE(t.intro, vi.intro) AS intro,
-        COALESCE(t.lead, vi.lead) AS lead,
-        COALESCE(t.paragraphs, vi.paragraphs) AS paragraphs,
-        COALESCE(t.bullets, vi.bullets) AS bullets,
-        COALESCE(t.quote, vi.quote) AS quote,
-        COALESCE(t.cta, vi.cta) AS cta
+        COALESCE(t.excerpt, vi.excerpt) AS excerpt
       FROM posts p
       JOIN post_translations vi ON vi.post_id = p.id AND vi.language = 'vi'
       LEFT JOIN post_translations t ON t.post_id = p.id AND t.language = ${language}
@@ -220,14 +230,17 @@ export async function getPublishedNews(language: SiteLanguage): Promise<FoxNewsI
       ORDER BY p.sort_order ASC, p.published_at DESC, p.created_at DESC
     `) as PostRow[];
 
-    return rows.map((row) => toFoxNewsItem(row, language));
+    return rows.map((row) => toFoxNewsSummary(row, language));
   } catch (error) {
     console.error("[news-store] getPublishedNews failed", error);
-    return getLocalizedFoxNews(language);
+    return getLocalizedFoxNews(language).map((item) => ({
+      ...item,
+      article: undefined,
+    }));
   }
 }
 
-export async function getPublishedNewsBySlug(
+async function fetchPublishedNewsBySlug(
   slug: string,
   language: SiteLanguage = "vi",
 ): Promise<FoxNewsItem | null> {
@@ -266,6 +279,96 @@ export async function getPublishedNewsBySlug(
   } catch (error) {
     console.error("[news-store] getPublishedNewsBySlug failed", error);
     return getStaticNewsBySlug(slug, language) ?? null;
+  }
+}
+
+/** Dedupes metadata + page queries in the same request. */
+export const getPublishedNewsBySlug = cache(fetchPublishedNewsBySlug);
+
+export async function getRelatedPublishedNews(
+  slug: string,
+  language: SiteLanguage,
+  limit = 2,
+): Promise<FoxNewsItem[]> {
+  const safeLimit = Math.min(Math.max(limit, 1), 6);
+
+  if (!isDatabaseConfigured()) {
+    try {
+      const items = await fileGetPublishedNews(language);
+      return items.filter((item) => item.slug !== slug).slice(0, safeLimit);
+    } catch {
+      return getLocalizedFoxNews(language)
+        .filter((item) => item.slug !== slug)
+        .slice(0, safeLimit)
+        .map((item) => ({ ...item, article: undefined }));
+    }
+  }
+
+  try {
+    await ensureNewsSchema();
+    const db = getSql();
+    const current = (await db`
+      SELECT category_id FROM posts WHERE slug = ${slug} AND status = 'published' LIMIT 1
+    `) as Array<{ category_id: string }>;
+    const categoryId = current[0]?.category_id ?? null;
+
+    const rows = (categoryId
+      ? await db`
+          SELECT
+            p.id, p.slug, p.category_id, p.published_at, p.cover_image, p.sponsored, p.status,
+            COALESCE(t.title, vi.title) AS title,
+            COALESCE(t.excerpt, vi.excerpt) AS excerpt
+          FROM posts p
+          JOIN post_translations vi ON vi.post_id = p.id AND vi.language = 'vi'
+          LEFT JOIN post_translations t ON t.post_id = p.id AND t.language = ${language}
+          WHERE p.status = 'published'
+            AND p.slug <> ${slug}
+            AND p.category_id = ${categoryId}
+          ORDER BY p.sort_order ASC, p.published_at DESC, p.created_at DESC
+          LIMIT ${safeLimit}
+        `
+      : await db`
+          SELECT
+            p.id, p.slug, p.category_id, p.published_at, p.cover_image, p.sponsored, p.status,
+            COALESCE(t.title, vi.title) AS title,
+            COALESCE(t.excerpt, vi.excerpt) AS excerpt
+          FROM posts p
+          JOIN post_translations vi ON vi.post_id = p.id AND vi.language = 'vi'
+          LEFT JOIN post_translations t ON t.post_id = p.id AND t.language = ${language}
+          WHERE p.status = 'published' AND p.slug <> ${slug}
+          ORDER BY p.sort_order ASC, p.published_at DESC, p.created_at DESC
+          LIMIT ${safeLimit}
+        `) as PostRow[];
+
+    if (rows.length >= safeLimit || !categoryId) {
+      return rows.map((row) => toFoxNewsSummary(row, language));
+    }
+
+    const existing = new Set(rows.map((row) => row.slug));
+    const filler = (await db`
+      SELECT
+        p.id, p.slug, p.category_id, p.published_at, p.cover_image, p.sponsored, p.status,
+        COALESCE(t.title, vi.title) AS title,
+        COALESCE(t.excerpt, vi.excerpt) AS excerpt
+      FROM posts p
+      JOIN post_translations vi ON vi.post_id = p.id AND vi.language = 'vi'
+      LEFT JOIN post_translations t ON t.post_id = p.id AND t.language = ${language}
+      WHERE p.status = 'published'
+        AND p.slug <> ${slug}
+        AND p.category_id <> ${categoryId}
+      ORDER BY p.sort_order ASC, p.published_at DESC, p.created_at DESC
+      LIMIT ${safeLimit - rows.length}
+    `) as PostRow[];
+
+    return [...rows, ...filler.filter((row) => !existing.has(row.slug))]
+      .slice(0, safeLimit)
+      .map((row) => toFoxNewsSummary(row, language));
+  } catch (error) {
+    console.error("[news-store] getRelatedPublishedNews failed", error);
+    return getLocalizedFoxNews(language)
+      .filter((item) => item.slug !== slug)
+      .slice(0, safeLimit)
+      .map((item) => ({ ...item, article: undefined }));
   }
 }
 
@@ -523,8 +626,17 @@ export async function getPublishedCategories(language: SiteLanguage): Promise<Pu
     }
   }
   try {
-    const [categories, posts] = await Promise.all([listNewsCategories(), getPublishedNews(language)]);
-    const used = new Set(posts.map((post) => post.categoryId));
+    await ensureNewsSchema();
+    const db = getSql();
+    const [categories, usedRows] = await Promise.all([
+      listNewsCategories(),
+      db`SELECT DISTINCT category_id FROM posts WHERE status = 'published'`,
+    ]);
+    const used = new Set(
+      (usedRows as unknown as Array<{ category_id: string }>).map(
+        (row) => row.category_id,
+      ),
+    );
     return categories
       .filter((category) => used.has(category.id))
       .map((category) => ({

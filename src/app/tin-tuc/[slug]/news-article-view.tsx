@@ -13,6 +13,31 @@ type NewsArticleViewProps = {
   initialRelated?: FoxNewsItem[];
 };
 
+function ArticleSkeleton() {
+  return (
+    <div className="mx-auto w-full max-w-[1400px] animate-pulse px-4 pb-16 pt-28 sm:px-6 md:px-8 md:pb-24 md:pt-32">
+      <div className="mb-8 flex gap-2">
+        <div className="h-4 w-16 rounded bg-[#f3e7dc]" />
+        <div className="h-4 w-3 rounded bg-[#f3e7dc]" />
+        <div className="h-4 w-20 rounded bg-[#f3e7dc]" />
+      </div>
+      <div className="space-y-3">
+        <div className="h-9 w-[90%] rounded bg-[#f3e7dc]" />
+        <div className="h-9 w-[65%] rounded bg-[#f3e7dc]" />
+      </div>
+      <div className="mt-8 aspect-[16/10] rounded-[28px] bg-[#fff7ed]" />
+      <div className="mt-8 space-y-3">
+        <div className="h-4 w-full rounded bg-[#f3e7dc]" />
+        <div className="h-4 w-full rounded bg-[#f3e7dc]" />
+        <div className="h-4 w-[88%] rounded bg-[#f3e7dc]" />
+      </div>
+      <p className="mt-10 text-center text-sm font-medium text-[#b08968]">
+        Đang tải nội dung…
+      </p>
+    </div>
+  );
+}
+
 export function NewsArticleView({
   slug,
   initialArticle,
@@ -36,22 +61,20 @@ export function NewsArticleView({
     const controller = new AbortController();
     setLoaded(false);
 
-    Promise.all([
-      fetch(`/api/news/${slug}?lang=${language}`, { signal: controller.signal }).then(async (response) => {
-        if (!response.ok) return null;
-        const data = (await response.json()) as { item?: FoxNewsItem };
-        return data.item ?? null;
-      }),
-      fetch(`/api/news?lang=${language}`, { signal: controller.signal }).then(async (response) => {
-        if (!response.ok) return [] as FoxNewsItem[];
-        const data = (await response.json()) as { items?: FoxNewsItem[] };
-        return data.items ?? [];
-      }),
-    ])
-      .then(([current, items]) => {
+    fetch(`/api/news/${slug}?lang=${language}&related=2`, {
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Failed to load article");
+        return response.json() as Promise<{
+          item?: FoxNewsItem;
+          related?: FoxNewsItem[];
+        }>;
+      })
+      .then((data) => {
         if (cancelled) return;
-        setArticle(current);
-        setRelated(items.filter((item) => item.slug !== slug).slice(0, 2));
+        setArticle(data.item ?? null);
+        setRelated(data.related ?? []);
         setLoaded(true);
       })
       .catch((error: unknown) => {
@@ -72,7 +95,7 @@ export function NewsArticleView({
   const content = article?.article;
 
   if (!loaded) {
-    return <div className="mx-auto min-h-[50vh] w-full max-w-[1400px] px-4 pt-28" />;
+    return <ArticleSkeleton />;
   }
 
   if (!article || !content) {
@@ -145,6 +168,7 @@ export function NewsArticleView({
                     src={block.src}
                     alt={block.alt}
                     fill
+                    loading="lazy"
                     sizes="(max-width: 1280px) 100vw, 920px"
                     className="object-cover"
                   />
@@ -188,6 +212,7 @@ export function NewsArticleView({
                   <Link
                     key={item.slug}
                     href={`/tin-tuc/${item.slug}`}
+                    prefetch
                     className="group flex flex-col transition-transform duration-300 hover:-translate-y-0.5"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden rounded-[18px] bg-white">
@@ -195,6 +220,7 @@ export function NewsArticleView({
                         src={item.image}
                         alt={item.title}
                         fill
+                        loading="lazy"
                         sizes="(max-width: 1280px) 100vw, 360px"
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       />

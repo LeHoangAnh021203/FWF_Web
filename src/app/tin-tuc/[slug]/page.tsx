@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { SiteFooter, SiteHeader } from "@/app/site-chrome";
-import { getPublishedNews, getPublishedNewsBySlug } from "@/lib/news-store";
+import { getPublishedNewsBySlug, getRelatedPublishedNews } from "@/lib/news-store";
 import { NewsArticleView } from "./news-article-view";
 
 export const revalidate = 60;
@@ -31,13 +31,11 @@ export async function generateMetadata({
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   const { slug } = await params;
-  const [article, allItems] = await Promise.all([
+  const [article, related] = await Promise.all([
     getPublishedNewsBySlug(slug, "vi"),
-    getPublishedNews("vi"),
+    getRelatedPublishedNews(slug, "vi", 2),
   ]);
   if (!article) notFound();
-
-  const related = allItems.filter((item) => item.slug !== slug).slice(0, 2);
 
   return (
     <main className="min-h-screen bg-white text-[#171412]">

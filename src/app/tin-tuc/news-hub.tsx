@@ -16,15 +16,18 @@ function NewsCard({
   adLabel,
   categoryLabel,
   onNavigate,
+  priority = false,
 }: {
   item: FoxNewsItem;
   adLabel: string;
   categoryLabel: string;
   onNavigate?: (event: MouseEvent<HTMLAnchorElement>) => void;
+  priority?: boolean;
 }) {
   return (
     <Link
       href={`/tin-tuc/${item.slug}`}
+      prefetch
       draggable={false}
       onClick={onNavigate}
       className="news-hub-card group"
@@ -34,6 +37,9 @@ function NewsCard({
           src={item.image}
           alt={item.title}
           fill
+          {...(priority
+            ? { priority: true }
+            : { loading: "lazy" as const })}
           sizes="(max-width: 768px) 82vw, 33vw"
           className="pointer-events-none object-cover transition duration-500 group-hover:scale-[1.03]"
         />
@@ -192,12 +198,13 @@ function CategoryTrack({
           };
         }}
       >
-        {items.map((item) => (
+        {items.map((item, index) => (
           <NewsCard
             key={item.slug}
             item={item}
             adLabel={adLabel}
             categoryLabel={title}
+            priority={index < 2}
             onNavigate={(event) => {
               if (dragRef.current.moved) {
                 event.preventDefault();
