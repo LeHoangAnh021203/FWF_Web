@@ -7722,6 +7722,12 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
 .news-hub-page {
   /* Avoid overflow-x: clip — it pairs overflow-y to auto and breaks sticky topics */
   overflow: visible;
+  max-width: 100%;
+}
+
+.news-hub {
+  max-width: 100%;
+  min-width: 0;
 }
 
 .news-hub-topics {
@@ -7845,6 +7851,7 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   margin: 0 auto;
   display: grid;
   gap: 48px;
+  min-width: 0;
 }
 
 .news-hub-category {
@@ -7854,6 +7861,8 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   border-radius: 22px;
   background: #ffffff;
   box-shadow: 0 18px 40px -34px rgba(120, 60, 20, 0.55);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .news-hub-section-head {
@@ -7888,6 +7897,9 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
 
 .news-hub-track-wrap {
   position: relative;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .news-hub-track-nav {
@@ -7929,6 +7941,8 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   flex-wrap: nowrap;
   gap: 36px;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 6px;
@@ -8707,6 +8721,10 @@ body:has(.mono-mobile-menu) .mono-vertical-menu {
   .news-hub-section-head {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .news-hub-track {
+    gap: 16px;
   }
 
   .news-hub-card {
