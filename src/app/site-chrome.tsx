@@ -32,7 +32,7 @@ const navItemConfigs = [
   { key: "nav.contact", href: "#home-contact-info", Icon: Phone },
   { key: "nav.promo", href: "#news", Icon: Gift },
   { key: "nav.news", href: "/tin-tuc", Icon: Bell },
-  // { key: "nav.faq", href: "/faq", Icon: Bell },
+  { key: "nav.faq", href: "/faq", Icon: Bell },
   { key: "nav.b2b", href: "/b2b", Icon: Users },
 ] as const;
 
@@ -42,7 +42,7 @@ const desktopNavItemConfigs = [
   // Temporarily hidden: { key: "nav.stores", href: "/cua-hang" },
   { key: "nav.about", href: "/ve-chung-toi" },
   { key: "nav.news", href: "/tin-tuc" },
-  // { key: "nav.faq", href: "/faq" },
+  { key: "nav.faq", href: "/faq" },
   { key: "nav.b2b", href: "/b2b" },
 ] as const;
 

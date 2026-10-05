@@ -15,12 +15,12 @@ export const faqCategories: FaqCategoryDef[] = [
       { qKey: "faq.s.q3", aKey: "faq.s.a3" },
       { qKey: "faq.s.q4", aKey: "faq.s.a4" },
       { qKey: "faq.s.q5", aKey: "faq.s.a5" },
-      { qKey: "faq.s.q6", aKey: "faq.s.a6" },
     ],
   },
   {
     id: "shipping",
     titleKey: "faq.cat.shipping",
+    hidden: true,
     items: [
       { qKey: "faq.sh.q1", aKey: "faq.sh.a1" },
       { qKey: "faq.sh.q2", aKey: "faq.sh.a2" },

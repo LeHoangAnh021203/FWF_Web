@@ -8,16 +8,17 @@ import type { PublicNewsCategory } from "@/lib/news-store";
 
 export function usePublishedNews(
   language: SiteLanguage,
-  initialItems: FoxNewsItem[] = [],
+  initialItems?: FoxNewsItem[],
   initialCategories: PublicNewsCategory[] = [],
 ): { items: FoxNewsItem[]; categories: PublicNewsCategory[] } {
-  const fallbackItemsRef = useRef(initialItems);
+  const hasInitialItems = initialItems !== undefined;
+  const fallbackItemsRef = useRef(initialItems ?? []);
   const fallbackCategoriesRef = useRef(initialCategories);
-  const [items, setItems] = useState<FoxNewsItem[]>(initialItems);
+  const [items, setItems] = useState<FoxNewsItem[]>(initialItems ?? []);
   const [categories, setCategories] = useState<PublicNewsCategory[]>(initialCategories);
 
   useEffect(() => {
-    fallbackItemsRef.current = initialItems;
+    fallbackItemsRef.current = initialItems ?? [];
   }, [initialItems]);
 
   useEffect(() => {
@@ -25,8 +26,9 @@ export function usePublishedNews(
   }, [initialCategories]);
 
   useEffect(() => {
-    // Data VI đã có từ server — chỉ fetch khi đổi ngôn ngữ.
-    if (language === "vi") {
+    // Chỉ bỏ qua fetch tiếng Việt khi server thực sự đã truyền dữ liệu.
+    // Mảng rỗng từ server vẫn hợp lệ (không có bài đã xuất bản).
+    if (language === "vi" && hasInitialItems) {
       setItems(fallbackItemsRef.current);
       setCategories(fallbackCategoriesRef.current);
       return;
@@ -57,7 +59,7 @@ export function usePublishedNews(
       cancelled = true;
       controller.abort();
     };
-  }, [language]);
+  }, [language, hasInitialItems]);
 
   return { items, categories };
 }

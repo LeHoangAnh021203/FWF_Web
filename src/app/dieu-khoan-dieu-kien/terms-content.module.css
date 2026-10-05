@@ -1,0 +1,56 @@
+.document {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(140px, 15vw, 200px) clamp(24px, 5vw, 64px) 80px;
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.title {
+  margin: 0 0 40px;
+  color: #ed591c;
+  font-size: clamp(23px, 3vw, 36px);
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.title > span {
+  display: block;
+}
+
+.document p {
+  margin: 0 0 16px;
+  white-space: pre-wrap;
+}
+
+.document h2 {
+  margin: 48px 0 24px;
+  color: #ed591c;
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 800;
+}
+
+.document h3 {
+  margin: 32px 0 16px;
+  font-size: clamp(19px, 2vw, 23px);
+  font-weight: 750;
+}
+
+.document h4 {
+  margin: 24px 0 12px;
+  font-size: inherit;
+  font-weight: 700;
+}
+
+.numbered {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.marker {
+  flex-shrink: 0;
+  min-width: 20px;
+}

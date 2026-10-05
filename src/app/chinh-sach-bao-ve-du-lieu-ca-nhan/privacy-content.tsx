@@ -39,7 +39,7 @@ export function PrivacyContent() {
         <div>
           <a href="tel:0889866666">0889 866 666</a>
           <a href="mailto:info@facewashfox.com">info@facewashfox.com</a>
-          {/* <Link href="/dieu-khoan-dieu-kien">{t("footer.terms")}</Link> */}
+          <Link href="/dieu-khoan-dieu-kien">{t("footer.terms")}</Link>
         </div>
       </section>
     </>
