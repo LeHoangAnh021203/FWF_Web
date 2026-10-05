@@ -4,6 +4,15 @@ const STATIC_ASSET_CACHE_CONTROL =
   "public, max-age=604800, stale-while-revalidate=2592000";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/dieu-khoan-dieu-kien",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [
