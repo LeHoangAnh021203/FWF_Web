@@ -51,7 +51,7 @@ export default function AppFwfPage() {
             target="_blank"
             rel="noreferrer"
             className="app-fwf-store-btn"
-          >
+          > 
             <AppleIcon />
             <span className="app-fwf-store-btn-copy">
               <span className="app-fwf-store-btn-eyebrow">Tải trên</span>

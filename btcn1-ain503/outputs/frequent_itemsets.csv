@@ -1,0 +1,5 @@
+support,itemsets
+0.45,frozenset({'Camera An Ninh'})
+0.7,frozenset({'Internet Cáp Quang'})
+0.6,frozenset({'Truyền Hình FPT Play'})
+0.55,"frozenset({'Internet Cáp Quang', 'Truyền Hình FPT Play'})"
