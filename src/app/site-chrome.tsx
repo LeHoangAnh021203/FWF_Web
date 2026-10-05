@@ -128,6 +128,7 @@ const footerColumnConfigs = [
       { labelKey: "nav.services", href: "/dich-vu" },
       { labelKey: "footer.news", href: "/tin-tuc" },
       { labelKey: "nav.stores", href: "/cua-hang" },
+      { labelKey: "footer.terms", href: "/dieu-khoan-dieu-kien" },
     ],
   },
   // {
