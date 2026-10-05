@@ -550,7 +550,7 @@ export function SiteFooter({ home = false }: { home?: boolean }) {
 
           <div className="footer-link-columns">
             {footerColumnConfigs.map(({ titleKey, links }) => (
-              <div key={titleKey}>
+              <div key={titleKey} className={titleKey === "footer.links" ? "footer-links-group" : undefined}>
                 <h3>{t(titleKey)}</h3>
                 <ul>
                   {links.map(({ labelKey, href }) => (
