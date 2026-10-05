@@ -48,12 +48,12 @@ export function PrivacyConsent({
           {t("consent.privacy")}
         </Link>
         {t("consent.and")}
-        <Link
+        {/* <Link
           href="/dieu-khoan-dieu-kien"
           className="font-semibold underline underline-offset-2"
         >
           {t("consent.terms")}
-        </Link>
+        </Link> */}
         .
       </span>
     </label>
