@@ -32,7 +32,7 @@ const navItemConfigs = [
   { key: "nav.contact", href: "#home-contact-info", Icon: Phone },
   { key: "nav.promo", href: "#news", Icon: Gift },
   { key: "nav.news", href: "/tin-tuc", Icon: Bell },
-  { key: "nav.faq", href: "/faq", Icon: Bell },
+  // { key: "nav.faq", href: "/faq", Icon: Bell },
   { key: "nav.b2b", href: "/b2b", Icon: Users },
 ] as const;
 
@@ -42,7 +42,7 @@ const desktopNavItemConfigs = [
   // Temporarily hidden: { key: "nav.stores", href: "/cua-hang" },
   { key: "nav.about", href: "/ve-chung-toi" },
   { key: "nav.news", href: "/tin-tuc" },
-  { key: "nav.faq", href: "/faq" },
+  // { key: "nav.faq", href: "/faq" },
   { key: "nav.b2b", href: "/b2b" },
 ] as const;
 
@@ -130,14 +130,14 @@ const footerColumnConfigs = [
       { labelKey: "nav.stores", href: "/cua-hang" },
     ],
   },
-  {
-    titleKey: "footer.policy",
-    links: [
-      { labelKey: "nav.faq", href: "/faq" },
-      { labelKey: "footer.terms", href: "/dieu-khoan-dieu-kien" },
-      { labelKey: "footer.privacy", href: "/chinh-sach-bao-ve-du-lieu-ca-nhan" },
-    ],
-  },
+  // {
+  //   titleKey: "footer.policy",
+  //   links: [
+  //     { labelKey: "nav.faq", href: "/faq" },
+  //     { labelKey: "footer.terms", href: "/dieu-khoan-dieu-kien" },
+  //     { labelKey: "footer.privacy", href: "/chinh-sach-bao-ve-du-lieu-ca-nhan" },
+  //   ],
+  // },
 ] as const;
 
 const resolveHomeAnchor = (href: string, home: boolean) => {
