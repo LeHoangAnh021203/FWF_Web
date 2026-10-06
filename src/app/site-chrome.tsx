@@ -128,17 +128,16 @@ const footerColumnConfigs = [
       { labelKey: "nav.services", href: "/dich-vu" },
       { labelKey: "footer.news", href: "/tin-tuc" },
       { labelKey: "nav.stores", href: "/cua-hang" },
-      { labelKey: "footer.terms", href: "/dieu-khoan-dieu-kien" },
     ],
   },
-  // {
-  //   titleKey: "footer.policy",
-  //   links: [
-  //     { labelKey: "nav.faq", href: "/faq" },
-  //     { labelKey: "footer.terms", href: "/dieu-khoan-dieu-kien" },
-  //     { labelKey: "footer.privacy", href: "/chinh-sach-bao-ve-du-lieu-ca-nhan" },
-  //   ],
-  // },
+  {
+    titleKey: "footer.policy",
+    links: [
+      { labelKey: "nav.faq", href: "/faq" },
+      { labelKey: "footer.terms", href: "/dieu-khoan-dieu-kien" },
+      { labelKey: "footer.privacy", href: "/chinh-sach-bao-ve-du-lieu-ca-nhan" },
+    ],
+  },
 ] as const;
 
 const resolveHomeAnchor = (href: string, home: boolean) => {
@@ -550,7 +549,7 @@ export function SiteFooter({ home = false }: { home?: boolean }) {
 
           <div className="footer-link-columns">
             {footerColumnConfigs.map(({ titleKey, links }) => (
-              <div key={titleKey} className={titleKey === "footer.links" ? "footer-links-group" : undefined}>
+              <div key={titleKey}>
                 <h3>{t(titleKey)}</h3>
                 <ul>
                   {links.map(({ labelKey, href }) => (

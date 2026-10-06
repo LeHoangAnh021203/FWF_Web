@@ -1,16 +1,21 @@
 .document {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: clamp(140px, 15vw, 200px) clamp(24px, 5vw, 64px) 80px;
-  font-size: clamp(16px, 1.2vw, 18px);
-  line-height: 1.8;
+  font-size: clamp(15px, 1.12vw, 18px);
+  font-weight: 500;
+  line-height: 1.75;
   overflow-wrap: anywhere;
 }
 
+.hero {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(140px, 15vw, 200px) clamp(24px, 5vw, 64px) 22px;
+}
+
 .title {
-  margin: 0 0 40px;
+  margin: 0;
   color: #ed591c;
   font-size: clamp(23px, 3vw, 36px);
+  font-style: normal;
   font-weight: 800;
   line-height: 1.4;
   text-align: center;
@@ -18,22 +23,36 @@
 
 .title > span {
   display: block;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.body {
+  width: min(1040px, calc(100% - 44px));
+  margin: 0 auto;
+  padding: clamp(18px, 2vw, 30px) 0 clamp(54px, 7vw, 92px);
 }
 
 .document p {
-  margin: 0 0 16px;
+  margin: 0 0 18px;
   white-space: pre-wrap;
 }
 
 .document h2 {
-  margin: 48px 0 24px;
-  color: #ed591c;
-  font-size: clamp(22px, 2.4vw, 28px);
+  margin: 36px 0 18px;
+  border-top: 1px solid rgba(var(--brand-orange-rgb), 0.24);
+  padding-top: clamp(22px, 3vw, 34px);
+  color: var(--brand-orange-deep);
+  font-size: var(--home-title-size);
   font-weight: 800;
+  line-height: 1.15;
 }
 
 .document h3 {
   margin: 32px 0 16px;
+  border-top: 1px solid rgba(var(--brand-orange-rgb), 0.24);
+  padding-top: clamp(22px, 3vw, 34px);
   font-size: clamp(19px, 2vw, 23px);
   font-weight: 750;
 }
@@ -53,4 +72,10 @@
 .marker {
   flex-shrink: 0;
   min-width: 20px;
+}
+
+@media (max-width: 640px) {
+  .body {
+    width: calc(100% - 40px);
+  }
 }

@@ -369,10 +369,10 @@ const privacyVi: Dict = {
   "privacy.contentAria": "Nội dung chính sách bảo vệ dữ liệu cá nhân",
   "privacy.s1.title": "1. Bên kiểm soát dữ liệu",
   "privacy.s1.body":
-    "Công ty Cổ phần FB Network, mã số thuế 0316806815, người đại diện pháp luật Ngô Thúy Hằng, địa chỉ Số 71, Đường số 61 TML, Phường Cát Lái, Thành phố Hồ Chí Minh, Việt Nam. Email: info@facewashfox.com. Hotline: 0889 866 666.",
+    "Công ty Cổ phần FB Network, mã số thuế 0316806815, địa chỉ Số 71, Đường số 61 TML, Phường Cát Lái, Thành phố Hồ Chí Minh, Việt Nam. Email: info@facewashfox.com. Hotline: 0889 866 666.",
   "privacy.s2.title": "2. Mục đích xử lý",
   "privacy.s2.body":
-    "Xác nhận đặt lịch, liên hệ chăm sóc khách hàng, kích hoạt và quản lý thẻ Foxie, xử lý yêu cầu hoàn hủy, cải thiện dịch vụ, tuân thủ nghĩa vụ pháp luật và gửi thông tin khi khách đã đồng ý.",
+    "Xác nhận đặt lịch, liên hệ chăm sóc khách hàng, kích hoạt và quản lý thẻ Foxie, cải thiện dịch vụ, tuân thủ nghĩa vụ pháp luật và gửi thông tin khi khách đã đồng ý.",
   "privacy.s3.title": "3. Dữ liệu được thu thập",
   "privacy.s3.body":
     "Họ tên, số điện thoại, email, chi nhánh mong muốn, ghi chú về nhu cầu chăm sóc da, lịch sử đặt lịch/mua thẻ và dữ liệu kỹ thuật cần thiết để vận hành website (cookie theo Chính sách Cookie).",
@@ -406,10 +406,10 @@ const privacyEn: Dict = {
   "privacy.contentAria": "Personal data protection policy content",
   "privacy.s1.title": "1. Data controller",
   "privacy.s1.body":
-    "FB Network Joint Stock Company, tax code 0316806815, legal representative Ngo Thuy Hang, address No. 71, Street 61 TML, Cat Lai Ward, Ho Chi Minh City, Vietnam. Email: info@facewashfox.com. Hotline: 0889 866 666.",
+    "FB Network Joint Stock Company, tax code 0316806815, address No. 71, Street 61 TML, Cat Lai Ward, Ho Chi Minh City, Vietnam. Email: info@facewashfox.com. Hotline: 0889 866 666.",
   "privacy.s2.title": "2. Purposes of processing",
   "privacy.s2.body":
-    "Confirming bookings, customer care, activating and managing Foxie cards, handling refunds, improving services, meeting legal duties, and sending information when the customer has consented.",
+    "Confirming bookings, customer care, activating and managing Foxie cards, improving services, meeting legal duties, and sending information when the customer has consented.",
   "privacy.s3.title": "3. Data we collect",
   "privacy.s3.body":
     "Name, phone number, email, preferred store, notes about skincare needs, booking/card history, and technical data needed to run the website (cookies under the Cookie Policy).",

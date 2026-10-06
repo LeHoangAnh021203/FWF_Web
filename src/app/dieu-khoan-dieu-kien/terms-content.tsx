@@ -26,23 +26,27 @@ export function TermsContent() {
 
   return (
     <article className={styles.document} lang={htmlLang}>
-      <h1 className={styles.title}>
-        {title.map((paragraph, index) => (
-          <span key={index}>{paragraph.text}</span>
-        ))}
-      </h1>
-      {body.map((paragraph, index) => {
-        const Tag = paragraph.kind === "h2" ? "h2"
-          : paragraph.kind === "h3" ? "h3"
-          : paragraph.kind === "h4" ? "h4" : "p";
+      <header className={styles.hero}>
+        <h1 className={styles.title}>
+          {title.map((paragraph, index) => (
+            <span key={index}>{paragraph.text}</span>
+          ))}
+        </h1>
+      </header>
+      <div className={styles.body}>
+        {body.map((paragraph, index) => {
+          const Tag = paragraph.kind === "h2" ? "h2"
+            : paragraph.kind === "h3" ? "h3"
+            : paragraph.kind === "h4" ? "h4" : "p";
 
-        return (
-          <Tag key={index} className={paragraph.marker ? styles.numbered : undefined}>
-            {paragraph.marker && <span className={styles.marker}>{paragraph.marker}{" "}</span>}
-            <span>{paragraph.text}</span>
-          </Tag>
-        );
-      })}
+          return (
+            <Tag key={index} className={paragraph.marker ? styles.numbered : undefined}>
+              {paragraph.marker && <span className={styles.marker}>{paragraph.marker}{" "}</span>}
+              <span>{paragraph.text}</span>
+            </Tag>
+          );
+        })}
+      </div>
     </article>
   );
 }
