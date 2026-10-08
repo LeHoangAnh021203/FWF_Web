@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="vi">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vòng xoay may mắn · Đáp án C</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff8ef;color:#382317;font-family:system-ui,sans-serif}main{max-width:1280px;margin:auto;padding:32px 24px}header{margin-bottom:24px}small{color:#af4c13;font-weight:800;letter-spacing:2px}h1{font-size:clamp(28px,4vw,46px);margin:10px 0}p{line-height:1.6;color:#776251}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(290px,1fr);gap:28px}.panel{background:white;border:1px solid #eedcc8;border-radius:24px;padding:24px}.wheel{position:relative;max-width:720px;margin:0 auto}canvas{width:100%;height:auto;display:block}.pointer{position:absolute;left:50%;top:0;transform:translateX(-50%);width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:36px solid #382317;z-index:1}button{cursor:pointer;border:0;border-radius:12px;padding:15px 24px;font-size:17px;font-weight:750;background:#e86c21;color:white}button:disabled{opacity:.45;cursor:default}.actions{text-align:center}.secondary{background:#f5eadd;color:#623d25;font-size:14px;margin-top:12px}#result{text-align:center;font-size:24px;font-weight:800;min-height:72px;padding:18px 0;color:#ad470e}h2{font-size:20px;margin:0 0 12px}textarea{width:100%;min-height:370px;border:1px solid #decbb5;border-radius:12px;padding:12px;font:14px/1.8 system-ui;color:#382317;resize:vertical}label{display:block;font-size:14px;margin:16px 0}ol{padding-left:24px;font-size:14px;line-height:1.9}.hint{font-size:13px;margin:10px 0}#status{min-height:20px;font-size:13px;color:#ad470e}@media(max-width:800px){.layout{grid-template-columns:1fr}main{padding:20px 12px}.panel{padding:16px}}
+</style>
+<main>
+<header><small>GIA ĐÌNH NHÀ CÁO · ĐÁP ÁN C</small><h1>Vòng xoay may mắn</h1><p>25 người chọn C từ 7 ảnh bình luận đã cung cấp. Mỗi người một ô, cơ hội bằng nhau; số đi kèm là số đã bình luận.</p></header>
+<div class="layout"><section class="panel"><div class="wheel"><div class="pointer"></div><canvas id="wheel" width="1400" height="1400" aria-label="Vòng xoay người tham gia; danh sách đầy đủ ở bên cạnh"></canvas></div><div id="result" role="status" aria-live="polite">Ai sẽ là người may mắn?</div><div class="actions"><button id="spin">QUAY MAY MẮN</button><label><input type="checkbox" id="remove"> Loại người vừa trúng khỏi lượt tiếp theo</label></div><h2>Lịch sử kết quả</h2><ol id="history"></ol></section>
+<aside class="panel"><h2>Người tham gia · <span id="count">25</span></h2><p class="hint">Định dạng: tên - số. Các bình luận lặp lại giữa ảnh đã được gộp; người khác nhau có cùng số vẫn được giữ.</p><textarea id="entries" aria-label="Danh sách tên và số" spellcheck="false">Nguyễn Thanh Duy (bibot) - 03
+Nguyễn Thị Quế Trân - 26
+Nguyễn Hải Yến - 45
+Dương Chí Quảng - 08
+Trịnh Nguyễn Phương Uyên - 26
+Nguyễn Lương Thanh Nhã - 68
+Oliver - 77
+Trần Khánh Ly - 12
+Trương Mỹ Ngân - 66
+Tống Thụy Hiền Diệu - 97
+Vũ Phương Hà Uyên - 23
+Nguyễn Phạm Minh Thư - 00
+Nguyễn Thị Yến Nhi - 05
+Trần Lâm Xuân Hằng - 14
+Nguyễn Nhi - 28
+Cao Trung Toàn - 39
+Nguyễn Thị Yến Linh - 75
+Nguyễn Thị Ngọc Hân - 87
+Trần Thị Hà Phương - 24
+Lê Nguyễn Tuyết Nhi - 27
+Hồng Phương Nhã - 69
+Đặng Nguyễn Ngọc Trâm - 02
+Phạm Bích Vy - 34
+Nguyễn Thị Hải Linh - 16
+Trần Như Linh - 09</textarea><button class="secondary" id="apply">Cập nhật danh sách</button> <button class="secondary" id="download">Tải danh sách .txt</button><p id="status" role="status"></p><p class="hint">Chỉ gồm những bình luận chọn C đọc được trong 7 ảnh, chưa xác minh toàn bộ bài Facebook. Bạn có thể sửa danh sách trước khi quay.</p></aside></div>
+</main>
+<script>
+const $=id=>document.getElementById(id),canvas=$('wheel'),ctx=canvas.getContext('2d'),tau=Math.PI*2;
+let entries=$('entries').value.trim().split('\n'),rotation=0,busy=false,pendingRemoval=null;
+const colors=['#ed7135','#f8c45c','#517b62','#bd5770','#627fab'];
+function draw(){
+ ctx.clearRect(0,0,1400,1400);const n=entries.length;if(!n)return;
+ const step=tau/n;ctx.save();ctx.translate(700,700);ctx.rotate(rotation);
+ entries.forEach((name,i)=>{const start=-Math.PI/2+i*step;ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,660,start,start+step);ctx.closePath();ctx.fillStyle=colors[i%colors.length];ctx.fill();ctx.strokeStyle='#fff8ef';ctx.lineWidth=3;ctx.stroke();ctx.save();ctx.rotate(start+step/2);ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillStyle=i%5===1?'#382317':'white';let size=24;ctx.font=`600 ${size}px system-ui`;while(ctx.measureText(name).width>500&&size>12){size--;ctx.font=`600 ${size}px system-ui`;}ctx.fillText(name,630,0);ctx.restore();});ctx.restore();ctx.beginPath();ctx.arc(700,700,80,0,tau);ctx.fillStyle='#fff8ef';ctx.fill();ctx.fillStyle='#ad470e';ctx.font='800 38px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('C',700,700);
+}
+function sync(){ $('entries').value=entries.join('\n');$('count').textContent=entries.length;$('spin').disabled=!entries.length;draw(); }
+function uniform(n){const a=new Uint32Array(1),limit=Math.floor(4294967296/n)*n;do{crypto.getRandomValues(a);}while(a[0]>=limit);return a[0]%n;}
+function lock(value){busy=value;['spin','apply','entries','remove'].forEach(id=>$(id).disabled=value);if(!value)$('spin').disabled=!entries.length;}
+$('spin').onclick=()=>{
+ if(busy)return;
+ if(pendingRemoval!==null){entries.splice(pendingRemoval,1);pendingRemoval=null;rotation=0;sync();}
+ if(!entries.length){$('result').textContent='Đã quay hết người tham gia.';return;}
+ lock(true);$('status').textContent='';$('result').textContent='Đang quay…';
+ const winner=uniform(entries.length),step=tau/entries.length,target=(tau-(winner+.5)*step)%tau;
+ const start=rotation,delta=6*tau+((target-start%tau+tau)%tau),duration=5200;let began;
+ function frame(now){if(began===undefined)began=now;const t=Math.min(1,(now-began)/duration);rotation=start+delta*(1-Math.pow(1-t,4));draw();if(t<1){requestAnimationFrame(frame);}else{rotation=target;draw();const name=entries[winner];$('result').textContent='🎉 '+name;const li=document.createElement('li');li.textContent=name;$('history').prepend(li);if($('remove').checked){pendingRemoval=winner;$('status').textContent='Người vừa trúng sẽ được loại khi bắt đầu lượt tiếp theo.';}lock(false);}}
+ requestAnimationFrame(frame);
+};
+$('apply').onclick=()=>{if(busy)return;const next=[...new Set($('entries').value.split('\n').map(s=>s.trim()).filter(Boolean))];if(!next.length){$('status').textContent='Vui lòng nhập ít nhất một người.';return;}entries=next;pendingRemoval=null;rotation=0;sync();$('result').textContent='Sẵn sàng quay!';$('status').textContent='Đã cập nhật '+entries.length+' người.';};
+$('download').onclick=()=>{const url=URL.createObjectURL(new Blob([entries.join('\n')],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='danh-sach-dap-an-c.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+draw();
+</script>
+</html>
