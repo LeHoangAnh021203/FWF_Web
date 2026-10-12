@@ -30,7 +30,7 @@ export default function CookiePolicyBanner() {
     () => false,
   );
 
-  if (pathname.startsWith("/admin")) {
+  if (pathname.startsWith("/admin") || pathname === "/menu-nuoc-ngoai") {
     return null;
   }
 

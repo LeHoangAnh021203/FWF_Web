@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
           source: "/wp-content/uploads/2024/09/Cham-soc-da-mun.pdf",
           destination: "/cham-soc-da-mun",
         },
+        {
+          source: "/wp-content/uploads/Menu-Nuoc-Ngoai.pdf",
+          destination: "/menu-nuoc-ngoai",
+        },
       ],
     };
   },

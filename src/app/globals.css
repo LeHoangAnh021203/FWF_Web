@@ -797,6 +797,36 @@ body:has(.mono-mobile-menu) .floating-actions {
   height: 36px;
 }
 
+.foreign-menu-page {
+  display: flex;
+  height: 100dvh;
+  overflow: hidden;
+  background: #fff8f2;
+}
+
+.foreign-menu-rail {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  flex-shrink: 0;
+  padding-left: 16px;
+  background: #fff8f2;
+}
+
+.foreign-menu-rail .mono-vertical-menu {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+}
+
+.foreign-menu-stage {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  background: #ee6730;
+}
+
 .mono-vertical-menu {
   position: fixed;
   top: 50%;

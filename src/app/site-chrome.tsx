@@ -194,7 +194,11 @@ export function VerticalMenu() {
     };
   }, [languageOpen]);
 
-  if (pathname === "/bang-gia-the-foxie-update-thang-08-2026" || pathname.startsWith("/admin")) {
+  if (
+    pathname === "/bang-gia-the-foxie-update-thang-08-2026" ||
+    pathname === "/menu-nuoc-ngoai" ||
+    pathname.startsWith("/admin")
+  ) {
     return null;
   }
 
