@@ -23,6 +23,7 @@ import {
 
 import { languageOptions } from "@/i18n/dictionaries";
 import { useLanguage } from "@/i18n/language-context";
+import { isForeignMenuPath } from "@/lib/foreign-menus";
 
 const navItemConfigs = [
   { key: "nav.home", href: "/", Icon: Home },
@@ -196,7 +197,7 @@ export function VerticalMenu() {
 
   if (
     pathname === "/bang-gia-the-foxie-update-thang-08-2026" ||
-    pathname === "/menu-nuoc-ngoai" ||
+    isForeignMenuPath(pathname) ||
     pathname.startsWith("/admin")
   ) {
     return null;

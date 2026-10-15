@@ -813,7 +813,12 @@ body:has(.mono-mobile-menu) .floating-actions {
   background: #fff8f2;
 }
 
+body:has(.foreign-menu-page) nav.mono-vertical-menu {
+  display: none;
+}
+
 .foreign-menu-rail .mono-vertical-menu {
+  display: flex;
   position: relative;
   top: auto;
   left: auto;

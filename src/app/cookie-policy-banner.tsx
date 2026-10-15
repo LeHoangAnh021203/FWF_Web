@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 
 import { useLanguage } from "@/i18n/language-context";
+import { isForeignMenuPath } from "@/lib/foreign-menus";
 
 const COOKIE_CHOICE_KEY = "fwf-cookie-policy-choice";
 const COOKIE_CHOICE_EVENT = "fwf-cookie-policy-choice-change";
@@ -30,7 +31,7 @@ export default function CookiePolicyBanner() {
     () => false,
   );
 
-  if (pathname.startsWith("/admin") || pathname === "/menu-nuoc-ngoai") {
+  if (pathname.startsWith("/admin") || isForeignMenuPath(pathname)) {
     return null;
   }
 

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useLanguage } from "@/i18n/language-context";
+import { isForeignMenuPath } from "@/lib/foreign-menus";
 
 import ConsultationBookingModal from "./consultation-booking-modal";
 import {
@@ -49,7 +50,7 @@ export default function FloatingActions() {
     pathname.startsWith("/admin") ||
     pathname === "/cua-hang" ||
     pathname === "/bang-gia-the-foxie-update-thang-08-2026" ||
-    pathname === "/menu-nuoc-ngoai"
+    isForeignMenuPath(pathname)
   ) {
     return null;
   }

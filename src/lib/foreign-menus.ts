@@ -13,6 +13,15 @@ export const foreignMenus: Record<
   ru: { file: "ru.pdf", label: "Русский", native: "Русский", flagSrc: "/flags/ru.svg" },
 };
 
+export const FOREIGN_MENU_PATHS = [
+  "/menu-nuoc-ngoai",
+  "/wp-content/uploads/Menu-Nuoc-Ngoai.pdf",
+] as const;
+
+export function isForeignMenuPath(pathname: string | null | undefined) {
+  return Boolean(pathname && FOREIGN_MENU_PATHS.includes(pathname as (typeof FOREIGN_MENU_PATHS)[number]));
+}
+
 export function isForeignMenuLang(value: string | null | undefined): value is ForeignMenuLang {
   return Boolean(value && value in foreignMenus);
 }
