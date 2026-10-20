@@ -4,6 +4,20 @@ const STATIC_ASSET_CACHE_CONTROL =
   "public, max-age=604800, stale-while-revalidate=2592000";
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/bang-gia-the-foxie-update-thang-08-2026",
+        destination: "/chuong-trinh-uu-dai-the-foxie",
+        permanent: true,
+      },
+      {
+        source: "/foxie-card-promotion-program",
+        destination: "/chuong-trinh-uu-dai-the-foxie",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [

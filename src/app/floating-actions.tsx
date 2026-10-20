@@ -49,6 +49,7 @@ export default function FloatingActions() {
   if (
     pathname.startsWith("/admin") ||
     pathname === "/cua-hang" ||
+    pathname === "/chuong-trinh-uu-dai-the-foxie" ||
     pathname === "/bang-gia-the-foxie-update-thang-08-2026" ||
     isForeignMenuPath(pathname)
   ) {

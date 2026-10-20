@@ -53,7 +53,7 @@ const slides = [
     id: 4,
     pc: "/banners/home/hero-04-pc.png?v=3",
     mobile: "/banners/home/hero-04-mobile.png?v=3",
-    href: "/bang-gia-the-foxie-update-thang-08-2026",
+    href: "/chuong-trinh-uu-dai-the-foxie",
     tone: "dark",
     wrap: "mobile",
     ctaStyle: "brown",

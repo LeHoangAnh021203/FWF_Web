@@ -196,6 +196,7 @@ export function VerticalMenu() {
   }, [languageOpen]);
 
   if (
+    pathname === "/chuong-trinh-uu-dai-the-foxie" ||
     pathname === "/bang-gia-the-foxie-update-thang-08-2026" ||
     isForeignMenuPath(pathname) ||
     pathname.startsWith("/admin")
@@ -315,6 +316,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     "/ve-chung-toi",
     "/dieu-khoan-dieu-kien",
     "/chinh-sach-bao-ve-du-lieu-ca-nhan",
+    "/chuong-trinh-uu-dai-the-foxie",
     "/bang-gia-the-foxie-update-thang-08-2026",
   ];
   const solidHeader =
