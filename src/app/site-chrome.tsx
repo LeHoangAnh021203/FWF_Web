@@ -318,6 +318,7 @@ export function SiteHeader({ home = false }: { home?: boolean }) {
     "/chinh-sach-bao-ve-du-lieu-ca-nhan",
     "/chuong-trinh-uu-dai-the-foxie",
     "/bang-gia-the-foxie-update-thang-08-2026",
+    "/huong-dan-kich-hoat-otp",
   ];
   const solidHeader =
     scrolled ||
