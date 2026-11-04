@@ -61,7 +61,7 @@ export default function FloatingActions() {
 
   return (
     <>
-      <nav className="floating-actions" aria-label="Thao tác nhanh">
+      <nav className="floating-actions" aria-label={t("float.quickActions")}>
         {usePageBooking ? (
           <a
             className="floating-actions-btn floating-actions-book"

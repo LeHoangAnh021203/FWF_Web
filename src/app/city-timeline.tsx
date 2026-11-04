@@ -168,7 +168,7 @@ export default function CityTimeline({ cities }: { cities: readonly City[] }) {
     <div
       className="city-timeline"
       ref={rootRef}
-      aria-label="Khu vực có cửa hàng Face Wash Fox"
+      aria-label={t("home.city.regionLabel")}
     >
       {svgSize.width > 0 && pathD ? (
         <svg

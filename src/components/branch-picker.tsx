@@ -4,6 +4,7 @@ import { ChevronDown, MapPin, Search } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 import type { Branch } from "@/data/branches";
+import { useLanguage } from "@/i18n/language-context";
 
 type BranchPickerProps = {
   id?: string;
@@ -29,8 +30,8 @@ function formatDistance(km: number | undefined): string | null {
 export function BranchPicker({
   id,
   label,
-  placeholder = "Chọn chi nhánh",
-  searchPlaceholder = "Tìm theo tên hoặc địa chỉ…",
+  placeholder: placeholderProp,
+  searchPlaceholder: searchPlaceholderProp,
   branches,
   value,
   distanceByBranchId = {},
@@ -39,6 +40,9 @@ export function BranchPicker({
   onChange,
   className = "",
 }: BranchPickerProps) {
+  const { t } = useLanguage();
+  const placeholder = placeholderProp ?? t("svc.book.branchPlaceholder");
+  const searchPlaceholder = searchPlaceholderProp ?? t("booking.branchSearch");
   const autoId = useId();
   const fieldId = id || autoId;
   const listId = `${fieldId}-listbox`;
@@ -204,7 +208,7 @@ export function BranchPicker({
           >
             {filtered.length === 0 ? (
               <li className="px-3 py-4 text-center text-[0.85rem] text-[#5f5a57]">
-                Không tìm thấy chi nhánh phù hợp.
+                {t("booking.branchEmpty")}
               </li>
             ) : (
               filtered.map((branch, index) => {
