@@ -2,7 +2,48 @@
   font-size: clamp(15px, 1.12vw, 18px);
   font-weight: 500;
   line-height: 1.75;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
+}
+
+/* English / Vietnamese: wrap on spaces; keep Latin phrases intact */
+.document[lang="en"],
+.document[lang="vi"] {
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Thai: rely on browser Thai line-breaking via lang="th" */
+.document[lang="th"] {
+  word-break: normal;
+  line-break: auto;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+/* Chinese */
+.document[lang^="zh"] {
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+/* Japanese */
+.document[lang="ja"] {
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+/* Korean: keep Hangul clusters together */
+.document[lang="ko"] {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  hyphens: none;
 }
 
 .hero {
@@ -19,6 +60,7 @@
   font-weight: 800;
   line-height: 1.4;
   text-align: center;
+  text-wrap: balance;
 }
 
 .title > span {
@@ -26,17 +68,25 @@
   color: inherit;
   font-size: inherit;
   font-weight: inherit;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .body {
-  width: min(1040px, calc(100% - 44px));
+  width: min(1040px, calc(100% - 48px));
   margin: 0 auto;
-  padding: clamp(18px, 2vw, 30px) 0 clamp(54px, 7vw, 92px);
+  padding: clamp(18px, 2vw, 30px) clamp(24px, 5vw, 64px) clamp(54px, 7vw, 92px);
+}
+
+@media (min-width: 981px) {
+  .hero,
+  .body {
+    padding-left: max(88px, clamp(24px, 5vw, 64px));
+  }
 }
 
 .document p {
   margin: 0 0 18px;
-  white-space: pre-wrap;
 }
 
 .document h2 {
@@ -67,6 +117,11 @@
   display: flex;
   align-items: baseline;
   gap: 12px;
+}
+
+.numbered > span:last-child {
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .marker {

@@ -32,16 +32,48 @@ type Translation = (string | string[][][])[];
 const blocks = document as Block[];
 const translations: Record<Exclude<SiteLanguage, "vi">, Translation> = { en, zh, ja, ko, th };
 
+/** Keep brand / Latin phrases from splitting awkwardly across lines. */
+function protectLineBreaks(text: string) {
+  return text
+    .replaceAll("FOXIE STAR", "FOXIE\u00A0STAR")
+    .replaceAll("Foxie Star", "Foxie\u00A0Star")
+    .replaceAll("FACE WASH FOX", "FACE\u00A0WASH\u00A0FOX")
+    .replaceAll("Face Wash Fox", "Face\u00A0Wash\u00A0Fox")
+    .replaceAll("FB NETWORK", "FB\u00A0NETWORK")
+    .replaceAll("www.facewashfox.com", "www.\u200Bfacewashfox.com");
+}
+
 function localize(language: SiteLanguage): Block[] {
-  if (language === "vi") return blocks;
+  if (language === "vi") {
+    return blocks.map((block) => {
+      if ("rows" in block) {
+        return {
+          ...block,
+          rows: block.rows.map((row) =>
+            row.map((cell) => cell.map((text) => protectLineBreaks(text))),
+          ),
+        };
+      }
+      return { ...block, text: protectLineBreaks(block.text) };
+    });
+  }
+
   const translation = translations[language];
 
   return blocks.map((block, index) => {
     const value = translation[index];
     if ("rows" in block) {
-      return Array.isArray(value) ? { ...block, rows: value } : block;
+      if (!Array.isArray(value)) return block;
+      return {
+        ...block,
+        rows: value.map((row) =>
+          row.map((cell) => cell.map((text) => protectLineBreaks(text))),
+        ),
+      };
     }
-    return typeof value === "string" ? { ...block, text: value } : block;
+    return typeof value === "string"
+      ? { ...block, text: protectLineBreaks(value) }
+      : block;
   });
 }
 
