@@ -85,7 +85,7 @@
   "Customers who do not yet wish to purchase a new card may purchase a card renewal service package to reactivate the Foxie Point balance on the expired card. The full package purchase amount is credited to the card’s Foxie Point, and the customer incurs no additional fees.",
   [
     [["Card renewal service package"], ["Foxie Point credited"], ["Usage period"]],
-    [["VND 499,000"], ["999,000 Foxie Point"], ["01 month"]],
+    [["VND 499,000"], ["499,000 Foxie Point"], ["01 month"]],
     [["VND 999,000"], ["999,000 Foxie Point"], ["03 months"]]
   ],
   "The entire balance (the old balance and the Foxie Point from the renewal package) may be used within the corresponding package period, from the date the system is updated.",
